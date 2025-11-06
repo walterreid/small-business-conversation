@@ -1,32 +1,33 @@
-# Meta-Prompt Generator
+# Small Business Marketing Plan Generator
 
-Generate custom AI prompts tailored to your specific needs. Describe what you want help with, and get a structured prompt template with fill-in-the-blank questions that prevent generic output.
+Generate personalized marketing plans for your small business through a simple, conversational chat interface. Select your business category, answer a few questions, and get an actionable marketing plan tailored to your needs and budget.
 
 ---
 
 ## What It Does
 
-**The Problem**: Most people use AI with vague prompts like "write me wedding vows" and get generic, templated responses that could apply to anyone.
+**The Problem**: Most small businesses struggle with marketing because they don't know where to start, what strategies work for their industry, or how to allocate their limited budget.
 
-**The Solution**: This tool generates custom prompt templates that:
-- Ask specific questions about your situation
-- Include anti-patterns (what to avoid)
-- Use constraints that force specificity
-- Embed philosophical grounding about why the output matters
+**The Solution**: This tool guides you through a conversational flow to understand your business, then generates a comprehensive marketing plan that includes:
+- Executive Summary
+- Target Audience Analysis
+- Recommended Marketing Channels (budget-aware)
+- 90-Day Action Plan
+- Success Metrics
 
 **Example Flow**:
-1. You say: "I need help writing wedding vows"
-2. System generates: A custom prompt template with 10+ specific questions
-3. You fill in: Your names, shared memories, what you love about them, what to avoid
-4. You get: A fully-formed prompt ready to use with ChatGPT/Claude that will produce authentic, specific vows
+1. You select: "Restaurant"
+2. Chat asks: Questions about your business, target audience, budget, challenges, goals
+3. You answer: One question at a time in a friendly conversation
+4. You get: A detailed, actionable marketing plan ready to implement
 
 ---
 
 ## Tech Stack
 
 - **Backend**: Python/Flask
-- **Frontend**: React
-- **AI**: OpenAI GPT-4
+- **Frontend**: React with Chatscope UI Kit
+- **AI**: OpenAI GPT-4o
 - **Deployment**: Render
 - **Version Control**: GitHub
 
@@ -44,8 +45,8 @@ Generate custom AI prompts tailored to your specific needs. Describe what you wa
 
 ```bash
 # 1. Clone the repo
-git clone https://github.com/yourusername/meta-prompt-generator.git
-cd meta-prompt-generator
+git clone https://github.com/yourusername/small-business-marketing-tool.git
+cd small-business-marketing-tool
 
 # 2. Backend setup
 cd backend
@@ -54,17 +55,13 @@ source venv/bin/activate  # On Windows: venv\Scripts\activate
 pip install -r requirements.txt
 
 # Create .env file
-cp .env.example .env
-# Edit .env and add your OPENAI_API_KEY
+echo "OPENAI_API_KEY=sk-your-key-here" > .env
+echo "FLASK_ENV=development" >> .env
+echo "PORT=5000" >> .env
 
 # 3. Frontend setup (in new terminal)
 cd frontend
 npm install
-
-# 4. Create prompts directory
-cd backend
-mkdir -p prompts
-# Copy meta-prompt-system.md into backend/prompts/
 ```
 
 ### Running Locally
@@ -73,18 +70,22 @@ mkdir -p prompts
 # Terminal 1 - Backend (http://localhost:5000)
 cd backend
 source venv/bin/activate
-python app.py
+python3 app.py
 
-# Terminal 2 - Frontend (http://localhost:3000)
+# Terminal 2 - Frontend (http://localhost:3001)
 cd frontend
 npm start
 ```
 
-Visit `http://localhost:3000` to use the app.
+Visit `http://localhost:3001` to use the app.
 
 ---
 
 ## Deployment
+
+See **[docs/DEPLOYMENT.md](docs/DEPLOYMENT.md)** for complete deployment guide.
+
+Quick reference:
 
 ### Render (Recommended)
 
@@ -92,7 +93,7 @@ Visit `http://localhost:3000` to use the app.
 2. Connect your repo to Render
 3. Render will detect `render.yaml` and create both services
 4. Add environment variables in Render dashboard:
-   - Backend: `OPENAI_API_KEY`
+   - Backend: `OPENAI_API_KEY`, `FLASK_ENV=production`, `PORT=10000`
    - Frontend: `REACT_APP_API_URL` (your backend URL)
 
 The app will auto-deploy on every push to main.
@@ -102,27 +103,43 @@ The app will auto-deploy on every push to main.
 ## Project Structure
 
 ```
-/meta-prompt-generator
+/small-business-marketing-tool
 ├── backend/
-│   ├── app.py                    # Flask API
+│   ├── app.py                    # Flask API with chat endpoints
+│   ├── chat_flows.py             # Question flows for each category
 │   ├── requirements.txt          # Python dependencies
 │   ├── .env                      # Environment variables (not committed)
 │   └── prompts/
-│       └── meta-prompt-system.md # The meta-prompt template (intent-based)
+│       └── meta-prompt-system.md # (Legacy - kept for reference)
 ├── frontend/
 │   ├── public/
 │   ├── src/
-│   │   ├── App.js               # Main React component
-│   │   ├── App.css              # Styles
-│   │   ├── api.js               # API client
+│   │   ├── App.js               # Main React component (3-step flow)
+│   │   ├── App.css              # Global styles
+│   │   ├── components/          # React components
+│   │   │   ├── CategorySelector.js
+│   │   │   ├── ChatInterface.js
+│   │   │   └── MarketingPlanView.js
+│   │   ├── api/                 # API clients
+│   │   │   └── chatApi.js
+│   │   ├── styles/              # Component styles
+│   │   │   ├── CategorySelector.css
+│   │   │   ├── ChatApp.css
+│   │   │   └── MarketingPlanView.css
 │   │   └── index.js
 │   └── package.json
-├── test/                         # Test suite (not committed to git)
-│   ├── test-scenarios.json      # 10 test scenarios covering all intent types
-│   ├── test-runner.js           # Test execution engine
-│   └── run-tests.sh             # Test runner script
+├── docs/                         # Documentation
+│   ├── README.md                # Documentation index
+│   ├── DEPLOYMENT.md            # Deployment guide
+│   ├── TROUBLESHOOTING.md       # Troubleshooting guide
+│   ├── ARCHITECTURE_PLAN.md     # Architecture planning
+│   └── PHASE_*_COMPLETE.md      # Phase summaries
+├── test/                         # Testing materials (not committed)
+│   ├── README.md                # Testing overview
+│   ├── test_scenarios.json      # Test scenarios
+│   └── manual_test_checklist.md # Testing checklist
 ├── render.yaml                   # Render deployment config
-├── .gitignore                    # Includes test suite exclusion
+├── .gitignore
 ├── README.md                     # This file
 └── CLAUDE.md                     # AI assistant guidance
 ```
@@ -134,79 +151,90 @@ The app will auto-deploy on every push to main.
 ### Architecture
 
 ```
-User Input
+User Selects Category
     ↓
-Flask Backend (/api/generate-template)
+Chat Interface (one question at a time)
     ↓
-OpenAI API (with meta-prompt)
+Flask Backend (/api/chat/start, /api/chat/message)
     ↓
-Structured Response
+Question Flow System (chat_flows.py)
     ↓
-React Frontend (parses & renders form)
+OpenAI Chat API (conversational, maintains context)
     ↓
-User Fills Form
+All Questions Answered
     ↓
-Client-Side Template Filling
+Marketing Plan Generation (/api/chat/generate-plan)
     ↓
-Final Prompt
+Structured Marketing Plan
 ```
 
-### The Two-Stage Process
+### The Chat Flow
 
-**Stage 1: Template Generation** (uses OpenAI API)
-- User describes their need
-- Backend sends meta-prompt to GPT-4
-- AI returns structured template with variables and questions
+**Step 1: Category Selection**
+- User selects business category (Restaurant, Retail Store, Professional Services, E-commerce, Local Services)
+- Each category has tailored questions
 
-**Stage 2: Template Filling** (client-side)
-- User answers questions in dynamic form
-- Simple string replacement fills {{variables}}
-- No API call needed - instant and free
+**Step 2: Conversational Questions**
+- Chat interface asks questions one at a time
+- Questions are structured and category-specific
+- User answers naturally in conversation
+- System tracks answers and determines next question
 
-### The Meta-Prompt
+**Step 3: Marketing Plan Generation**
+- When all required questions answered, user can generate plan
+- System uses all collected answers to build comprehensive prompt
+- OpenAI generates structured marketing plan
+- Plan includes actionable recommendations, timelines, and metrics
 
-The core innovation is the meta-prompt in `backend/prompts/meta-prompt-system.md`. It instructs GPT-4 to:
+### Question Flow System
 
-1. **Anti-Brainstorm**: Identify common/overdone patterns to avoid
-2. **Extract Variables**: Determine what info is needed for specificity
-3. **Build Template**: Create structured prompt with {{variables}}
-4. **Generate Questions**: Create user-facing questions for each variable
+Each business category has 9 structured questions covering:
+- Business basics (name, type, location)
+- Target audience
+- Monthly marketing budget
+- Current marketing efforts
+- Biggest challenges
+- Unique value proposition
+- Marketing goals
 
-This meta-prompt is the "secret sauce" - it encodes knowledge about what makes good prompts.
+Questions are stored in `backend/chat_flows.py` and can be easily modified.
 
 ---
 
 ## Key Features
 
-### 1. Anti-Brainstorming
-Shows users common patterns to avoid (e.g., "generic 'journey' language in wedding vows"). Pushes responses toward statistically unlikely but coherent territory.
+### 1. Conversational Interface
+One question at a time feels less overwhelming than long forms. Uses Chatscope UI Kit for professional chat experience.
 
-### 2. Philosophical Grounding
-Each prompt includes context about *why* the output matters:
-- "Good vows are a gift from one person to another"
-- "Performance reviews are growth tools, not report cards"
+### 2. Category-Specific Intelligence
+Each business type gets tailored questions and recommendations. A restaurant needs different strategies than a local plumber.
 
-This shapes the AI's approach without being prescriptive.
+### 3. Budget-Aware Recommendations
+Marketing plans adapt to budget constraints. Under $500/month gets different recommendations than $5000+/month.
 
-### 3. Dynamic Form Generation
-Every domain gets a custom form. Wedding vows need different questions than performance reviews.
+### 4. Actionable Plans
+Plans include specific tactics, timelines, and next steps. Not generic advice but concrete actions you can take.
 
-### 4. "First Draft" Language
-Reduces perfectionism by framing outputs as starting points, not final products.
+### 5. Structured Output
+Every plan includes:
+- Executive Summary
+- Target Audience Analysis
+- Recommended Marketing Channels
+- 90-Day Action Plan
+- Success Metrics
 
 ---
 
 ## API Endpoints
 
-### `POST /api/generate-template`
+### `POST /api/chat/start`
 
-Generate a custom prompt template.
+Start a new chat session for a business category.
 
 **Request:**
 ```json
 {
-  "userDomain": "I need help writing wedding vows",
-  "userFraming": "Treat nuance as a feature, not noise"
+  "category": "restaurant"
 }
 ```
 
@@ -214,11 +242,73 @@ Generate a custom prompt template.
 ```json
 {
   "success": true,
-  "output": "[ANTI-PATTERNS]\n...\n[PROMPT_TEMPLATE]\n...\n[USER_QUESTIONS]\n...",
+  "session_id": "uuid",
+  "first_question": "Hi! I'm here to help...",
+  "conversation": [...]
+}
+```
+
+### `POST /api/chat/message`
+
+Send a message in an ongoing chat session.
+
+**Request:**
+```json
+{
+  "session_id": "uuid",
+  "user_message": "Joe's Pizza"
+}
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "ai_response": "Great! What type of cuisine...",
+  "is_complete": false,
+  "conversation": [...],
+  "questions_answered": 2
+}
+```
+
+### `POST /api/chat/generate-plan`
+
+Generate final marketing plan from completed session.
+
+**Request:**
+```json
+{
+  "session_id": "uuid"
+}
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "marketing_plan": "EXECUTIVE SUMMARY\n...",
   "metadata": {
     "model": "gpt-4o",
     "tokens_used": 2847,
-    "domain": "wedding vows"
+    "category": "restaurant"
+  }
+}
+```
+
+### `GET /api/chat/session/<session_id>`
+
+Get conversation history for a session.
+
+**Response:**
+```json
+{
+  "success": true,
+  "session": {
+    "session_id": "uuid",
+    "category": "restaurant",
+    "conversation": [...],
+    "answers": {...},
+    "created_at": "ISO timestamp"
   }
 }
 ```
@@ -231,7 +321,7 @@ Health check endpoint.
 ```json
 {
   "status": "healthy",
-  "service": "meta-prompt-generator"
+  "service": "small-business-marketing-tool"
 }
 ```
 
@@ -242,15 +332,15 @@ Health check endpoint.
 ### Backend (`backend/.env`)
 
 ```bash
-OPENAI_API_KEY=sk-...          # Your OpenAI API key
+OPENAI_API_KEY=sk-...          # Your OpenAI API key (required)
 FLASK_ENV=development          # development or production
-PORT=5000                      # Server port
+PORT=5001                      # Server port (5001 to avoid macOS AirPlay conflict)
 ```
 
 ### Frontend (`.env` or Render dashboard)
 
 ```bash
-REACT_APP_API_URL=http://localhost:5000    # Backend URL
+REACT_APP_API_URL=http://localhost:5001    # Backend URL (optional - proxy handles this in dev)
 ```
 
 ---
@@ -262,14 +352,14 @@ REACT_APP_API_URL=http://localhost:5000    # Backend URL
 3. **Commit and push** to GitHub
 4. **Render auto-deploys** to production
 
-### Updating the Meta-Prompt
+### Updating Question Flows
 
-The meta-prompt is the core of the system. To improve it:
+To modify questions for a category:
 
-1. Edit `backend/prompts/meta-prompt-system.md`
-2. Test locally by generating a few prompts
+1. Edit `backend/chat_flows.py` QUESTION_FLOWS
+2. Test locally by going through the flow
 3. Commit and push
-4. Render will redeploy with the updated prompt
+4. Render will redeploy with updated questions
 
 ---
 
@@ -277,93 +367,75 @@ The meta-prompt is the core of the system. To improve it:
 
 ### Manual Testing Checklist
 
-- [ ] Input a domain (e.g., "wedding vows")
-- [ ] Wait for template generation (10-20 seconds)
-- [ ] Verify anti-patterns are shown
-- [ ] Check that form renders with appropriate questions
-- [ ] Fill in all required fields
-- [ ] Generate final prompt
-- [ ] Verify no {{variables}} remain in output
-- [ ] Copy to clipboard works
-- [ ] Test the prompt in ChatGPT/Claude
+- [ ] Select a business category
+- [ ] Answer all questions in chat
+- [ ] Verify questions are relevant to category
+- [ ] Check that completion is detected
+- [ ] Generate marketing plan
+- [ ] Verify plan includes all required sections
+- [ ] Test copy to clipboard
+- [ ] Test download functionality
+- [ ] Test start over flow
 
-### Test Domains
+### Test Categories
 
-Good test cases:
-- Wedding vows (baseline - compare to marriedbyjosh.com)
-- Performance review
-- Apology letter
-- Groomsman speech
-- Product description
-- Business proposal
+All 5 categories should be tested:
+- Restaurant
+- Retail Store
+- Professional Services
+- E-commerce
+- Local Services
 
-### Current Implementation Status
+---
+
+## Current Implementation Status
 
 **✅ Completed Features:**
-- Full end-to-end meta-prompt generation system
-- Professional UI with gradient backgrounds and smooth animations
-- Dynamic form rendering based on AI-generated questions
-- Anti-patterns display with warning styling
-- Client-side template filling with variable replacement
-- Copy-to-clipboard functionality with success feedback
-- Debug console for troubleshooting parsing issues
+- Complete chat-based marketing plan generation system
+- 5 business categories with tailored questions
+- Professional UI with Chatscope UI Kit
+- Smooth animations and transitions
+- Session management
+- Marketing plan generation with structured output
+- Copy/download functionality
 - Mobile-responsive design
-- Comprehensive error handling and validation
+- Comprehensive error handling
 
 **🔧 Technical Implementation:**
-- **Backend**: Flask API with OpenAI GPT-4o integration
-- **Frontend**: React with 4-step flow (landing → loading → form → result)
-- **Styling**: Professional CSS with CSS variables and animations
-- **Parsing**: Robust regex-based parsing of AI output sections
-- **Validation**: Form validation with required field checking
-- **Ports**: Backend runs on 3000, Frontend on 3001 (configured to avoid conflicts)
-
-**📁 File Structure:**
-```
-/meta-prompt-generator
-├── backend/
-│   ├── app.py                    # Flask API with OpenAI integration
-│   ├── requirements.txt          # Python dependencies (updated for compatibility)
-│   ├── .env                      # Environment variables (not committed)
-│   └── prompts/
-│       └── meta-prompt-system.md # Core meta-prompt template
-├── frontend/
-│   ├── src/
-│   │   ├── App.js               # Main React component with full flow
-│   │   ├── App.css              # Professional styling system
-│   │   ├── api.js               # API client with error handling
-│   │   └── index.js
-│   └── package.json             # React config with port settings
-├── .gitignore                   # Comprehensive ignore patterns
-├── README.md                    # This documentation
-└── CLAUDE.md                    # AI assistant guidance
-```
+- **Backend**: Flask API with OpenAI GPT-4o integration, chat endpoints, session management
+- **Frontend**: React with 3-step flow (category → chat → plan)
+- **Styling**: Professional CSS with animations, gradient themes
+- **Chat UI**: Chatscope UI Kit for professional chat experience
+- **Ports**: Backend on port 5001, Frontend on port 3001
 
 ---
 
 ## Troubleshooting
 
+See **[docs/TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md)** for detailed troubleshooting guide.
+
+Quick reference:
+
 ### "API Key Invalid"
-- Check `.env` file exists
+- Check `.env` file exists in `/backend`
 - Verify key starts with `sk-`
 - Ensure no extra quotes or spaces
 - Restart Flask server after changes
 
-### "Parsing Failed"
-- Log the raw API response
-- Check if AI followed the output format
-- Make regex more flexible if needed
-- Try GPT-4 instead of GPT-3.5-turbo
+### "Session Not Found"
+- Session may have expired (in-memory storage)
+- Start a new session
+- Check backend logs for session creation
 
 ### "CORS Error"
 - Add frontend URL to CORS origins in `app.py`
 - Restart Flask server
 - Clear browser cache
 
-### "Variables Not Replaced"
-- Check that variable names in template match form field IDs
-- Log `formValues` object to verify data
-- Ensure case sensitivity matches
+### "All Questions Not Answered"
+- Ensure you've answered all required questions
+- Check that answers are being stored correctly
+- Review backend logs for answer tracking
 
 ---
 
@@ -385,23 +457,20 @@ Good test cases:
 
 ---
 
+## Completed Features
+
+✅ **Budget-Aware Marketing Plans** - Plans adapt to user's budget tier (low to high)  
+✅ **Category-Specific Intelligence** - Tailored questions and recommendations for each business type  
+✅ **Industry Insights Integration** - Marketing best practices and channel recommendations  
+✅ **Comprehensive Testing** - Test materials, scenarios, and checklists  
+✅ **Error Handling** - Robust validation and user-friendly error messages  
+✅ **Professional UI** - Smooth animations, responsive design, Chatscope UI Kit
+
 ## Future Enhancements
-
-### Phase 2
-- [ ] User feedback mechanism (rate generated prompts)
-- [ ] Prompt history/favorites
-- [ ] Analytics on which domains work best
-- [ ] A/B testing of meta-prompts
-
-### Phase 3
-- [ ] CrewAI multi-agent generation
-- [ ] Community prompt library
-- [ ] Prompt sharing/remixing
-- [ ] User accounts
-
-### Phase 4
-- [ ] Self-improving system (learns from usage)
-- [ ] Domain-specific fine-tuning
+- [ ] Database for session persistence
+- [ ] User accounts and plan history
+- [ ] Analytics dashboard
+- [ ] Export plans as PDF
 - [ ] Multi-language support
 
 ---
@@ -409,10 +478,10 @@ Good test cases:
 ## Cost Estimates
 
 - **Development**: Free (Render free tier)
-- **OpenAI API**: ~$0.03-0.05 per prompt generation
+- **OpenAI API**: ~$0.05-0.10 per marketing plan generation
 - **Scaling**: Upgrade Render plans as needed
 
-At 100 prompts/day: ~$3-5/day in API costs
+At 100 plans/day: ~$5-10/day in API costs
 
 ---
 
@@ -427,66 +496,32 @@ At 100 prompts/day: ~$3-5/day in API costs
 Built by [Your Name]
 
 Inspired by:
-- The wedding vows generator at marriedbyjosh.com
-- The concept of "anti-brainstorming" 
-- Research on probability-based prompt diversification
+- Bridesmaid for Hire's conversational flow
+- Small business marketing challenges
+- Need for actionable, budget-aware marketing plans
 
 ---
 
 ## Questions?
 
-- **Issues**: [GitHub Issues](https://github.com/yourusername/meta-prompt-generator/issues)
+- **Issues**: [GitHub Issues](https://github.com/yourusername/small-business-marketing-tool/issues)
 - **Email**: your-email@example.com
 - **Docs**: See `CLAUDE.md` for AI assistant guidance
 
 ---
 
-## Acknowledgments
-
-Special thanks to:
-- OpenAI for GPT-4 API
-- Render for deployment platform
-- The prompt engineering community
+**Status**: Production ready / Chat-based flow complete  
+**Last Updated**: 2025-11-06  
+**Version**: 2.0
 
 ---
 
-**Status**: Active development / UX enhancements complete  
-**Last Updated**: 2025-01-06  
-**Version**: 1.2
+## Project History
 
----
+This project was migrated from a meta-prompt generator to a chat-based marketing tool. Migration documentation is available in the `/docs` folder:
 
-## Recent Updates
+- See `docs/README.md` for migration overview
+- See `docs/ARCHITECTURE_PLAN.md` for complete architecture details
+- See `docs/PHASE_*_COMPLETE.md` files for phase-by-phase implementation
 
-### v1.2 - UX Enhancements (January 2025)
-- **Example Gallery**: Added 5 curated example queries on landing page for user education
-- **Better Error Messages**: Improved error handling with actionable suggestions
-- **Post-Generation Feedback**: Added thumbs up/down collection system
-- **Try This Prompt**: Added button to generate example outputs from filled prompts
-- **Improved Text Readability**: Fixed contrast issues in example output display
-- **Feedback & Try-Prompt Endpoints**: Added backend endpoints for user feedback and example generation
-
-### v1.1 - Intent-Based Meta-Prompt System (January 2025)
-
-### Intent-Based Meta-Prompt System
-- **Intent Classification**: AI now classifies user needs into 5 intent types (Creation, Understanding, Problem-Solving, Decision-Making, Guidance)
-- **Intent-Specific Templates**: Template structure adapts based on user's intent with appropriate approaches
-- **Decision Tree**: Added intent classification indicators to help AI correctly identify user needs
-- **Flexible Architecture**: Works for both creative tasks (writing vows) and cognitive tasks (learning math)
-
-### Enhanced Features
-- **Use Sample Button**: Quick-fill sample text for testing form fields (uses AI-generated placeholders)
-- **Auto-Population**: Special handling for `{{userIntent}}` variable to ensure templates always work
-- **Comprehensive Test Suite**: Automated testing covering all intent types (not committed to git)
-- **Better Variable Coverage**: Improved validation to ensure all form variables appear in templates
-- **Example Gallery**: 5 curated example queries on landing page to teach users good prompt writing
-- **Better Error Messages**: Actionable error messages with specific suggestions for each error type
-- **Post-Generation Feedback**: Thumbs up/down collection to improve the system
-- **Try This Prompt**: Button to generate example outputs directly in the app
-
-### Technical Improvements
-- **Port Configuration**: Backend on port 3000, Frontend on port 3001 to avoid conflicts
-- **Enhanced Error Handling**: Better user-friendly error messages and retry logic
-- **Debug Console**: Toggle debug view to inspect AI output and parsed schema
-- **Feedback Endpoint**: `/api/feedback` to collect user feedback on prompt quality
-- **Try-Prompt Endpoint**: `/api/try-prompt` to generate example outputs from filled prompts
+The migration was completed in 10 phases, transforming the system from a prompt template generator into a direct marketing plan creation tool.

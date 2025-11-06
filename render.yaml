@@ -1,7 +1,7 @@
 services:
   # Backend API Service
   - type: web
-    name: meta-prompt-generator-backend
+    name: small-business-marketing-tool-backend
     env: python
     buildCommand: |
       cd backend
@@ -21,7 +21,7 @@ services:
 
   # Frontend Static Site
   - type: web
-    name: meta-prompt-generator-frontend
+    name: small-business-marketing-tool-frontend
     env: static
     buildCommand: |
       cd frontend
@@ -30,7 +30,7 @@ services:
     staticPublishPath: ./frontend/build
     envVars:
       - key: REACT_APP_API_URL
-        value: https://meta-prompt-generator-backend.onrender.com
+        value: https://small-business-marketing-tool-backend.onrender.com
     autoDeploy: true
 
   # Database (for future use)

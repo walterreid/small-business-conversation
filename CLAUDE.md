@@ -8,36 +8,33 @@ This file helps AI assistants (like Cursor, Claude, ChatGPT) understand this pro
 ## Project Mission
 
 **What We're Building:**
-A meta-prompt generator that creates custom, domain-specific prompt templates. Users describe what they need, and the system generates a structured prompt with fill-in-the-blank questions that prevent generic output.
+A chat-based small business marketing plan generator. Users select their business category, answer questions in a conversational flow, and receive a personalized marketing plan tailored to their specific needs and budget.
 
 **Why It Matters:**
-Most people use AI with vague prompts and get generic results. This system helps them construct *specific, constraint-rich prompts* that embed "lived understanding" rather than academic theory.
+Most small businesses struggle with marketing because they don't know where to start or what strategies work for their industry. This tool guides them through a structured conversation to understand their business, then generates an actionable marketing plan with specific recommendations.
 
 **Core Innovation:**
-Anti-brainstorming mechanism that identifies statistically common patterns and explicitly helps users avoid them, pushing responses toward the long tail of the distribution.
+Conversational question flow that collects business-specific information, then uses AI to generate comprehensive, actionable marketing plans with budget-aware recommendations and 90-day action plans.
 
 ---
 
 ## Philosophy & Design Decisions
 
-### 1. **Nuance as Feature, Not Noise**
-This project values specificity over polish. A prompt that says "avoid journey/soulmate language" is better than one that says "be authentic." Concrete constraints > abstract advice.
+### 1. **Conversational Over Forms**
+We use a chat interface instead of long forms. One question at a time feels less overwhelming and more engaging. Inspired by Bridesmaid for Hire's conversational flow.
 
-### 2. **Permission Over Perfection**
-The system uses "first draft" language and philosophical grounding (e.g., "Good vows are a gift, not a performance") to reduce user anxiety. The goal is to help people start, not to deliver perfection.
+### 2. **Category-Specific Intelligence**
+Each business category (Restaurant, Retail, Professional Services, E-commerce, Local Services) has tailored questions and recommendations. A restaurant needs different marketing strategies than a local plumber.
 
-### 3. **Anti-Brainstorming**
-We explicitly identify high-probability (overdone) patterns and help users move away from them. The statistically likely response is often the generic one.
+### 3. **Budget-Aware Recommendations**
+Marketing plans adapt to budget constraints. Under $500/month gets different recommendations than $5000+/month. We recommend channels that make sense for the budget.
 
-### 4. **Two-Stage Architecture**
-- **Stage 1**: Meta-prompt generates custom prompt template + questions (OpenAI API call)
-- **Stage 2**: Client-side template filling (no API needed - just string replacement)
-
-We keep Stage 2 client-side because it's instant and free. Only use AI when we need actual intelligence.
+### 4. **Actionable Over Generic**
+Plans include specific tactics, timelines, and next steps. Not "do social media" but "post 3x/week on Instagram focusing on behind-the-scenes content, use these hashtags..."
 
 ### 5. **Python Backend for Future-Proofing**
 We chose Flask over Node.js because:
-- Easy to add CrewAI later for multi-agent prompt generation
+- Easy to add data analysis (pandas for SMB stats)
 - Better ML/AI library ecosystem
 - Simpler for researchers/data scientists to extend
 
@@ -46,31 +43,31 @@ We chose Flask over Node.js because:
 ## Architecture Overview
 
 ```
-User Input ("I need wedding vows")
+User Selects Category (Restaurant, Retail, etc.)
     ↓
-Flask Backend (/api/generate-template)
+Chat Interface (one question at a time)
     ↓
-OpenAI API (with meta-prompt from meta-prompt-system.md)
+Flask Backend (/api/chat/start, /api/chat/message)
     ↓
-Raw AI Response ([ANTI-PATTERNS] [PROMPT_TEMPLATE] [USER_QUESTIONS])
+Question Flow System (chat_flows.py)
     ↓
-React Frontend (parses response)
+OpenAI Chat API (conversational, maintains context)
     ↓
-Dynamic Form Rendered (based on USER_QUESTIONS)
+All Questions Answered
     ↓
-User Fills Form
+Marketing Plan Generation (/api/chat/generate-plan)
     ↓
-Client-Side Template Filling (replace {{variables}})
-    ↓
-Final Prompt Ready to Use
+Structured Marketing Plan (Executive Summary, Channels, 90-Day Plan, Metrics)
 ```
 
 **Key Files:**
-- `backend/app.py`: Flask API with OpenAI integration, error handling, and CORS configuration
-- `backend/prompts/meta-prompt-system.md`: The Stage 1 meta-prompt (our secret sauce)
-- `frontend/src/App.js`: React component with complete 4-step flow and parsing logic
-- `frontend/src/api.js`: API client with error handling and network detection
-- `frontend/src/App.css`: Professional styling system with CSS variables and animations
+- `backend/app.py`: Flask API with OpenAI integration, chat endpoints, session management
+- `backend/chat_flows.py`: Question sequences for each business category
+- `frontend/src/App.js`: React component with 3-step flow (category → chat → plan)
+- `frontend/src/components/ChatInterface.js`: Chat UI using Chatscope UI Kit
+- `frontend/src/components/CategorySelector.js`: Business category selection
+- `frontend/src/components/MarketingPlanView.js`: Marketing plan display
+- `frontend/src/api/chatApi.js`: Chat API client functions
 
 ---
 
@@ -78,49 +75,55 @@ Final Prompt Ready to Use
 
 ### **🔧 Core Implementation Files (Production Ready)**
 
-**`backend/app.py`** - Flask API server with OpenAI GPT-4o integration, comprehensive error handling, CORS configuration, and robust logging. Handles template generation and health checks with proper validation and user-friendly error messages.
+**`backend/app.py`** - Flask API server with OpenAI GPT-4o integration, chat endpoints (`/api/chat/start`, `/api/chat/message`, `/api/chat/generate-plan`), session management (in-memory), comprehensive error handling, CORS configuration, and robust logging.
 
-**`frontend/src/App.js`** - Main React component implementing complete 4-step user flow (landing → loading → form → result), dynamic form rendering based on AI output, robust parsing logic with debug logging, client-side template filling, and comprehensive state management.
+**`backend/chat_flows.py`** - Question flow system defining structured questions for each business category (Restaurant, Retail Store, Professional Services, E-commerce, Local Services). Includes functions to get next question, check completion, and generate marketing plan prompts.
 
-**`frontend/src/App.css`** - Professional styling system with CSS custom properties, gradient backgrounds, smooth animations, color-coded sections (warning/success/error/info), responsive design for all screen sizes, and accessibility features including reduced motion support.
+**`frontend/src/App.js`** - Main React component implementing 3-step user flow (category selection → chat interface → marketing plan view), state management, and navigation.
 
-**`frontend/src/api.js`** - Clean API client with comprehensive error handling for template generation and health checks, includes network error detection, user-friendly error messages, and proper JSON response parsing.
+**`frontend/src/components/ChatInterface.js`** - Chat UI component using Chatscope UI Kit, handles session management, message sending/receiving, completion detection, and plan generation.
+
+**`frontend/src/components/CategorySelector.js`** - Business category selection component with card-based UI, 5 categories with icons and descriptions.
+
+**`frontend/src/components/MarketingPlanView.js`** - Marketing plan display component with copy/download functionality, usage instructions, and start over option.
+
+**`frontend/src/api/chatApi.js`** - Chat API client with functions for starting sessions, sending messages, generating plans, and retrieving sessions.
 
 ### **📋 Configuration Files (Ready for Deployment)**
 
-**`backend/requirements.txt`** - Python dependencies including Flask, OpenAI client (updated to >=1.6.1 for compatibility), CORS support, environment variable loading, and production server (gunicorn).
+**`backend/requirements.txt`** - Python dependencies including Flask, OpenAI client, CORS support, environment variable loading, and production server (gunicorn).
 
-**`frontend/package.json`** - React project configuration with proper port settings (3001) to avoid conflicts with backend (3000), proxy configuration for development, and standard React dependencies.
+**`frontend/package.json`** - React project configuration with proper port settings (3001), Chatscope UI Kit dependencies, and standard React dependencies.
 
-**`.gitignore`** - Comprehensive ignore patterns for Python, Node.js, environment files, IDE files, OS-specific files, and build artifacts to prevent sensitive data from being committed.
+**`.gitignore`** - Comprehensive ignore patterns for Python, Node.js, environment files, IDE files, OS-specific files, and build artifacts.
 
 ### **📚 Documentation Files (Current & Comprehensive)**
 
-**`CLAUDE.md`** - Detailed AI assistant guidance covering project philosophy, architecture, implementation details, common issues, troubleshooting, and how to help effectively - essential for maintaining and extending the project.
+**`CLAUDE.md`** - Detailed AI assistant guidance covering project philosophy, architecture, implementation details, common issues, troubleshooting, and how to help effectively.
 
-**`README.md`** - Complete project documentation including setup instructions, API endpoints, deployment guide, troubleshooting, testing procedures, current implementation status, and future roadmap - ready for public consumption.
+**`README.md`** - Complete project documentation including setup instructions, API endpoints, deployment guide, troubleshooting, and current implementation status.
 
-**`backend/prompts/meta-prompt-system.md`** - The core intellectual property containing the meta-prompt template that instructs GPT-4 to generate structured prompt templates with anti-patterns, philosophical grounding, and user questions.
+**`docs/DEPLOYMENT.md`** - Render deployment guide with service configuration, environment variables, and troubleshooting.
 
-### **🗂️ Project Structure Files (Organized)**
+**`docs/TROUBLESHOOTING.md`** - General troubleshooting guide for common issues.
 
-**`backend/`** - Complete backend directory with Flask app, requirements, environment setup, and prompts folder containing the meta-prompt system.
-
-**`frontend/`** - Complete React frontend with source files, public assets, build configuration, and node_modules (ignored) ready for development and production deployment.
-
-**`form-schema-generator.md`** - Additional documentation file (supplementary material for the project).
+**`docs/`** - Migration documentation folder containing:
+- Architecture planning documents
+- Phase-by-phase implementation summaries
+- Troubleshooting guides
+- Historical reference materials
 
 ### **🎯 Current Project Status**
 
-✅ **Fully Functional**: Complete end-to-end meta-prompt generation system  
-✅ **Production Ready**: Professional UI, comprehensive error handling, responsive design  
+✅ **Fully Functional**: Complete end-to-end chat-based marketing plan generation system  
+✅ **Production Ready**: Professional UI with smooth animations, comprehensive error handling, responsive design  
 ✅ **Well Documented**: Comprehensive guides for users and developers  
 ✅ **Deployment Ready**: Configuration files prepared for Render deployment  
 ✅ **Version Controlled**: Proper .gitignore and project structure  
-✅ **Debug Ready**: Debug console and logging for troubleshooting  
+✅ **Chat-Based Flow**: Conversational interface using Chatscope UI Kit  
 
 **Port Configuration:**
-- Backend: Port 3000 (configurable via PORT environment variable)
+- Backend: Port 5001 (configurable via PORT environment variable, 5001 to avoid macOS AirPlay conflict)
 - Frontend: Port 3001 (configured in package.json to avoid conflicts)
 - Proxy: Frontend proxies API calls to backend during development
 
@@ -128,108 +131,98 @@ Final Prompt Ready to Use
 
 ## Critical Implementation Details
 
-### The Meta-Prompt Template
+### The Question Flow System
 
-The meta-prompt in `meta-prompt-system.md` is the core IP. It instructs GPT-4 to:
-1. Identify anti-patterns (common/overdone approaches)
-2. Determine variables needed for specificity
-3. Generate a structured prompt template with {{variables}}
-4. Create user questions for each variable
+The question flows in `chat_flows.py` define structured questions for each business category. Each category has 9 questions covering:
+- Business basics (name, type, location)
+- Target audience
+- Budget
+- Current marketing
+- Biggest challenges
+- Unique value proposition
+- Goals
 
-**Important**: The meta-prompt must produce output in this exact format:
-```
-[ANTI-PATTERNS]
-- Common Pattern 1: ...
-- Common Pattern 2: ...
-
-[PROMPT_TEMPLATE]
-Role: ...
-Task: ...
-Context: ...
-Reasoning: ...
-Output format: ...
-Stop conditions: ...
-
-[USER_QUESTIONS]
-Variable: {{variableName}}
-Question: "..."
-Type: text | textarea | select
-Placeholder/Options: "..."
-Why it matters: "..."
+**Question Structure:**
+```python
+{
+    "id": "business_name",
+    "question": "What's your restaurant's name?",
+    "type": "text",  # text | textarea | select
+    "required": True,
+    "help_text": "This will be used throughout your marketing plan"
+}
 ```
 
-If the format changes, the parsing logic in `App.js` breaks.
+**Flow Management:**
+- `get_next_question(category, answered_questions)` - Returns next unanswered question
+- `is_flow_complete(category, answered_questions)` - Checks if all required questions answered
+- `generate_marketing_plan_prompt(category, answers)` - Builds structured prompt for OpenAI
 
-### Parsing Logic (Frontend)
+### Session Management
 
-The `parseAIOutput()` function in `App.js` uses regex to extract:
-- Anti-patterns (lines starting with `- Common Pattern`)
-- Prompt template (text between `[PROMPT_TEMPLATE]` and `[USER_QUESTIONS]`)
-- Form fields (blocks starting with `Variable:`)
-
-**Edge Cases to Watch:**
-- AI might not follow exact format
-- Variable names might have inconsistent casing
-- Options might be separated by `|` or `/`
-- Optional fields might say "optional" or "(optional)"
-
-The parsing is flexible but not bulletproof. If GPT-4 gets creative with formatting, things break.
-
-### Template Filling (Client-Side)
-
-Simple regex replacement:
-```javascript
-Object.keys(values).forEach(key => {
-  const regex = new RegExp(`\\{\\{${key}\\}\\}`, 'g');
-  filledTemplate = filledTemplate.replace(regex, values[key]);
-});
+Sessions are stored in-memory (can be upgraded to database later):
+```python
+{
+    "session_id": "uuid",
+    "category": "restaurant",
+    "answers": {
+        "business_name": "Joe's Pizza",
+        "cuisine_type": "Italian",
+        # ... more answers
+    },
+    "conversation": [
+        {"role": "assistant", "content": "...", "timestamp": "..."},
+        {"role": "user", "content": "...", "timestamp": "..."}
+    ],
+    "current_question_id": "business_name",
+    "created_at": "ISO timestamp"
+}
 ```
 
-**Why Client-Side?**
-- Instant (no API latency)
-- Free (no token cost)
-- Simple (just string replacement)
+### Marketing Plan Generation
 
-We only need AI for *intelligence*. Template filling is mechanical.
+The `generate_marketing_plan_prompt()` function builds a comprehensive prompt that includes:
+- All collected answers
+- Category-specific context
+- Request for structured plan (Executive Summary, Target Audience, Channels, 90-Day Plan, Metrics)
+- Budget-aware recommendations
 
 ---
 
 ## Common Issues & Solutions
 
-### Issue 1: "Parsing Failed - Can't Find Sections"
+### Issue 1: "Session Not Found"
 
-**Cause**: AI didn't follow the output format exactly
-
-**Debug**:
-1. Log the raw API response
-2. Check if section headers are present
-3. Look for formatting variations
-
-**Fix**: Make the regex more flexible, or add fallback parsing
-
-**Prevention**: Use GPT-4 (not 3.5-turbo) - it follows instructions better
-
-### Issue 2: "Variables Not Being Replaced"
-
-**Cause**: Variable names in template don't match form field IDs
+**Cause**: Session expired or invalid session ID
 
 **Debug**:
-1. Log `formValues` object
-2. Log all `{{variables}}` found in template
-3. Compare for mismatches
+1. Check if session exists in `chat_sessions` dict
+2. Verify session ID is being passed correctly
+3. Check if session was created successfully
 
-**Fix**: Ensure parsing extracts variable names consistently
+**Fix**: Start a new session, ensure session ID is stored in frontend state
 
-### Issue 3: "Form Fields Not Rendering"
+### Issue 2: "No Questions Found for Category"
 
-**Cause**: `formFields` array is empty or malformed
+**Cause**: Invalid category or category not in QUESTION_FLOWS
 
 **Debug**:
-1. Check if `[USER_QUESTIONS]` section was parsed
-2. Log the `schema.formFields` array
-3. Verify field types are recognized
+1. Check category value matches valid categories
+2. Verify category is in `chat_flows.py` QUESTION_FLOWS
+3. Check category normalization (lowercase, underscores)
 
-**Fix**: Adjust parsing logic to handle format variations
+**Fix**: Ensure category matches: restaurant, retail_store, professional_services, ecommerce, local_services
+
+### Issue 3: "All Questions Not Answered"
+
+**Cause**: User tried to generate plan before answering all required questions
+
+**Debug**:
+1. Check `is_flow_complete()` return value
+2. Verify all required questions have answers
+3. Check answer extraction logic
+
+**Fix**: Ensure all required questions are answered before allowing plan generation
 
 ### Issue 4: "CORS Error When Calling Backend"
 
@@ -260,26 +253,35 @@ We only need AI for *intelligence*. Template filling is mechanical.
 
 ### When User Asks for Help With:
 
-**"The parsing is breaking"**
-→ Ask to see the raw API response
-→ Check what format the AI actually returned
-→ Suggest regex adjustments or fallback handling
+**"The chat flow isn't working"**
+→ Check session management
+→ Verify question flow logic in `chat_flows.py`
+→ Check if answers are being stored correctly
+→ Look at backend logs for errors
 
-**"I want to add a new feature"**
-→ Understand if it's frontend or backend
-→ Check if it fits the two-stage architecture
-→ Suggest where in the codebase it should go
+**"I want to add a new business category"**
+→ Add category to `CategorySelector.js` BUSINESS_CATEGORIES
+→ Create question flow in `chat_flows.py` QUESTION_FLOWS
+→ Add category validation in backend endpoints
 
-**"The prompts aren't good enough"**
-→ This is a meta-prompt quality issue
-→ The fix is in `meta-prompt-system.md`, not in code
-→ Suggest specific improvements to the meta-prompt instructions
+**"I want to modify the questions"**
+→ Edit `chat_flows.py` QUESTION_FLOWS
+→ Questions are category-specific
+→ Ensure question IDs are unique
+→ Test the flow after changes
 
-**"I want to add CrewAI"**
-→ This goes in the backend
-→ Create new file: `backend/crew_agents.py`
-→ Keep the existing `/api/generate-template` as fallback
-→ Add new endpoint: `/api/generate-template-crew`
+**"The marketing plan isn't good enough"**
+→ This is a prompt quality issue
+→ The fix is in `generate_marketing_plan_prompt()` in `chat_flows.py`
+→ Can also enhance with SMB data in Phase 8
+→ Suggest specific improvements to the prompt structure
+
+**"I want to add SMB data integration"**
+→ This goes in Phase 8
+→ Read Excel file with pandas
+→ Extract insights and stats
+→ Include in marketing plan prompt
+→ Update `generate_marketing_plan_prompt()` to use data
 
 **"Deployment issues"**
 → Check `render.yaml` configuration
@@ -291,7 +293,7 @@ We only need AI for *intelligence*. Template filling is mechanical.
 
 **Don't** suggest complete rewrites unless truly necessary
 **Don't** add complexity for edge cases that haven't happened yet
-**Don't** change the output format without updating parsing logic
+**Don't** change question flow structure without updating both frontend and backend
 **Don't** add dependencies without checking if they're really needed
 **Don't** break local development when improving production setup
 
@@ -315,108 +317,59 @@ Before suggesting code changes, mentally verify:
 - [ ] Is error handling adequate?
 - [ ] Are environment variables handled correctly?
 - [ ] Will users understand what went wrong if it fails?
-
-## Test Suite
-
-### Comprehensive Test Coverage
-
-The project includes a comprehensive test suite in `/test/` directory (not committed to git) that validates:
-
-**Test Scenarios (10 total):**
-- **Creation Intent**: Wedding vows, apology letters
-- **Understanding Intent**: Math learning, language learning  
-- **Problem-Solving Intent**: Code debugging, relationship issues
-- **Decision-Making Intent**: Job offers, investment decisions
-- **Guidance Intent**: Business planning, presentation coaching
-
-**Validation Tests:**
-1. **Variable Coverage** - All form field variables appear in template
-2. **Intent Classification** - Correct intent type identified
-3. **Template Structure** - New intent-based format followed
-4. **Anti-Patterns** - At least 3 anti-patterns generated
-5. **Form Fields Quality** - Minimum 6 fields with placeholders
-
-### Running Tests
-
-```bash
-# Prerequisites: Backend running on localhost:3000
-cd test && ./run-tests.sh
-```
-
-### Current Test Results (Intent-Based Meta-Prompt)
-
-**Status**: ❌ **0% Success Rate** - Critical issues identified
-
-**Major Issues Found:**
-1. **Intent Classification Failure** - AI defaults to "creation" for all intents
-2. **Variable Coverage Issues** - Many variables missing from templates
-3. **Template Structure Problems** - Some responses missing required sections
-4. **Select Field Handling** - Select fields need options, not placeholders
-
-**Root Cause**: The intent-based meta-prompt needs refinement to properly:
-- Classify different intent types
-- Ensure all variables appear in templates
-- Follow the new template structure consistently
-
-### Test-Driven Development
-
-Use the test suite to:
-- Validate meta-prompt changes before deployment
-- Identify parsing issues early
-- Ensure consistent behavior across intent types
-- Catch regressions in template generation
+- [ ] Does the chat flow complete properly?
+- [ ] Are all questions being asked and answered?
 
 ---
 
 ## Current State & Known Limitations
 
 ### What Works
-✅ Complete end-to-end flow (input → template → form → filled prompt)
-✅ OpenAI API integration with comprehensive error handling
-✅ Dynamic form generation from parsed AI output with field type detection
-✅ Client-side template filling with variable replacement
-✅ Professional UI with gradient backgrounds and smooth animations
-✅ Anti-patterns display with warning styling
-✅ Copy-to-clipboard functionality with success feedback
-✅ Debug console for troubleshooting parsing issues
-✅ Mobile-responsive design with accessibility features
-✅ Form validation with required field checking
+✅ Complete end-to-end chat-based flow (category → chat → plan)
+✅ OpenAI API integration with conversational chat
+✅ Structured question flows for 5 business categories
+✅ Session management (in-memory)
+✅ Marketing plan generation with structured output
+✅ Professional UI with Chatscope UI Kit
+✅ Smooth animations and transitions
+✅ Copy/download functionality for plans
+✅ Mobile-responsive design
+✅ Comprehensive error handling
 ✅ Local development environment with proper port configuration
-✅ Comprehensive logging and error messages
-✅ Environment variable management and security
-✅ Example Gallery - 5 example queries to teach users good prompt writing
-✅ Better Error Messages - actionable guidance with suggestions
-✅ Post-Generation Feedback - thumbs up/down collection
-✅ Try This Prompt - generate example outputs from filled prompts
 
 ### What Needs Work
-⚠️ Parsing could be more robust for format variations
+⚠️ Session persistence (currently in-memory, lost on restart)
+⚠️ SMB data integration (Phase 8)
 ⚠️ No user authentication or history tracking
-⚠️ No analytics on which domains work best
-⚠️ No A/B testing of different meta-prompts
-⚠️ Intent classification needs refinement (currently defaults to creation)
+⚠️ No analytics on which categories/plans work best
+⚠️ No A/B testing of different question flows
 
 ### What's Intentionally Not Built Yet
-🔮 CrewAI integration (waiting to see if needed)
-🔮 Prompt library (need real usage first)
+🔮 Database for session persistence (keeping it simple for now)
 🔮 User accounts (keeping it simple for now)
 🔮 Payment/subscription (validating concept first)
+🔮 Plan history/favorites (need real usage first)
 
 ---
 
 ## Future Vision
 
-### Phase 1 (Current)
-Single-shot prompt generation. User describes need, gets prompt, uses it elsewhere.
+### Phase 8 (Next)
+Integrate SMB statistics data to enhance marketing plan recommendations with real industry insights and benchmarks.
 
-### Phase 2 (Next)
-Feedback loop. Track which prompts are rated highly, learn what works.
+### Phase 9 (Later)
+Testing and refinement based on real user feedback. Handle edge cases, improve error messages, optimize performance.
 
-### Phase 3 (Later)
-Multi-agent generation with CrewAI. Different agents handle domain analysis, pattern identification, template building, question design.
+### Phase 10 (Later)
+Cleanup and documentation. Remove old code references, update all docs, prepare for public launch.
 
-### Phase 4 (Dream)
-The system learns from usage. Prompts get better over time. Users can share/remix prompts. Becomes a community-driven prompt library.
+### Future Enhancements
+- Database for session persistence
+- User accounts and plan history
+- Analytics dashboard
+- A/B testing of question flows
+- Multi-language support
+- Export plans as PDF
 
 ---
 
@@ -424,30 +377,32 @@ The system learns from usage. Prompts get better over time. Users can share/remi
 
 (Not implemented yet, but when adding analytics, track these:)
 
-- **Parse success rate**: % of AI responses that parse correctly
-- **Form completion rate**: % who fill and submit the form
-- **Prompt copy rate**: % who copy the final prompt
-- **Domain distribution**: What are people asking for?
-- **Time to completion**: How long from start to final prompt?
-- **Return usage**: % who create multiple prompts
+- **Session completion rate**: % who complete all questions
+- **Plan generation rate**: % who generate plans after completing questions
+- **Category distribution**: Which business types use the tool most?
+- **Time to completion**: How long from start to plan generation?
+- **Return usage**: % who create multiple plans
+- **Plan quality feedback**: User ratings on plan usefulness
 
 ---
 
 ## When User Says "This is Broken"
 
 **Step 1: Reproduce**
-- What did they input?
+- What category did they select?
+- What question were they on?
 - What did they expect?
 - What actually happened?
 
 **Step 2: Isolate**
-- Is it frontend (parsing/rendering) or backend (API/OpenAI)?
+- Is it frontend (chat UI/rendering) or backend (API/OpenAI)?
 - Check browser console for JS errors
 - Check backend logs for Python errors
+- Check session state
 
 **Step 3: Fix**
-- If parsing: adjust regex or add fallbacks
-- If API: check rate limits, error handling
+- If chat: check session management, question flow logic
+- If API: check rate limits, error handling, OpenAI responses
 - If UI: improve validation or error messages
 
 **Step 4: Prevent**
@@ -459,13 +414,13 @@ The system learns from usage. Prompts get better over time. Users can share/remi
 
 ## Philosophy on AI Assistance
 
-This project *uses* AI (OpenAI API) to *help humans use* AI (ChatGPT/Claude) better. It's meta-level work.
+This project *uses* AI (OpenAI API) to *help small businesses* create marketing plans. It's practical, actionable work.
 
 When helping with this project:
-- **Respect the meta-level**: Changes to the meta-prompt affect all generated prompts
-- **Value specificity**: Generic suggestions aren't helpful (ironic, right?)
+- **Respect the conversational flow**: Changes to questions affect the entire user experience
+- **Value specificity**: Generic marketing advice isn't helpful - plans must be tailored
 - **Test your suggestions**: If you'd suggest code, trace through what would actually happen
-- **Understand the user journey**: From vague need → structured prompt is the magic
+- **Understand the user journey**: From category selection → answering questions → getting actionable plan is the magic
 
 ---
 
@@ -473,7 +428,7 @@ When helping with this project:
 
 **Start local dev:**
 ```bash
-# Terminal 1 - Backend (runs on port 3000)
+# Terminal 1 - Backend (runs on port 5000)
 cd backend
 python3 app.py
 
@@ -482,7 +437,7 @@ cd frontend
 npm start
 ```
 
-**Note**: Backend runs on port 3000, frontend on port 3001 to avoid conflicts. Frontend proxies API calls to backend during development.
+**Note**: Backend runs on port 5000, frontend on port 3001 to avoid conflicts. Frontend proxies API calls to backend during development.
 
 **Deploy to Render:**
 ```bash
@@ -492,11 +447,11 @@ git push origin main
 # Render auto-deploys
 ```
 
-**Update meta-prompt:**
-Edit `backend/prompts/meta-prompt-system.md`, then:
+**Update question flows:**
+Edit `backend/chat_flows.py`, then:
 ```bash
-git add backend/prompts/meta-prompt-system.md
-git commit -m "Improved meta-prompt"
+git add backend/chat_flows.py
+git commit -m "Updated question flows"
 git push
 ```
 
@@ -508,23 +463,48 @@ git push
 
 ## Final Notes
 
-This is v1.0. It will evolve. The code matters less than the *idea*:
+This is v2.0 - a complete transformation from meta-prompt generator to chat-based marketing tool. The focus is on:
 
-**Can we systematically generate prompts that are statistically unlikely but still coherent and useful?**
+**Can we help small businesses create actionable marketing plans through a simple, conversational interface?**
 
 That's the experiment. The code is just the apparatus.
 
-When helping, optimize for *learning* not *shipping*. We want to know:
-- Does the anti-brainstorming mechanism actually work?
-- Do generated prompts feel "lived in" or academic?
-- Which domains produce the best results?
-- Where does the parsing break?
-- What makes users abandon the flow?
+When helping, optimize for *usefulness* not *complexity*. We want to know:
+- Do businesses find the plans actionable?
+- Which categories produce the best results?
+- What questions are most valuable?
+- Where do users drop off?
+- How can we make plans more specific and useful?
 
 Help us learn. That's more valuable than any feature.
 
 ---
 
-**Last Updated**: 2025-10-24
-**Version**: 1.0
-**Status**: Early development / Testing phase
+## Project History & Migration
+
+This project was migrated from a meta-prompt generator to a chat-based marketing tool. The migration documentation is preserved in the `/docs` folder for reference:
+
+- **docs/ARCHITECTURE_PLAN.md** - Complete architecture planning from Phase 0
+- **docs/PHASE_0_SUMMARY.md** - Quick reference for new structure
+- **docs/PHASE_1_COMPLETE.md** through **docs/PHASE_9_COMPLETE.md** - Phase-by-phase implementation details
+- **docs/FIX_CONNECTION_ISSUE.md** - Troubleshooting guide for port conflicts
+
+### Migration Summary
+
+**Original System**: Meta-prompt generator that created prompt templates for users to fill out  
+**Current System**: Chat-based marketing plan generator that directly creates actionable plans
+
+**Key Transformation**:
+- Replaced form-based flow with conversational chat interface
+- Added structured question flows for 5 business categories
+- Implemented budget-aware recommendations
+- Enhanced with category-specific marketing intelligence
+- Added industry insights and best practices
+
+The migration was completed in 10 phases, with each phase building on the previous one. All old code has been removed or archived, and the system now operates as a complete chat-based marketing tool.
+
+---
+
+**Last Updated**: 2025-11-06
+**Version**: 2.0
+**Status**: Chat-based marketing tool / Production ready

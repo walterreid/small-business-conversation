@@ -1,10 +1,18 @@
 import os
 import logging
+import uuid
+from datetime import datetime
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from dotenv import load_dotenv
 from openai import OpenAI
 import re
+from chat_flows import (
+    get_next_question,
+    is_flow_complete,
+    generate_marketing_plan_prompt,
+    extract_answer_from_message
+)
 
 # Load environment variables
 load_dotenv()
@@ -21,9 +29,7 @@ CORS(app, resources={
     r"/api/*": {
         "origins": [
             "http://localhost:3001",  # Local development frontend
-            "http://localhost:3000",  # Alternative local frontend port
-            "https://meta-prompt-generator-frontend.onrender.com",  # Production frontend
-            "https://meta-prompt-generator.onrender.com",  # Alternative production URL
+            "https://small-business-marketing-tool-frontend.onrender.com",  # Production frontend
         ],
         "methods": ["GET", "POST", "OPTIONS"],
         "allow_headers": ["Content-Type", "Authorization"],
@@ -33,6 +39,9 @@ CORS(app, resources={
 
 # Initialize OpenAI client
 openai_client = None
+
+# In-memory session storage (will be replaced with database in future)
+chat_sessions = {}
 
 def initialize_openai():
     """Initialize OpenAI client with API key validation"""
@@ -107,7 +116,7 @@ def health_check():
     """Health check endpoint"""
     return jsonify({
         "status": "healthy",
-        "service": "meta-prompt-generator"
+        "service": "small-business-marketing-tool"
     })
 
 @app.route('/api/generate-template', methods=['POST'])
@@ -322,19 +331,343 @@ def try_prompt():
             "error": "Failed to generate example output"
         }), 500
 
+# ===== CHAT ENDPOINTS =====
+
+@app.route('/api/chat/start', methods=['POST'])
+def chat_start():
+    """Start a new chat session for a business category"""
+    try:
+        if not request.is_json:
+            return jsonify({
+                "success": False,
+                "error": "Request must be JSON"
+            }), 400
+        
+        data = request.get_json()
+        category = data.get('category', '').strip().lower()
+        
+        if not category:
+            return jsonify({
+                "success": False,
+                "error": "Category is required"
+            }), 400
+        
+        # Validate category
+        valid_categories = ['restaurant', 'retail_store', 'professional_services', 'ecommerce', 'local_services']
+        if category not in valid_categories:
+            return jsonify({
+                "success": False,
+                "error": f"Invalid category. Must be one of: {', '.join(valid_categories)}"
+            }), 400
+        
+        # Create new session
+        session_id = str(uuid.uuid4())
+        chat_sessions[session_id] = {
+            "session_id": session_id,
+            "category": category,
+            "answers": {},
+            "conversation": [],
+            "created_at": datetime.now().isoformat(),
+            "current_question_id": None  # Track which question we're currently asking
+        }
+        
+        # Get first question from chat_flows.py
+        first_question_obj = get_next_question(category, {})
+        
+        if not first_question_obj:
+            return jsonify({
+                "success": False,
+                "error": "No questions found for this category"
+            }), 500
+        
+        # Build welcome message with first question
+        welcome_text = f"Hi! I'm here to help you create a marketing plan for your {category.replace('_', ' ')} business. Let's start with a few questions.\n\n{first_question_obj['question']}"
+        if first_question_obj.get('help_text'):
+            welcome_text += f"\n\n💡 {first_question_obj['help_text']}"
+        
+        # Store current question ID
+        chat_sessions[session_id]["current_question_id"] = first_question_obj["id"]
+        
+        # Add welcome message to conversation
+        chat_sessions[session_id]["conversation"].append({
+            "role": "assistant",
+            "content": welcome_text,
+            "timestamp": datetime.now().isoformat(),
+            "question_id": first_question_obj["id"]
+        })
+        
+        first_question = welcome_text
+        
+        logger.info(f"Chat session started: {session_id} for category: {category}")
+        
+        return jsonify({
+            "success": True,
+            "session_id": session_id,
+            "first_question": first_question,
+            "conversation": chat_sessions[session_id]["conversation"]
+        })
+        
+    except Exception as e:
+        logger.error(f"Error starting chat session: {str(e)}")
+        return jsonify({
+            "success": False,
+            "error": "Failed to start chat session"
+        }), 500
+
+@app.route('/api/chat/message', methods=['POST'])
+def chat_message():
+    """Handle ongoing conversation messages"""
+    try:
+        if not request.is_json:
+            return jsonify({
+                "success": False,
+                "error": "Request must be JSON"
+            }), 400
+        
+        data = request.get_json()
+        session_id = data.get('session_id', '').strip()
+        user_message = data.get('user_message', '').strip()
+        
+        if not session_id:
+            return jsonify({
+                "success": False,
+                "error": "Session ID is required"
+            }), 400
+        
+        if not user_message:
+            return jsonify({
+                "success": False,
+                "error": "User message is required"
+            }), 400
+        
+        # Validate message length (prevent extremely long messages)
+        if len(user_message) > 5000:
+            return jsonify({
+                "success": False,
+                "error": "Message is too long. Please keep responses under 5000 characters."
+            }), 400
+        
+        # Check if session exists
+        if session_id not in chat_sessions:
+            return jsonify({
+                "success": False,
+                "error": "Session not found. Your session may have expired. Please start a new chat."
+            }), 404
+        
+        session = chat_sessions[session_id]
+        
+        # Get current question ID
+        current_question_id = session.get("current_question_id")
+        
+        if not current_question_id:
+            return jsonify({
+                "success": False,
+                "error": "No active question. Please start a new session."
+            }), 400
+        
+        # Extract and store the answer
+        # Get the question object to help with extraction
+        from chat_flows import get_all_questions
+        all_questions = get_all_questions(session["category"])
+        current_question = next((q for q in all_questions if q["id"] == current_question_id), None)
+        
+        if current_question:
+            # Extract answer from message
+            answer = extract_answer_from_message(user_message, current_question)
+            session["answers"][current_question_id] = answer
+        
+        # Add user message to conversation
+        session["conversation"].append({
+            "role": "user",
+            "content": user_message,
+            "timestamp": datetime.now().isoformat(),
+            "question_id": current_question_id
+        })
+        
+        # Check if flow is complete
+        is_complete = is_flow_complete(session["category"], session["answers"])
+        
+        if is_complete:
+            # All questions answered - prepare completion message
+            ai_response = "Perfect! I have all the information I need. Ready to generate your marketing plan?"
+            session["current_question_id"] = None
+        else:
+            # Get next question
+            next_question = get_next_question(session["category"], session["answers"])
+            
+            if not next_question:
+                # Shouldn't happen if is_flow_complete is working correctly
+                is_complete = True
+                ai_response = "Perfect! I have all the information I need. Ready to generate your marketing plan?"
+                session["current_question_id"] = None
+            else:
+                # Build next question message
+                ai_response = next_question["question"]
+                if next_question.get("help_text"):
+                    ai_response += f"\n\n💡 {next_question['help_text']}"
+                
+                # Store current question ID
+                session["current_question_id"] = next_question["id"]
+        
+        # Add AI response to conversation
+        session["conversation"].append({
+            "role": "assistant",
+            "content": ai_response,
+            "timestamp": datetime.now().isoformat(),
+            "question_id": session.get("current_question_id")
+        })
+        
+        logger.info(f"Chat message processed for session: {session_id}. Questions answered: {len(session['answers'])}. Complete: {is_complete}")
+        
+        return jsonify({
+            "success": True,
+            "ai_response": ai_response,
+            "is_complete": is_complete,
+            "conversation": session["conversation"],
+            "questions_answered": len(session["answers"])
+        })
+        
+    except Exception as e:
+        logger.error(f"Error processing chat message: {str(e)}")
+        return jsonify({
+            "success": False,
+            "error": "An unexpected error occurred"
+        }), 500
+
+@app.route('/api/chat/generate-plan', methods=['POST'])
+def chat_generate_plan():
+    """Generate final marketing plan based on collected answers"""
+    try:
+        if not request.is_json:
+            return jsonify({
+                "success": False,
+                "error": "Request must be JSON"
+            }), 400
+        
+        data = request.get_json()
+        session_id = data.get('session_id', '').strip()
+        
+        if not session_id:
+            return jsonify({
+                "success": False,
+                "error": "Session ID is required"
+            }), 400
+        
+        # Check if session exists
+        if session_id not in chat_sessions:
+            return jsonify({
+                "success": False,
+                "error": "Session not found. Your session may have expired. Please start a new chat."
+            }), 404
+        
+        session = chat_sessions[session_id]
+        
+        if not openai_client:
+            return jsonify({
+                "success": False,
+                "error": "OpenAI client not initialized"
+            }), 500
+        
+        # Check if all required questions are answered
+        if not is_flow_complete(session["category"], session["answers"]):
+            return jsonify({
+                "success": False,
+                "error": "Please answer all questions before generating the plan"
+            }), 400
+        
+        # Use chat_flows.py to generate structured marketing plan prompt
+        marketing_plan_prompt = generate_marketing_plan_prompt(
+            session["category"],
+            session["answers"]
+        )
+        
+        try:
+            response = openai_client.chat.completions.create(
+                model="gpt-4o",
+                messages=[
+                    {
+                        "role": "user",
+                        "content": marketing_plan_prompt
+                    }
+                ],
+                temperature=0.7,
+                max_tokens=2000
+            )
+            
+            marketing_plan = response.choices[0].message.content
+            tokens_used = response.usage.total_tokens if response.usage else 0
+            
+            logger.info(f"Marketing plan generated for session: {session_id}. Tokens used: {tokens_used}")
+            
+            return jsonify({
+                "success": True,
+                "marketing_plan": marketing_plan,
+                "metadata": {
+                    "model": "gpt-4o",
+                    "tokens_used": tokens_used,
+                    "category": session["category"]
+                }
+            })
+            
+        except Exception as e:
+            logger.error(f"OpenAI API call failed: {str(e)}")
+            return jsonify({
+                "success": False,
+                "error": "Failed to generate marketing plan. Please try again."
+            }), 500
+        
+    except Exception as e:
+        logger.error(f"Error generating marketing plan: {str(e)}")
+        return jsonify({
+            "success": False,
+            "error": "An unexpected error occurred"
+        }), 500
+
+@app.route('/api/chat/session/<session_id>', methods=['GET'])
+def get_chat_session(session_id):
+    """Get conversation history for a session"""
+    try:
+        if not session_id:
+            return jsonify({
+                "success": False,
+                "error": "Session ID is required"
+            }), 400
+        
+        # Check if session exists
+        if session_id not in chat_sessions:
+            return jsonify({
+                "success": False,
+                "error": "Session not found. Your session may have expired. Please start a new chat."
+            }), 404
+        
+        session = chat_sessions[session_id]
+        
+        return jsonify({
+            "success": True,
+            "session": {
+                "session_id": session["session_id"],
+                "category": session["category"],
+                "conversation": session["conversation"],
+                "answers": session["answers"],
+                "created_at": session["created_at"]
+            }
+        })
+        
+    except Exception as e:
+        logger.error(f"Error retrieving chat session: {str(e)}")
+        return jsonify({
+            "success": False,
+            "error": "An unexpected error occurred"
+        }), 500
+
 if __name__ == '__main__':
     # Initialize OpenAI client on startup
     if not initialize_openai():
         logger.error("Failed to initialize OpenAI client. Check your API key.")
         exit(1)
     
-    # Load and validate meta-prompt template
-    if not load_meta_prompt():
-        logger.error("Failed to load meta-prompt template. Check file path.")
-        exit(1)
-    
-    # Get port from environment or default to 5000
-    port = int(os.getenv('PORT', 5000))
+    # Get port from environment or default to 5001 (5000 often used by AirPlay on macOS)
+    port = int(os.getenv('PORT', 5001))
     
     logger.info(f"Starting Flask app on port {port}")
     app.run(host='0.0.0.0', port=port, debug=os.getenv('FLASK_ENV') == 'development')

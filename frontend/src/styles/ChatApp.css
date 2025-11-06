@@ -1,0 +1,239 @@
+/* Chat Interface Styles - Using Chatscope UI Kit */
+
+.chat-interface-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  background: var(--primary-gradient);
+  animation: fadeInUp 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.chat-interface-header {
+  text-align: center;
+  padding: 1.5rem 2rem;
+  color: white;
+  margin-bottom: 1rem;
+}
+
+.chat-interface-header h2 {
+  font-size: 1.75rem;
+  font-weight: 600;
+  margin: 0 0 0.5rem 0;
+  color: #ffffff;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.chat-subtitle {
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.95);
+  margin: 0;
+}
+
+/* Chatscope Main Container Customization */
+.chatscope-main-container {
+  max-width: 800px;
+  width: 100%;
+  height: calc(100vh - 200px);
+  max-height: 700px;
+  margin: 0 auto;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-xl);
+  overflow: hidden;
+}
+
+.chatscope-chat-container {
+  height: 100%;
+}
+
+/* Customize Chatscope components to match our theme */
+.chatscope-main-container .cs-conversation-header {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+/* Customize message bubbles to use our gradient */
+.chatscope-main-container .cs-message__content {
+  border-radius: var(--border-radius);
+  animation: messageSlideIn 0.3s ease-out;
+}
+
+@keyframes messageSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.chatscope-main-container .cs-message--outgoing .cs-message__content {
+  background: var(--primary-gradient) !important;
+  color: white !important;
+}
+
+.chatscope-main-container .cs-message--incoming .cs-message__content {
+  background: #f5f5f5 !important;
+  color: #333 !important;
+}
+
+/* Customize input area */
+.chatscope-main-container .cs-message-input {
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.98);
+}
+
+.chatscope-main-container .cs-message-input__content-editor {
+  border-radius: var(--border-radius);
+  border: 2px solid rgba(0, 0, 0, 0.1);
+}
+
+.chatscope-main-container .cs-message-input__content-editor:focus {
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.chatscope-main-container .cs-message-input__send-button {
+  background: var(--primary-gradient) !important;
+  border-radius: 50% !important;
+}
+
+.chatscope-main-container .cs-message-input__send-button:hover {
+  transform: scale(1.05);
+  box-shadow: var(--shadow-md);
+}
+
+/* Error Message */
+.chat-error-message {
+  padding: 1rem 2rem;
+  background: var(--error-bg);
+  border: 1px solid var(--error-border);
+  border-radius: var(--border-radius-sm);
+  margin: 1rem 2rem;
+  color: var(--error-color);
+}
+
+.chat-error-message p {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+/* Generate Plan Button */
+.chat-actions {
+  padding: 1.5rem 2rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.98);
+  text-align: center;
+}
+
+.generate-plan-button {
+  padding: 1rem 2.5rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: var(--border-radius);
+  background: var(--primary-gradient);
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: var(--shadow-md);
+  position: relative;
+  overflow: hidden;
+}
+
+.generate-plan-button::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  transform: translate(-50%, -50%);
+  transition: width 0.4s, height 0.4s;
+}
+
+.generate-plan-button:hover:not(:disabled)::before {
+  width: 400px;
+  height: 400px;
+}
+
+.generate-plan-button:hover:not(:disabled) {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: var(--shadow-lg);
+}
+
+.generate-plan-button:active:not(:disabled) {
+  transform: translateY(-1px) scale(1);
+}
+
+.generate-plan-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .chat-interface-wrapper {
+    padding: 0.5rem;
+  }
+
+  .chat-interface-header {
+    padding: 1rem 1.5rem;
+  }
+
+  .chat-interface-header h2 {
+    font-size: 1.5rem;
+  }
+
+  .chatscope-main-container {
+    height: calc(100vh - 150px);
+    border-radius: var(--border-radius-sm);
+  }
+
+  .chat-actions {
+    padding: 1rem 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .chatscope-main-container {
+    height: 100vh;
+    border-radius: 0;
+    max-height: none;
+  }
+
+  .chat-interface-header h2 {
+    font-size: 1.25rem;
+  }
+
+  .chat-subtitle {
+    font-size: 0.875rem;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .generate-plan-button {
+    transition: none;
+  }
+
+  .chatscope-main-container .cs-message-input__send-button {
+    transition: none;
+  }
+}

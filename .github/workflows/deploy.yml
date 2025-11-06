@@ -1,0 +1,21 @@
+name: Deploy to Render
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Deploy to Render
+        run: |
+          echo "Render auto-deploys on push to main branch"
+          echo "No additional GitHub Actions needed if using Render's auto-deploy"
+          echo "Ensure render.yaml is configured correctly"
+
