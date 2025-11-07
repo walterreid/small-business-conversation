@@ -1,0 +1,163 @@
+{
+  "category": "increase_sales",
+  "version": "1.0.0",
+  "meta_prompt_version": "v1.0",
+  "anti_patterns": [
+    "Common Pattern 1: Overly broad advice without actionable steps.",
+    "Common Pattern 2: Focus on expensive marketing strategies not suitable for small budgets.",
+    "Common Pattern 3: Advice that requires extensive expertise or technical skills."
+  ],
+  "prompt_template": "Role: Act as a small business sales strategist helping {{businessOwnerName}} increase sales and convert prospects into paying customers using practical, low-budget tactics.\n\nIntent: {{userIntent}}\nHelp {{businessOwnerName}} boost sales and revenue quickly by converting more prospects into customers with simple, actionable strategies.\n\nApproach: Provide a step-by-step plan with quick wins, iterate based on feedback, and refine strategies to suit the specific business context.\n\nVariables:\n- {{businessOwnerName}}: The person seeking help\n- {{businessType}}: Type of small business\n- {{currentChallenges}}: Current obstacles to increasing sales\n- {{targetAudience}}: Who the business is trying to reach\n- {{salesGoals}}: Specific sales targets or revenue goals\n- {{budgetConstraints}}: Financial limits for the strategies\n- {{marketingExperience}}: Level of marketing expertise\n- {{preferredChannels}}: Preferred sales and marketing channels\n- {{avoidPatterns}}: What strategies to avoid\n- {{successMetrics}}: How success will be measured\n\nConstraints:\n- Avoid {{avoidPatterns}}\n- Stick to a budget of {{budgetConstraints}}\n- Match strategies to {{marketingExperience}} level\n- Focus on {{preferredChannels}}\n\nOutput guidance: Provide a concise action plan with specific tactics and timelines.\n\nSuccess conditions: Task is complete when {{businessOwnerName}} has a clear, actionable plan that fits their budget and experience, and starts seeing measurable improvements in sales.",
+  "questions": [
+    {
+      "id": "businessOwnerName",
+      "question": "Your name:",
+      "type": "text",
+      "placeholder": "Jamie",
+      "why_matters": "Personalizes the advice, ensuring it",
+      "required": true
+    },
+    {
+      "id": "businessType",
+      "question": "What type of business do you run?",
+      "type": "text",
+      "placeholder": "Coffee shop, online retail, freelance graphic design",
+      "why_matters": "Contextualizes the strategies to fit the specific business model.",
+      "required": true
+    },
+    {
+      "id": "currentChallenges",
+      "question": "What challenges are you currently facing in increasing sales?",
+      "type": "textarea",
+      "placeholder": "Low foot traffic, high competition, limited online presence",
+      "why_matters": "Identifies the primary obstacles to address.",
+      "required": true
+    },
+    {
+      "id": "targetAudience",
+      "question": "Who are you trying to reach with your products/services?",
+      "type": "textarea",
+      "placeholder": "Local college students, young professionals, parents with young children",
+      "why_matters": "Ensures strategies are tailored to the right audience.",
+      "required": true
+    },
+    {
+      "id": "salesGoals",
+      "question": "What are your specific sales targets or revenue goals?",
+      "type": "text",
+      "placeholder": "$5000/month, 20% increase in customer base",
+      "why_matters": "Provides clear objectives to aim for.",
+      "required": true
+    },
+    {
+      "id": "budgetConstraints",
+      "question": "What is your budget for implementing sales strategies?",
+      "type": "text",
+      "placeholder": "$500, $1000, minimal budget",
+      "why_matters": "Ensures strategies are financially feasible.",
+      "required": true
+    },
+    {
+      "id": "marketingExperience",
+      "question": "What is your level of marketing expertise?",
+      "type": "select",
+      "options": [
+        "Beginner",
+        "Intermediate",
+        "Advanced"
+      ],
+      "why_matters": "Matches the complexity of strategies to the user",
+      "required": true
+    },
+    {
+      "id": "preferredChannels",
+      "question": "Which sales and marketing channels do you prefer?",
+      "type": "textarea",
+      "placeholder": "Social media, email marketing, in-store promotions",
+      "why_matters": "Focuses efforts on channels the user is comfortable with.",
+      "required": true
+    },
+    {
+      "id": "avoidPatterns",
+      "question": "What strategies should be avoided?",
+      "type": "textarea",
+      "placeholder": "Expensive ad campaigns, overly technical solutions",
+      "why_matters": "Steers clear of ineffective or unsustainable approaches.",
+      "required": true
+    },
+    {
+      "id": "successMetrics",
+      "question": "How will you measure the success of these strategies?",
+      "type": "textarea",
+      "placeholder": "Increased foot traffic, higher conversion rates, customer feedback",
+      "why_matters": "Defines clear criteria for evaluating progress and adjusting tactics.",
+      "required": true
+    }
+  ],
+  "opening_dialog": "Hi! I'm here to help you with your increase sales business. Let's get started.",
+  "generated_at": "2025-11-06T11:54:04.591736",
+  "generated_by": "generate_templates.py",
+  "smb_insights": {
+    "budget_ranges": [
+      "Under $500",
+      "$500-1000",
+      "$1000-2500",
+      "$2500-5000",
+      "$5000+"
+    ],
+    "pain_points": [
+      "Limited time for marketing",
+      "Don't know where to start",
+      "Wasted money on ineffective ads",
+      "Can't track ROI",
+      "Competing with bigger businesses"
+    ],
+    "effective_channels": [
+      "Google Business Profile (free)",
+      "Instagram organic",
+      "Local SEO",
+      "Email marketing",
+      "Facebook ads (if budget allows)",
+      "Word of mouth referrals"
+    ],
+    "budget_allocations": {
+      "Under $500": {
+        "focus": "Free and low-cost channels",
+        "channels": [
+          "Google Business Profile",
+          "Social media organic",
+          "Email marketing"
+        ]
+      },
+      "$500-1000": {
+        "focus": "Mix of free and paid",
+        "channels": [
+          "Google Ads (limited)",
+          "Social media ads",
+          "Email marketing"
+        ]
+      },
+      "$1000-2500": {
+        "focus": "Balanced paid and organic",
+        "channels": [
+          "Google Ads",
+          "Social media ads",
+          "Email marketing",
+          "Content marketing"
+        ]
+      },
+      "$2500+": {
+        "focus": "Multi-channel strategy",
+        "channels": [
+          "Google Ads",
+          "Social media ads",
+          "Email marketing",
+          "Content marketing",
+          "Retargeting"
+        ]
+      }
+    },
+    "source": "defaults",
+    "note": "pandas not installed, using hardcoded defaults"
+  }
+}

@@ -1,0 +1,160 @@
+{
+  "category": "launch_new_service_product",
+  "version": "1.0.0",
+  "meta_prompt_version": "v1.0",
+  "anti_patterns": [
+    "Common Pattern 1: Overly broad marketing language without actionable details",
+    "Common Pattern 2: Focus on features rather than benefits to early adopters",
+    "Common Pattern 3: Generic \"social media buzz\" strategies without targeted audience engagement",
+    "{{businessName}}: The name of the small business",
+    "{{productServiceName}}: The name of the new product/service",
+    "{{targetAudience}}: The specific audience they want to reach",
+    "{{uniqueSellingPoints}}: What makes the product/service stand out",
+    "{{marketingChannels}}: Preferred platforms or channels for promotion",
+    "{{budgetConstraint}}: Available budget for the launch",
+    "{{desiredOutcome}}: The goal they want to achieve with the launch",
+    "{{launchTimeframe}}: Timeframe for the launch",
+    "Focus on {{uniqueSellingPoints}}",
+    "Utilize {{marketingChannels}} effectively",
+    "Stay within a budget of {{budgetConstraint}}",
+    "Avoid generic strategies like non-targeted social media posts"
+  ],
+  "prompt_template": "Role: Act as a strategic marketing advisor for {{businessName}}, helping to launch a new service/product effectively with a limited budget.\n\nIntent: {{userIntent}}\nHelp {{businessName}} create an impactful launch strategy that generates excitement, attracts early customers, and ensures a successful launch.\n\nApproach: Develop a practical, budget-friendly marketing plan focusing on creating buzz and driving initial sales. Provide actionable steps and tailored strategies.\n\nVariables:\n- {{businessName}}: The name of the small business\n- {{productServiceName}}: The name of the new product/service\n- {{targetAudience}}: The specific audience they want to reach\n- {{uniqueSellingPoints}}: What makes the product/service stand out\n- {{marketingChannels}}: Preferred platforms or channels for promotion\n- {{budgetConstraint}}: Available budget for the launch\n- {{desiredOutcome}}: The goal they want to achieve with the launch\n- {{launchTimeframe}}: Timeframe for the launch\n\nConstraints:\n- Focus on {{uniqueSellingPoints}}\n- Utilize {{marketingChannels}} effectively\n- Stay within a budget of {{budgetConstraint}}\n- Avoid generic strategies like non-targeted social media posts\n\nOutput guidance: Provide a step-by-step launch plan that includes specific actions, timelines, and metrics for success.\n\nSuccess conditions: The plan should be considered successful when it leads to measurable excitement, early customer acquisition, and a positive reception within the {{launchTimeframe}}.\n\n---\n\n### [USER_QUESTIONS]\n\nVariable: {{businessName}}\nQuestion: \"What is the name of your business?\"\nType: text\nPlaceholder: \"Example: GreenTech Innovations\"\nWhy it matters: Personalizes the strategy to the specific business\n\nVariable: {{productServiceName}}\nQuestion: \"What are you launching? (Name of the product/service)\"\nType: text\nPlaceholder: \"Example: Eco-Friendly Water Bottle\"\nWhy it matters: Defines the focus of the launch strategy\n\nVariable: {{targetAudience}}\nQuestion: \"Who is your target audience?\"\nType: textarea\nPlaceholder: \"Example: Environmentally conscious millennials\"\nWhy it matters: Ensures the strategy is tailored to attract the right people\n\nVariable: {{uniqueSellingPoints}}\nQuestion: \"What makes your product/service unique?\"\nType: textarea\nPlaceholder: \"Example: Made from 100% recycled materials, keeps drinks cold for 24 hours\"\nWhy it matters: Highlights differentiators that can be leveraged in marketing\n\nVariable: {{marketingChannels}}\nQuestion: \"Which marketing channels do you plan to use?\"\nType: select\nPlaceholder: \"Social Media | Email Marketing | Influencer Partnerships | Local Events\"\nWhy it matters: Guides the focus of the marketing efforts\n\nVariable: {{budgetConstraint}}\nQuestion: \"What is your budget?\"\nType: text\nPlaceholder: \"Example: $1,000\"\nWhy it matters: Determines the scope of feasible marketing activities\n\nVariable: {{desiredOutcome}}\nQuestion: \"What outcome do you want from this launch?\"\nType: textarea\nPlaceholder: \"Example: Sell 500 units in the first month, gain 1,000 new followers\"\nWhy it matters: Sets clear goals to measure success\n\nVariable: {{launchTimeframe}}\nQuestion: \"What is your launch timeframe?\"\nType: text\nPlaceholder: \"Example: Within the next 3 months\"\nWhy it matters: Establishes a timeline for planning and execution\n\n---\n\nThis system is designed to provide a comprehensive, tailored prompt that addresses the specific needs of launching a new product or service for a small business. By identifying unique selling points, targeting the right audience, and employing a strategic approach, the launch plan focuses on achieving measurable outcomes within budget constraints.",
+  "questions": [
+    {
+      "id": "businessName",
+      "question": "What is the name of your business?",
+      "type": "text",
+      "placeholder": "Example: GreenTech Innovations",
+      "why_matters": "Personalizes the strategy to the specific business",
+      "required": true
+    },
+    {
+      "id": "productServiceName",
+      "question": "What are you launching? (Name of the product/service)",
+      "type": "text",
+      "placeholder": "Example: Eco-Friendly Water Bottle",
+      "why_matters": "Defines the focus of the launch strategy",
+      "required": true
+    },
+    {
+      "id": "targetAudience",
+      "question": "Who is your target audience?",
+      "type": "textarea",
+      "placeholder": "Example: Environmentally conscious millennials",
+      "why_matters": "Ensures the strategy is tailored to attract the right people",
+      "required": true
+    },
+    {
+      "id": "uniqueSellingPoints",
+      "question": "What makes your product/service unique?",
+      "type": "textarea",
+      "placeholder": "Example: Made from 100% recycled materials, keeps drinks cold for 24 hours",
+      "why_matters": "Highlights differentiators that can be leveraged in marketing",
+      "required": true
+    },
+    {
+      "id": "marketingChannels",
+      "question": "Which marketing channels do you plan to use?",
+      "type": "select",
+      "options": [
+        "Social Media",
+        "Email Marketing",
+        "Influencer Partnerships",
+        "Local Events"
+      ],
+      "why_matters": "Guides the focus of the marketing efforts",
+      "required": true
+    },
+    {
+      "id": "budgetConstraint",
+      "question": "What is your budget?",
+      "type": "text",
+      "placeholder": "Example: $1,000",
+      "why_matters": "Determines the scope of feasible marketing activities",
+      "required": true
+    },
+    {
+      "id": "desiredOutcome",
+      "question": "What outcome do you want from this launch?",
+      "type": "textarea",
+      "placeholder": "Example: Sell 500 units in the first month, gain 1,000 new followers",
+      "why_matters": "Sets clear goals to measure success",
+      "required": true
+    },
+    {
+      "id": "launchTimeframe",
+      "question": "What is your launch timeframe?",
+      "type": "text",
+      "placeholder": "Example: Within the next 3 months",
+      "why_matters": "Establishes a timeline for planning and execution\n\n---\n\nThis system is designed to provide a comprehensive, tailored prompt that addresses the specific needs of launching a new product or service for a small business. By identifying unique selling points, targeting the right audience, and employing a strategic approach, the launch plan focuses on achieving measurable outcomes within budget constraints.",
+      "required": true
+    }
+  ],
+  "opening_dialog": "Hi! I'm here to help you with your launch new service product business. Let's get started.",
+  "generated_at": "2025-11-06T11:57:24.945593",
+  "generated_by": "generate_templates.py",
+  "smb_insights": {
+    "budget_ranges": [
+      "Under $500",
+      "$500-1000",
+      "$1000-2500",
+      "$2500-5000",
+      "$5000+"
+    ],
+    "pain_points": [
+      "Limited time for marketing",
+      "Don't know where to start",
+      "Wasted money on ineffective ads",
+      "Can't track ROI",
+      "Competing with bigger businesses"
+    ],
+    "effective_channels": [
+      "Google Business Profile (free)",
+      "Instagram organic",
+      "Local SEO",
+      "Email marketing",
+      "Facebook ads (if budget allows)",
+      "Word of mouth referrals"
+    ],
+    "budget_allocations": {
+      "Under $500": {
+        "focus": "Free and low-cost channels",
+        "channels": [
+          "Google Business Profile",
+          "Social media organic",
+          "Email marketing"
+        ]
+      },
+      "$500-1000": {
+        "focus": "Mix of free and paid",
+        "channels": [
+          "Google Ads (limited)",
+          "Social media ads",
+          "Email marketing"
+        ]
+      },
+      "$1000-2500": {
+        "focus": "Balanced paid and organic",
+        "channels": [
+          "Google Ads",
+          "Social media ads",
+          "Email marketing",
+          "Content marketing"
+        ]
+      },
+      "$2500+": {
+        "focus": "Multi-channel strategy",
+        "channels": [
+          "Google Ads",
+          "Social media ads",
+          "Email marketing",
+          "Content marketing",
+          "Retargeting"
+        ]
+      }
+    },
+    "source": "defaults",
+    "note": "pandas not installed, using hardcoded defaults"
+  }
+}

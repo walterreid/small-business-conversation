@@ -49,10 +49,11 @@ export async function startChatSession(category) {
 /**
  * Send a message in an ongoing chat session
  * @param {string} sessionId - Session ID from startChatSession
- * @param {string} message - User's message/answer
+ * @param {string} message - User's message/answer (optional if form_answers provided)
+ * @param {Object} formAnswers - Form answers from sidebar (optional)
  * @returns {Promise<Object>} API response with ai_response and is_complete
  */
-export async function sendChatMessage(sessionId, message) {
+export async function sendChatMessage(sessionId, message = '', formAnswers = {}) {
   try {
     const url = API_BASE_URL ? `${API_BASE_URL}/api/chat/message` : '/api/chat/message';
     const response = await fetch(url, {
@@ -62,7 +63,8 @@ export async function sendChatMessage(sessionId, message) {
       },
       body: JSON.stringify({
         session_id: sessionId,
-        user_message: message
+        user_message: message,
+        form_answers: formAnswers
       })
     });
 

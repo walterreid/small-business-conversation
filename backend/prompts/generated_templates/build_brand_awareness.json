@@ -1,0 +1,151 @@
+{
+  "category": "build_brand_awareness",
+  "version": "1.0.0",
+  "meta_prompt_version": "v1.0",
+  "anti_patterns": [
+    "Common Pattern 1: Overemphasis on social media presence without unique content",
+    "Common Pattern 2: Relying solely on discounts and promotions to attract attention",
+    "Common Pattern 3: Generic messaging that lacks a clear brand voice or story"
+  ],
+  "prompt_template": "Role: Act as a brand strategist for {{businessName}}, focusing on cost-effective and unique brand awareness strategies.\n\nIntent: {{userIntent}}\nAssist {{businessName}} in building brand awareness that differentiates them from competitors and resonates with their target audience.\n\nApproach: Develop customized strategies, leverage unique brand strengths, and create memorable customer interactions.\n\nVariables:\n- {{businessName}}: Name of the business\n- {{targetAudience}}: Specific audience the business wants to reach\n- {{uniqueSellingPoints}}: What makes the business different\n- {{budgetConstraints}}: Financial limitations for brand-building activities\n- {{currentChallenges}}: Existing challenges in building brand awareness\n- {{desiredOutcome}}: What success looks like for the business\n- {{messagingTone}}: Preferred tone or style for messaging\n- {{avoidPatterns}}: Strategies they want to avoid\n\nConstraints:\n- Avoid {{avoidPatterns}} strategies\n- Work within {{budgetConstraints}}\n- Reinforce {{uniqueSellingPoints}}\n- Target messaging to {{targetAudience}} with {{messagingTone}} tone\n\nOutput guidance: Provide a strategic plan with actionable steps that align with constraints and desired outcomes.\n\nSuccess conditions: {{businessName}} sees an increase in brand recognition and engagement within their target audience.",
+  "questions": [
+    {
+      "id": "businessName",
+      "question": "What is the name of your business?",
+      "type": "text",
+      "placeholder": "ABC Enterprises",
+      "why_matters": "Personalizes the strategy and ensures it aligns with the specific business identity",
+      "required": true
+    },
+    {
+      "id": "targetAudience",
+      "question": "Who is your target audience?",
+      "type": "textarea",
+      "placeholder": "Young professionals, ages 25-35, interested in sustainable products",
+      "why_matters": "Tailors the strategy to engage the most relevant audience",
+      "required": true
+    },
+    {
+      "id": "uniqueSellingPoints",
+      "question": "What makes your business unique?",
+      "type": "textarea",
+      "placeholder": "We use eco-friendly materials and have a strong commitment to community service",
+      "why_matters": "Highlights the business",
+      "required": true
+    },
+    {
+      "id": "budgetConstraints",
+      "question": "What are your budget constraints for brand-building activities?",
+      "type": "select",
+      "options": [
+        "Under $500",
+        "$500-$1000",
+        "$1000-$5000"
+      ],
+      "why_matters": "Ensures strategies are feasible and financially sustainable",
+      "required": true
+    },
+    {
+      "id": "currentChallenges",
+      "question": "What challenges are you currently facing in building brand awareness?",
+      "type": "textarea",
+      "placeholder": "Limited online presence, high competition in the local market",
+      "why_matters": "Identifies obstacles that the strategy needs to address",
+      "required": true
+    },
+    {
+      "id": "desiredOutcome",
+      "question": "What does success look like for your brand awareness efforts?",
+      "type": "textarea",
+      "placeholder": "Increase in website traffic, more social media followers, higher customer engagement",
+      "why_matters": "Defines clear goals and metrics for success",
+      "required": true
+    },
+    {
+      "id": "messagingTone",
+      "question": "What tone or style should your messaging have?",
+      "type": "select",
+      "options": [
+        "Professional and authoritative",
+        "Friendly and approachable",
+        "Fun and quirky"
+      ],
+      "why_matters": "Ensures brand messaging resonates with the intended audience",
+      "required": true
+    },
+    {
+      "id": "avoidPatterns",
+      "question": "What strategies or patterns do you want to avoid?",
+      "type": "textarea",
+      "placeholder": "Avoid heavy discounting, no generic social media posts",
+      "why_matters": "Prevents reliance on ineffective or overused tactics\n```\n\n---\n\n## Stage 2: Template Filling\n\n### Variables to Send\n```javascript\n{",
+      "required": true
+    }
+  ],
+  "opening_dialog": "Hi! I'm here to help you with your build brand awareness business. Let's get started.",
+  "generated_at": "2025-11-06T11:55:03.828719",
+  "generated_by": "generate_templates.py",
+  "smb_insights": {
+    "budget_ranges": [
+      "Under $500",
+      "$500-1000",
+      "$1000-2500",
+      "$2500-5000",
+      "$5000+"
+    ],
+    "pain_points": [
+      "Limited time for marketing",
+      "Don't know where to start",
+      "Wasted money on ineffective ads",
+      "Can't track ROI",
+      "Competing with bigger businesses"
+    ],
+    "effective_channels": [
+      "Google Business Profile (free)",
+      "Instagram organic",
+      "Local SEO",
+      "Email marketing",
+      "Facebook ads (if budget allows)",
+      "Word of mouth referrals"
+    ],
+    "budget_allocations": {
+      "Under $500": {
+        "focus": "Free and low-cost channels",
+        "channels": [
+          "Google Business Profile",
+          "Social media organic",
+          "Email marketing"
+        ]
+      },
+      "$500-1000": {
+        "focus": "Mix of free and paid",
+        "channels": [
+          "Google Ads (limited)",
+          "Social media ads",
+          "Email marketing"
+        ]
+      },
+      "$1000-2500": {
+        "focus": "Balanced paid and organic",
+        "channels": [
+          "Google Ads",
+          "Social media ads",
+          "Email marketing",
+          "Content marketing"
+        ]
+      },
+      "$2500+": {
+        "focus": "Multi-channel strategy",
+        "channels": [
+          "Google Ads",
+          "Social media ads",
+          "Email marketing",
+          "Content marketing",
+          "Retargeting"
+        ]
+      }
+    },
+    "source": "defaults",
+    "note": "pandas not installed, using hardcoded defaults"
+  }
+}

@@ -1,0 +1,186 @@
+{
+  "category": "drive_foot_traffic",
+  "version": "1.0.0",
+  "meta_prompt_version": "v1.0",
+  "anti_patterns": [
+    "Common Pattern 1: Over-reliance on discounts or promotions without considering community engagement",
+    "Common Pattern 2: Generic social media posts without local or personalized content",
+    "Common Pattern 3: Solely focusing on foot traffic without considering customer retention strategies",
+    "{{businessOwnerName}}: The person seeking advice",
+    "{{businessType}}: Type of business (e.g., store, restaurant, office)",
+    "{{localCommunity}}: Description of the local area/community",
+    "{{targetAudience}}: Specific customer demographics",
+    "{{currentStrategies}}: Existing marketing strategies",
+    "{{uniqueSellingPoints}}: What makes the business unique",
+    "{{localEvents}}: Relevant local events or holidays",
+    "{{budgetConstraints}}: Budget limitations for marketing",
+    "{{successMetrics}}: How success will be measured",
+    "Avoid generic promotions like blanket discounts",
+    "Focus on {{localCommunity}} specifics",
+    "Utilize {{localEvents}} to drive engagement",
+    "Stay within {{budgetConstraints}}",
+    "John's Cafe: The person seeking advice",
+    "restaurant: Type of business",
+    "Small town with a strong sense of community, known for its annual summer festival: Description of the local area/community",
+    "Young families, college students, retirees: Specific customer demographics",
+    "Social media ads, local newspaper advertising, occasional discounts: Existing marketing strategies",
+    "Organic ingredients, locally sourced products, family-friendly atmosphere: What makes the business unique",
+    "Annual town fair, local farmers' market: Relevant local events or holidays",
+    "Low budget: Budget limitations for marketing",
+    "Increased foot traffic by 20%, higher sales during weekends: How success will be measured",
+    "Avoid generic promotions like blanket discounts",
+    "Focus on Small town with a strong sense of community, known for its annual summer festival specifics",
+    "Utilize Annual town fair, local farmers' market to drive engagement",
+    "Stay within Low budget"
+  ],
+  "prompt_template": "Role: Act as a local marketing strategist helping {{businessOwnerName}} increase foot traffic to their {{businessType}} using creative, location-specific tactics.\n\nIntent: {{userIntent}}\nHelp {{businessOwnerName}} develop targeted marketing strategies that attract more local customers to their {{businessType}}.\n\nApproach: Generate a list of creative and practical marketing ideas, focus on community engagement, partnerships, and leveraging local events. Avoid generic promotions and aim for strategies that build long-term relationships.\n\nVariables:\n- {{businessOwnerName}}: The person seeking advice\n- {{businessType}}: Type of business (e.g., store, restaurant, office)\n- {{localCommunity}}: Description of the local area/community\n- {{targetAudience}}: Specific customer demographics\n- {{currentStrategies}}: Existing marketing strategies\n- {{uniqueSellingPoints}}: What makes the business unique\n- {{localEvents}}: Relevant local events or holidays\n- {{budgetConstraints}}: Budget limitations for marketing\n- {{successMetrics}}: How success will be measured\n\nConstraints:\n- Avoid generic promotions like blanket discounts\n- Focus on {{localCommunity}} specifics\n- Utilize {{localEvents}} to drive engagement\n- Stay within {{budgetConstraints}}\n\nOutput guidance: Provide a list of actionable marketing strategies tailored to {{businessType}} and {{localCommunity}}.\n\nSuccess conditions: Task is complete when {{businessOwnerName}} has a set of actionable, creative marketing strategies that are feasible within their means and show potential for increased foot traffic.\n\n### [USER_QUESTIONS]\n\nVariable: {{businessOwnerName}}\nQuestion: \"Your name or business name:\"\nType: text\nPlaceholder: \"John's Cafe\"\nWhy it matters: Personalizes the strategy and ensures it is tailored to your specific business\n\nVariable: {{businessType}}\nQuestion: \"Type of business:\"\nType: select\nPlaceholder: \"Store | Restaurant | Office | Other\"\nWhy it matters: Different business types require different marketing approaches\n\nVariable: {{localCommunity}}\nQuestion: \"Describe your local community or area:\"\nType: textarea\nPlaceholder: \"Small town with a strong sense of community, known for its annual summer festival\"\nWhy it matters: Understanding the community helps tailor strategies that resonate locally\n\nVariable: {{targetAudience}}\nQuestion: \"Who is your target audience?\"\nType: textarea\nPlaceholder: \"Young families, college students, retirees\"\nWhy it matters: Identifying the audience allows for targeted marketing efforts\n\nVariable: {{currentStrategies}}\nQuestion: \"What marketing strategies are you currently using?\"\nType: textarea\nPlaceholder: \"Social media ads, local newspaper advertising, occasional discounts\"\nWhy it matters: Understanding existing strategies helps avoid redundancy and identify gaps\n\nVariable: {{uniqueSellingPoints}}\nQuestion: \"What makes your business unique?\"\nType: textarea\nPlaceholder: \"Organic ingredients, locally sourced products, family-friendly atmosphere\"\nWhy it matters: Highlighting unique aspects can attract customers seeking something specific\n\nVariable: {{localEvents}}\nQuestion: \"Are there any local events or holidays you can leverage?\"\nType: textarea\nPlaceholder: \"Annual town fair, local farmers' market\"\nWhy it matters: Leveraging local events can increase visibility and engagement\n\nVariable: {{budgetConstraints}}\nQuestion: \"What are your budget constraints for marketing?\"\nType: select\nPlaceholder: \"Low budget | Moderate budget | High budget\"\nWhy it matters: Ensures strategies are feasible within financial limits\n\nVariable: {{successMetrics}}\nQuestion: \"How will you measure success?\"\nType: textarea\nPlaceholder: \"Increased foot traffic by 20%, higher sales during weekends\"\nWhy it matters: Clear metrics allow for evaluation of strategy effectiveness\n\n## Stage 2: Template Filling\n\n### Example Output\n\nGiven the template from Stage 1 and provided user answers, the final filled prompt will be:\n\n```\nRole: Act as a local marketing strategist helping John's Cafe increase foot traffic to their restaurant using creative, location-specific tactics.\n\nIntent: Help John's Cafe develop targeted marketing strategies that attract more local customers to their restaurant.\n\nApproach: Generate a list of creative and practical marketing ideas, focus on community engagement, partnerships, and leveraging local events. Avoid generic promotions and aim for strategies that build long-term relationships.\n\nVariables:\n- John's Cafe: The person seeking advice\n- restaurant: Type of business\n- Small town with a strong sense of community, known for its annual summer festival: Description of the local area/community\n- Young families, college students, retirees: Specific customer demographics\n- Social media ads, local newspaper advertising, occasional discounts: Existing marketing strategies\n- Organic ingredients, locally sourced products, family-friendly atmosphere: What makes the business unique\n- Annual town fair, local farmers' market: Relevant local events or holidays\n- Low budget: Budget limitations for marketing\n- Increased foot traffic by 20%, higher sales during weekends: How success will be measured\n\nConstraints:\n- Avoid generic promotions like blanket discounts\n- Focus on Small town with a strong sense of community, known for its annual summer festival specifics\n- Utilize Annual town fair, local farmers' market to drive engagement\n- Stay within Low budget\n\nOutput guidance: Provide a list of actionable marketing strategies tailored to restaurant and Small town with a strong sense of community, known for its annual summer festival.\n\nSuccess conditions: Task is complete when John's Cafe has a set of actionable, creative marketing strategies that are feasible within their means and show potential for increased foot traffic.\n```\n\nThis filled prompt is ready to be used with any AI system to generate specific and practical marketing strategies.",
+  "questions": [
+    {
+      "id": "businessOwnerName",
+      "question": "Your name or business name:",
+      "type": "text",
+      "placeholder": "John",
+      "why_matters": "Personalizes the strategy and ensures it is tailored to your specific business",
+      "required": true
+    },
+    {
+      "id": "businessType",
+      "question": "Type of business:",
+      "type": "select",
+      "options": [
+        "Store",
+        "Restaurant",
+        "Office",
+        "Other"
+      ],
+      "why_matters": "Different business types require different marketing approaches",
+      "required": true
+    },
+    {
+      "id": "localCommunity",
+      "question": "Describe your local community or area:",
+      "type": "textarea",
+      "placeholder": "Small town with a strong sense of community, known for its annual summer festival",
+      "why_matters": "Understanding the community helps tailor strategies that resonate locally",
+      "required": true
+    },
+    {
+      "id": "targetAudience",
+      "question": "Who is your target audience?",
+      "type": "textarea",
+      "placeholder": "Young families, college students, retirees",
+      "why_matters": "Identifying the audience allows for targeted marketing efforts",
+      "required": true
+    },
+    {
+      "id": "currentStrategies",
+      "question": "What marketing strategies are you currently using?",
+      "type": "textarea",
+      "placeholder": "Social media ads, local newspaper advertising, occasional discounts",
+      "why_matters": "Understanding existing strategies helps avoid redundancy and identify gaps",
+      "required": true
+    },
+    {
+      "id": "uniqueSellingPoints",
+      "question": "What makes your business unique?",
+      "type": "textarea",
+      "placeholder": "Organic ingredients, locally sourced products, family-friendly atmosphere",
+      "why_matters": "Highlighting unique aspects can attract customers seeking something specific",
+      "required": true
+    },
+    {
+      "id": "localEvents",
+      "question": "Are there any local events or holidays you can leverage?",
+      "type": "textarea",
+      "placeholder": "Annual town fair, local farmers",
+      "why_matters": "Leveraging local events can increase visibility and engagement",
+      "required": true
+    },
+    {
+      "id": "budgetConstraints",
+      "question": "What are your budget constraints for marketing?",
+      "type": "select",
+      "options": [
+        "Low budget",
+        "Moderate budget",
+        "High budget"
+      ],
+      "why_matters": "Ensures strategies are feasible within financial limits",
+      "required": true
+    },
+    {
+      "id": "successMetrics",
+      "question": "How will you measure success?",
+      "type": "textarea",
+      "placeholder": "Increased foot traffic by 20%, higher sales during weekends",
+      "why_matters": "Clear metrics allow for evaluation of strategy effectiveness\n\n## Stage 2: Template Filling\n\n### Example Output\n\nGiven the template from Stage 1 and provided user answers, the final filled prompt will be:\n\n```\nRole: Act as a local marketing strategist helping John",
+      "required": true
+    }
+  ],
+  "opening_dialog": "Hi! I'm here to help you with your drive foot traffic business. Let's get started.",
+  "generated_at": "2025-11-06T11:56:19.966823",
+  "generated_by": "generate_templates.py",
+  "smb_insights": {
+    "budget_ranges": [
+      "Under $500",
+      "$500-1000",
+      "$1000-2500",
+      "$2500-5000",
+      "$5000+"
+    ],
+    "pain_points": [
+      "Limited time for marketing",
+      "Don't know where to start",
+      "Wasted money on ineffective ads",
+      "Can't track ROI",
+      "Competing with bigger businesses"
+    ],
+    "effective_channels": [
+      "Google Business Profile (free)",
+      "Instagram organic",
+      "Local SEO",
+      "Email marketing",
+      "Facebook ads (if budget allows)",
+      "Word of mouth referrals"
+    ],
+    "budget_allocations": {
+      "Under $500": {
+        "focus": "Free and low-cost channels",
+        "channels": [
+          "Google Business Profile",
+          "Social media organic",
+          "Email marketing"
+        ]
+      },
+      "$500-1000": {
+        "focus": "Mix of free and paid",
+        "channels": [
+          "Google Ads (limited)",
+          "Social media ads",
+          "Email marketing"
+        ]
+      },
+      "$1000-2500": {
+        "focus": "Balanced paid and organic",
+        "channels": [
+          "Google Ads",
+          "Social media ads",
+          "Email marketing",
+          "Content marketing"
+        ]
+      },
+      "$2500+": {
+        "focus": "Multi-channel strategy",
+        "channels": [
+          "Google Ads",
+          "Social media ads",
+          "Email marketing",
+          "Content marketing",
+          "Retargeting"
+        ]
+      }
+    },
+    "source": "defaults",
+    "note": "pandas not installed, using hardcoded defaults"
+  }
+}

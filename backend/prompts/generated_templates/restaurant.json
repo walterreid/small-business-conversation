@@ -1,0 +1,31 @@
+{
+  "category": "restaurant",
+  "version": "1.0.0",
+  "meta_prompt_version": "v1.0",
+  "generated_at": "2025-11-06T11:40:01.857665",
+  "generated_by": "generate_templates.py (mock mode)",
+  "opening_dialog": "Hi! I'm here to help you with your restaurant business. Let's get started.",
+  "anti_patterns": [
+    "Mock anti-pattern 1 for restaurant",
+    "Mock anti-pattern 2 for restaurant"
+  ],
+  "prompt_template": "Role: Marketing strategist for restaurant\n\nIntent: Help user with I need marketing help for my restaurant. I want to attract more local diners, increase takeout/delivery orders, and build a loyal customer base who comes back regularly.\n\nVariables:\n- {business_name}: Business name\n- {target_audience}: Target audience",
+  "questions": [
+    {
+      "id": "business_name",
+      "question": "What's your restaurant business name?",
+      "type": "text",
+      "placeholder": "e.g., Example Restaurant",
+      "required": true,
+      "why_matters": "Personalizes recommendations"
+    },
+    {
+      "id": "target_audience",
+      "question": "Who are your ideal customers?",
+      "type": "textarea",
+      "placeholder": "Describe your target audience",
+      "required": true,
+      "why_matters": "Helps tailor marketing strategies"
+    }
+  ]
+}

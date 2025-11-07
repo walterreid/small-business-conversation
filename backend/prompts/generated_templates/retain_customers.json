@@ -1,0 +1,139 @@
+{
+  "category": "retain_customers",
+  "version": "1.0.0",
+  "meta_prompt_version": "v1.0",
+  "anti_patterns": [
+    "Common Pattern 1: Relying solely on discounts or promotions to drive loyalty",
+    "Common Pattern 2: Using generic loyalty programs without personalization",
+    "Common Pattern 3: Focusing on acquisition rather than retention tactics"
+  ],
+  "prompt_template": "Role: Act as a customer retention strategist helping {{businessName}} enhance customer loyalty and reduce churn. Effective retention strategies are relationship-focused and cost-effective.\n\nIntent: {{userIntent}}\nHelp {{businessName}} develop personalized customer retention strategies that increase loyalty and reduce churn without significant expenditure.\n\nApproach: Identify specific customer segments, tailor engagement tactics, iterate on feedback, and refine strategies to ensure alignment with customer needs and preferences.\n\nVariables:\n- {{businessName}}: The name of the business\n- {{customerSegments}}: Key segments to focus on\n- {{currentChallenges}}: Existing challenges in retaining customers\n- {{engagementTactics}}: Proposed tactics to engage customers\n- {{budgetConstraints}}: Budget limitations\n- {{successMetrics}}: How success is measured\n- {{avoidPatterns}}: Common practices to avoid\n\nConstraints:\n- Stay within {{budgetConstraints}}\n- Tailor tactics to {{customerSegments}}\n- Avoid {{avoidPatterns}}\n- Focus on measurable {{successMetrics}}\n\nOutput guidance: Provide a detailed plan outlining specific strategies and tactics, including an execution timeline and key performance indicators.\n\nSuccess conditions: Task is complete when a clear, actionable retention plan is developed that aligns with {{businessName}}'s goals and budget.",
+  "questions": [
+    {
+      "id": "businessName",
+      "question": "What is the name of your business?",
+      "type": "text",
+      "placeholder": "Acme Corp",
+      "why_matters": "Personalizes the strategy to your specific business",
+      "required": true
+    },
+    {
+      "id": "customerSegments",
+      "question": "Who are your key customer segments?",
+      "type": "textarea",
+      "placeholder": "Frequent buyers, occasional shoppers, high-value clients",
+      "why_matters": "Focuses strategies on the most impactful groups",
+      "required": true
+    },
+    {
+      "id": "currentChallenges",
+      "question": "What challenges do you currently face in retaining customers?",
+      "type": "textarea",
+      "placeholder": "High churn rate among new users, low engagement with loyalty program",
+      "why_matters": "Addresses specific issues to improve retention",
+      "required": true
+    },
+    {
+      "id": "engagementTactics",
+      "question": "What tactics do you currently use to engage customers?",
+      "type": "textarea",
+      "placeholder": "Email newsletters, loyalty points, special events",
+      "why_matters": "Builds on existing efforts to enhance effectiveness",
+      "required": true
+    },
+    {
+      "id": "budgetConstraints",
+      "question": "What is your budget for retention strategies?",
+      "type": "select",
+      "options": [
+        "Limited",
+        "Moderate",
+        "Flexible"
+      ],
+      "why_matters": "Ensures strategies are feasible within financial limits",
+      "required": true
+    },
+    {
+      "id": "successMetrics",
+      "question": "How will you measure the success of these strategies?",
+      "type": "textarea",
+      "placeholder": "Reduced churn rate, increased repeat purchases, customer feedback",
+      "why_matters": "Provides clear goals and measurable outcomes",
+      "required": true
+    },
+    {
+      "id": "avoidPatterns",
+      "question": "What common retention practices do you want to avoid?",
+      "type": "textarea",
+      "placeholder": "Over-reliance on discounts, generic communication",
+      "why_matters": "Helps avoid ineffective or overused strategies\n```\n\n---\n\n### Stage 2: Template Filling\n\nWhen filling in the template, replace each variable with the user",
+      "required": true
+    }
+  ],
+  "opening_dialog": "Hi! I'm here to help you with your retain customers business. Let's get started.",
+  "generated_at": "2025-11-06T11:56:52.724373",
+  "generated_by": "generate_templates.py",
+  "smb_insights": {
+    "budget_ranges": [
+      "Under $500",
+      "$500-1000",
+      "$1000-2500",
+      "$2500-5000",
+      "$5000+"
+    ],
+    "pain_points": [
+      "Limited time for marketing",
+      "Don't know where to start",
+      "Wasted money on ineffective ads",
+      "Can't track ROI",
+      "Competing with bigger businesses"
+    ],
+    "effective_channels": [
+      "Google Business Profile (free)",
+      "Instagram organic",
+      "Local SEO",
+      "Email marketing",
+      "Facebook ads (if budget allows)",
+      "Word of mouth referrals"
+    ],
+    "budget_allocations": {
+      "Under $500": {
+        "focus": "Free and low-cost channels",
+        "channels": [
+          "Google Business Profile",
+          "Social media organic",
+          "Email marketing"
+        ]
+      },
+      "$500-1000": {
+        "focus": "Mix of free and paid",
+        "channels": [
+          "Google Ads (limited)",
+          "Social media ads",
+          "Email marketing"
+        ]
+      },
+      "$1000-2500": {
+        "focus": "Balanced paid and organic",
+        "channels": [
+          "Google Ads",
+          "Social media ads",
+          "Email marketing",
+          "Content marketing"
+        ]
+      },
+      "$2500+": {
+        "focus": "Multi-channel strategy",
+        "channels": [
+          "Google Ads",
+          "Social media ads",
+          "Email marketing",
+          "Content marketing",
+          "Retargeting"
+        ]
+      }
+    },
+    "source": "defaults",
+    "note": "pandas not installed, using hardcoded defaults"
+  }
+}

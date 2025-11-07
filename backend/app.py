@@ -1,6 +1,7 @@
 import os
 import logging
 import uuid
+import json
 from datetime import datetime
 from flask import Flask, request, jsonify
 from flask_cors import CORS
@@ -12,6 +13,29 @@ from chat_flows import (
     is_flow_complete,
     generate_marketing_plan_prompt,
     extract_answer_from_message
+)
+from security import (
+    sanitize_string,
+    sanitize_form_answers,
+    validate_question_ids,
+    validate_json_structure,
+    validate_category,
+    validate_session_id,
+    check_rate_limit,
+    get_client_identifier,
+    sanitize_for_ai,
+    validate_form_answers_structure
+)
+from security.input_validator import validate_message as validate_message_security
+from security.rate_limiter import RateLimiter
+from security.session_manager import SessionManager
+from security.system_prompt_wrapper import create_protected_system_prompt
+from template_loader import (
+    load_template,
+    get_available_categories,
+    get_template_opening_dialog,
+    get_template_questions,
+    fill_template_with_answers
 )
 
 # Load environment variables
@@ -42,6 +66,10 @@ openai_client = None
 
 # In-memory session storage (will be replaced with database in future)
 chat_sessions = {}
+
+# Initialize security modules
+rate_limiter = RateLimiter()
+session_manager = SessionManager()
 
 def initialize_openai():
     """Initialize OpenAI client with API key validation"""
@@ -111,6 +139,30 @@ def replace_template_variables(template, user_domain, user_framing=""):
         logger.error(f"Failed to replace template variables: {str(e)}")
         return None
 
+@app.before_request
+def apply_security():
+    """Apply security checks to all requests"""
+    # Skip security for health check
+    if request.path == '/health':
+        return None
+    
+    # Skip for OPTIONS requests (CORS preflight)
+    if request.method == 'OPTIONS':
+        return None
+    
+    # Rate limiting
+    ip_address = get_client_identifier(request)
+    allowed, reason = rate_limiter.is_allowed(ip_address, max_requests=20, window_seconds=60)
+    
+    if not allowed:
+        logger.warning(f"Rate limit exceeded for IP: {ip_address}")
+        return jsonify({
+            "success": False,
+            "error": reason
+        }), 429
+    
+    return None
+
 @app.route('/health', methods=['GET'])
 def health_check():
     """Health check endpoint"""
@@ -141,6 +193,10 @@ def generate_template():
         
         user_domain = data['userDomain'].strip()
         user_framing = data.get('userFraming', '').strip()
+        
+        # Sanitize inputs
+        user_domain = sanitize_string(user_domain, max_length=1000)
+        user_framing = sanitize_string(user_framing, max_length=1000)
         
         if not user_domain:
             return jsonify({
@@ -283,6 +339,9 @@ def try_prompt():
         data = request.get_json()
         prompt = data.get('prompt', '').strip()
         
+        # Sanitize prompt
+        prompt = sanitize_string(prompt, max_length=5000)
+        
         if not prompt:
             return jsonify({
                 "success": False,
@@ -335,80 +394,169 @@ def try_prompt():
 
 @app.route('/api/chat/start', methods=['POST'])
 def chat_start():
-    """Start a new chat session for a business category"""
+    """
+    Start a new chat session for a business category or marketing goal.
+    
+    Supports both:
+    - Template-based categories (marketing goals: increase_sales, build_brand_awareness, etc.)
+    - chat_flows.py categories (business types: restaurant, retail_store, etc.)
+    """
     try:
-        if not request.is_json:
-            return jsonify({
-                "success": False,
-                "error": "Request must be JSON"
-            }), 400
-        
+        ip_address = get_client_identifier(request)
         data = request.get_json()
-        category = data.get('category', '').strip().lower()
         
-        if not category:
+        # Validate request
+        if not data or 'category' not in data:
             return jsonify({
                 "success": False,
                 "error": "Category is required"
             }), 400
         
-        # Validate category
-        valid_categories = ['restaurant', 'retail_store', 'professional_services', 'ecommerce', 'local_services']
-        if category not in valid_categories:
+        category = data.get('category', '').strip().lower()
+        
+        # Sanitize category
+        category = sanitize_string(category, max_length=100)
+        
+        # Define business type categories (use chat_flows.py, not templates)
+        valid_chat_flows_categories = [
+            'restaurant', 'retail_store', 'professional_services', 
+            'ecommerce', 'local_services'
+        ]
+        
+        # Check if category uses template system (marketing goals)
+        # Business types should use chat_flows.py even if a template exists
+        available_template_categories = get_available_categories()
+        is_business_type = category in valid_chat_flows_categories
+        uses_template = category in available_template_categories and not is_business_type
+        
+        # Validate category exists (either in templates or chat_flows)
+        if not uses_template and not is_business_type:
+            # Provide helpful error with both options
+            template_list = ', '.join([c for c in available_template_categories if c not in valid_chat_flows_categories]) if available_template_categories else 'none'
+            business_list = ', '.join(valid_chat_flows_categories)
             return jsonify({
                 "success": False,
-                "error": f"Invalid category. Must be one of: {', '.join(valid_categories)}"
+                "error": f"Invalid category '{category}'. Available marketing goal categories: {template_list}. Available business type categories: {business_list}"
             }), 400
         
-        # Create new session
-        session_id = str(uuid.uuid4())
-        chat_sessions[session_id] = {
-            "session_id": session_id,
-            "category": category,
-            "answers": {},
-            "conversation": [],
-            "created_at": datetime.now().isoformat(),
-            "current_question_id": None  # Track which question we're currently asking
-        }
-        
-        # Get first question from chat_flows.py
-        first_question_obj = get_next_question(category, {})
-        
-        if not first_question_obj:
+        # Create secure session
+        try:
+            session_id, security_token = session_manager.create_session(ip_address, category)
+        except ValueError as e:
             return jsonify({
                 "success": False,
-                "error": "No questions found for this category"
+                "error": str(e)
+            }), 400
+        
+        # Get session data
+        session = session_manager.get_session(session_id)
+        if not session:
+            return jsonify({
+                "success": False,
+                "error": "Failed to create session"
             }), 500
         
-        # Build welcome message with first question
-        welcome_text = f"Hi! I'm here to help you create a marketing plan for your {category.replace('_', ' ')} business. Let's start with a few questions.\n\n{first_question_obj['question']}"
-        if first_question_obj.get('help_text'):
-            welcome_text += f"\n\n💡 {first_question_obj['help_text']}"
+        # Store whether using template
+        session['uses_template'] = uses_template
         
-        # Store current question ID
-        chat_sessions[session_id]["current_question_id"] = first_question_obj["id"]
-        
-        # Add welcome message to conversation
-        chat_sessions[session_id]["conversation"].append({
-            "role": "assistant",
-            "content": welcome_text,
-            "timestamp": datetime.now().isoformat(),
-            "question_id": first_question_obj["id"]
-        })
-        
-        first_question = welcome_text
-        
-        logger.info(f"Chat session started: {session_id} for category: {category}")
-        
-        return jsonify({
-            "success": True,
-            "session_id": session_id,
-            "first_question": first_question,
-            "conversation": chat_sessions[session_id]["conversation"]
-        })
+        if uses_template:
+            # Load pre-generated template
+            template = load_template(category)
+            if not template:
+                logger.error(f"Template not found for category: {category}")
+                return jsonify({
+                    "success": False,
+                    "error": "Template not available for this category"
+                }), 500
+            
+            # Store template in session
+            session['template'] = template
+            session['current_question_index'] = 0
+            
+            # Get opening dialog
+            opening_dialog = template.get('opening_dialog', get_template_opening_dialog(category))
+            
+            # Get all questions for sidebar form
+            questions = template.get('questions', [])
+            first_question = questions[0] if questions else None
+            
+            if not first_question:
+                logger.error(f"No questions in template for: {category}")
+                return jsonify({
+                    "success": False,
+                    "error": "Template configuration error"
+                }), 500
+            
+            # Add opening dialog to conversation
+            session['conversation'].append({
+                'role': 'assistant',
+                'content': opening_dialog,
+                'timestamp': datetime.now().isoformat()
+            })
+            
+            # Update session
+            session_manager.update_session(session_id, session)
+            
+            logger.info(f"Chat started (template) - Session: {session_id}, Category: {category}")
+            
+            return jsonify({
+                "success": True,
+                "session_id": session_id,
+                "security_token": security_token,
+                "category": category,
+                "opening_dialog": opening_dialog,
+                "questions": questions,  # All questions for sidebar
+                "first_question": first_question,  # First question for chat
+                "anti_patterns": template.get('anti_patterns', []),
+                "total_questions": len(questions),
+                "uses_template": True,
+                "conversation": session['conversation']
+            })
+        else:
+            # Use existing chat_flows.py system
+            # Get first question from chat_flows.py
+            first_question_obj = get_next_question(category, {})
+            
+            if not first_question_obj:
+                return jsonify({
+                    "success": False,
+                    "error": "No questions found for this category"
+                }), 500
+            
+            # Build welcome message with first question
+            welcome_text = f"Hi! I'm here to help you create a marketing plan for your {category.replace('_', ' ')} business. Let's start with a few questions.\n\n{first_question_obj['question']}"
+            if first_question_obj.get('help_text'):
+                welcome_text += f"\n\n💡 {first_question_obj['help_text']}"
+            
+            # Store current question ID
+            session['current_question_id'] = first_question_obj["id"]
+            
+            # Add welcome message to conversation
+            session['conversation'].append({
+                "role": "assistant",
+                "content": welcome_text,
+                "timestamp": datetime.now().isoformat(),
+                "question_id": first_question_obj["id"]
+            })
+            
+            # Update session
+            session_manager.update_session(session_id, session)
+            
+            logger.info(f"Chat started (chat_flows) - Session: {session_id}, Category: {category}")
+            
+            return jsonify({
+                "success": True,
+                "session_id": session_id,
+                "security_token": security_token,
+                "category": category,
+                "opening_dialog": welcome_text,
+                "first_question": first_question_obj,
+                "uses_template": False,
+                "conversation": session['conversation']
+            })
         
     except Exception as e:
-        logger.error(f"Error starting chat session: {str(e)}")
+        logger.error(f"Error starting chat session: {str(e)}", exc_info=True)
         return jsonify({
             "success": False,
             "error": "Failed to start chat session"
@@ -425,97 +573,248 @@ def chat_message():
             }), 400
         
         data = request.get_json()
+        
+        # Validate JSON structure
+        is_valid, struct_error = validate_json_structure(
+            data, 
+            required_fields=['session_id', 'user_message'],
+            optional_fields=['form_answers']
+        )
+        if not is_valid:
+            return jsonify({
+                "success": False,
+                "error": struct_error
+            }), 400
+        
         session_id = data.get('session_id', '').strip()
         user_message = data.get('user_message', '').strip()
+        form_answers = data.get('form_answers', {})
         
-        if not session_id:
+        # Validate session ID format
+        if not validate_session_id(session_id):
             return jsonify({
                 "success": False,
-                "error": "Session ID is required"
+                "error": "Invalid session ID format"
             }), 400
         
-        if not user_message:
+        # Sanitize user message
+        user_message = sanitize_string(user_message, max_length=5000)
+        
+        # Allow empty message if form answers are provided (for template flows)
+        if not user_message and not form_answers:
             return jsonify({
                 "success": False,
-                "error": "User message is required"
+                "error": "User message or form answers required"
             }), 400
         
-        # Validate message length (prevent extremely long messages)
-        if len(user_message) > 5000:
-            return jsonify({
-                "success": False,
-                "error": "Message is too long. Please keep responses under 5000 characters."
-            }), 400
+        # Sanitize and validate form answers if provided
+        if form_answers:
+            if not isinstance(form_answers, dict):
+                return jsonify({
+                    "success": False,
+                    "error": "Form answers must be a dictionary"
+                }), 400
+            
+            # Sanitize form answers
+            form_answers = sanitize_form_answers(form_answers)
+            
+            # Validate form answers structure
+            if len(form_answers) > 50:  # Reasonable limit
+                return jsonify({
+                    "success": False,
+                    "error": "Too many form answers"
+                }), 400
         
-        # Check if session exists
-        if session_id not in chat_sessions:
+        # Validate session using SessionManager
+        ip_address = get_client_identifier(request)
+        is_valid, error_msg, session = session_manager.validate_session(session_id, ip_address)
+        
+        if not is_valid:
             return jsonify({
                 "success": False,
-                "error": "Session not found. Your session may have expired. Please start a new chat."
+                "error": error_msg or "Session not found. Your session may have expired. Please start a new chat."
             }), 404
         
-        session = chat_sessions[session_id]
+        # Increment request count
+        session_manager.increment_request_count(session_id)
         
-        # Get current question ID
-        current_question_id = session.get("current_question_id")
+        # Check if this is a template-based flow
+        uses_template = session.get("uses_template", False)
         
-        if not current_question_id:
-            return jsonify({
-                "success": False,
-                "error": "No active question. Please start a new session."
-            }), 400
-        
-        # Extract and store the answer
-        # Get the question object to help with extraction
-        from chat_flows import get_all_questions
-        all_questions = get_all_questions(session["category"])
-        current_question = next((q for q in all_questions if q["id"] == current_question_id), None)
-        
-        if current_question:
-            # Extract answer from message
-            answer = extract_answer_from_message(user_message, current_question)
-            session["answers"][current_question_id] = answer
-        
-        # Add user message to conversation
-        session["conversation"].append({
-            "role": "user",
-            "content": user_message,
-            "timestamp": datetime.now().isoformat(),
-            "question_id": current_question_id
-        })
-        
-        # Check if flow is complete
-        is_complete = is_flow_complete(session["category"], session["answers"])
-        
-        if is_complete:
-            # All questions answered - prepare completion message
-            ai_response = "Perfect! I have all the information I need. Ready to generate your marketing plan?"
-            session["current_question_id"] = None
-        else:
-            # Get next question
-            next_question = get_next_question(session["category"], session["answers"])
+        if uses_template:
+            # Template-based flow: Process with OpenAI using template context
+            # Merge form answers into session answers
+            if form_answers:
+                session["answers"].update(form_answers)
             
-            if not next_question:
-                # Shouldn't happen if is_flow_complete is working correctly
-                is_complete = True
+            # Add user message to conversation (only if not empty)
+            if user_message:
+                session["conversation"].append({
+                    "role": "user",
+                    "content": user_message,
+                    "timestamp": datetime.now().isoformat()
+                })
+            
+            # Get template and build context
+            template = session.get("template")
+            if not template:
+                return jsonify({
+                    "success": False,
+                    "error": "Template not found in session"
+                }), 500
+            
+            # Fill template with answers
+            from template_loader import fill_template_with_answers
+            prompt_template = template.get("prompt_template", "")
+            filled_template = fill_template_with_answers(prompt_template, session["answers"])
+            
+            # Build OpenAI message with context
+            # For template flows, we pass the filled template as the prompt and answers as user_answers
+            system_prompt = create_protected_system_prompt(filled_template, session["answers"])
+            
+            # Get conversation history for context
+            conversation_messages = [
+                {"role": "system", "content": system_prompt}
+            ]
+            
+            # Add recent conversation history (last 10 messages for context)
+            recent_conversation = session["conversation"][-10:]
+            for msg in recent_conversation:
+                conversation_messages.append({
+                    "role": msg["role"],
+                    "content": msg["content"]
+                })
+            
+            # Call OpenAI
+            if not openai_client:
+                logger.error("OpenAI client not initialized")
+                return jsonify({
+                    "success": False,
+                    "error": "OpenAI client not initialized"
+                }), 500
+            
+            # Always include form answers in user message context (even if user typed a message)
+            # This ensures the AI knows about all the form data
+            user_message_content = user_message if user_message else ""
+            
+            # Add form answers context to user message
+            if form_answers:
+                form_context = f"\n\nUser has provided the following information:\n{json.dumps(form_answers, indent=2)}"
+                user_message_content = (user_message_content + form_context).strip()
+            
+            # Ensure we have at least one user message
+            if not any(msg.get("role") == "user" for msg in conversation_messages):
+                if not user_message_content:
+                    user_message_content = "User is ready to start the conversation."
+                conversation_messages.append({
+                    "role": "user",
+                    "content": user_message_content
+                })
+            elif user_message_content and (not recent_conversation or recent_conversation[-1].get("content") != user_message_content):
+                # Update the last user message or add new one with form context
+                # Remove the last user message if it exists and add updated one
+                conversation_messages = [msg for msg in conversation_messages if msg.get("role") != "user" or msg != conversation_messages[-1]]
+                conversation_messages.append({
+                    "role": "user",
+                    "content": user_message_content
+                })
+            
+            try:
+                logger.info(f"Calling OpenAI with {len(conversation_messages)} messages")
+                response = openai_client.chat.completions.create(
+                    model="gpt-4o",
+                    messages=conversation_messages,
+                    temperature=0.7,
+                    max_tokens=1000
+                )
+                
+                ai_response = response.choices[0].message.content
+                
+                # Add AI response to conversation
+                session["conversation"].append({
+                    "role": "assistant",
+                    "content": ai_response,
+                    "timestamp": datetime.now().isoformat()
+                })
+                
+                # Check if we have enough answers to generate plan
+                template_questions = template.get("questions", [])
+                required_questions = [q for q in template_questions if q.get("required", False)]
+                answered_required = sum(1 for q in required_questions if session["answers"].get(q["id"]))
+                
+                is_complete = answered_required >= len(required_questions)
+                
+            except Exception as e:
+                logger.error(f"OpenAI API error: {str(e)}")
+                return jsonify({
+                    "success": False,
+                    "error": "Failed to get AI response"
+                }), 500
+        else:
+            # chat_flows-based flow: Sequential questions
+            # Get current question ID
+            current_question_id = session.get("current_question_id")
+            
+            if not current_question_id:
+                return jsonify({
+                    "success": False,
+                    "error": "No active question. Please start a new session."
+                }), 400
+            
+            # Extract and store the answer
+            # Get the question object to help with extraction
+            from chat_flows import get_all_questions
+            all_questions = get_all_questions(session["category"])
+            current_question = next((q for q in all_questions if q["id"] == current_question_id), None)
+            
+            if current_question:
+                # Extract answer from message
+                answer = extract_answer_from_message(user_message, current_question)
+                session["answers"][current_question_id] = answer
+            
+            # Add user message to conversation
+            session["conversation"].append({
+                "role": "user",
+                "content": user_message,
+                "timestamp": datetime.now().isoformat(),
+                "question_id": current_question_id
+            })
+            
+            # Check if flow is complete
+            is_complete = is_flow_complete(session["category"], session["answers"])
+            
+            if is_complete:
+                # All questions answered - prepare completion message
                 ai_response = "Perfect! I have all the information I need. Ready to generate your marketing plan?"
                 session["current_question_id"] = None
             else:
-                # Build next question message
-                ai_response = next_question["question"]
-                if next_question.get("help_text"):
-                    ai_response += f"\n\n💡 {next_question['help_text']}"
+                # Get next question
+                next_question = get_next_question(session["category"], session["answers"])
                 
-                # Store current question ID
-                session["current_question_id"] = next_question["id"]
+                if not next_question:
+                    # Shouldn't happen if is_flow_complete is working correctly
+                    is_complete = True
+                    ai_response = "Perfect! I have all the information I need. Ready to generate your marketing plan?"
+                    session["current_question_id"] = None
+                else:
+                    # Build next question message
+                    ai_response = next_question["question"]
+                    if next_question.get("help_text"):
+                        ai_response += f"\n\n💡 {next_question['help_text']}"
+                    
+                    # Store current question ID
+                    session["current_question_id"] = next_question["id"]
+            
+            # Add AI response to conversation
+            session["conversation"].append({
+                "role": "assistant",
+                "content": ai_response,
+                "timestamp": datetime.now().isoformat(),
+                "question_id": session.get("current_question_id")
+            })
         
-        # Add AI response to conversation
-        session["conversation"].append({
-            "role": "assistant",
-            "content": ai_response,
-            "timestamp": datetime.now().isoformat(),
-            "question_id": session.get("current_question_id")
-        })
+        # Update session via SessionManager
+        session_manager.update_session(session_id, session)
         
         logger.info(f"Chat message processed for session: {session_id}. Questions answered: {len(session['answers'])}. Complete: {is_complete}")
         
@@ -528,16 +827,25 @@ def chat_message():
         })
         
     except Exception as e:
-        logger.error(f"Error processing chat message: {str(e)}")
+        logger.error(f"Error processing chat message: {str(e)}", exc_info=True)
         return jsonify({
             "success": False,
-            "error": "An unexpected error occurred"
+            "error": f"An unexpected error occurred: {str(e)}"
         }), 500
 
 @app.route('/api/chat/generate-plan', methods=['POST'])
 def chat_generate_plan():
     """Generate final marketing plan based on collected answers"""
     try:
+        # Rate limiting (stricter for plan generation)
+        client_id = get_client_identifier(request)
+        is_allowed, rate_error = check_rate_limit(client_id, max_requests=5, window_seconds=60)
+        if not is_allowed:
+            return jsonify({
+                "success": False,
+                "error": rate_error
+            }), 429
+        
         if not request.is_json:
             return jsonify({
                 "success": False,
@@ -545,22 +853,36 @@ def chat_generate_plan():
             }), 400
         
         data = request.get_json()
-        session_id = data.get('session_id', '').strip()
         
-        if not session_id:
+        # Validate JSON structure
+        is_valid, struct_error = validate_json_structure(data, required_fields=['session_id'])
+        if not is_valid:
             return jsonify({
                 "success": False,
-                "error": "Session ID is required"
+                "error": struct_error
             }), 400
         
-        # Check if session exists
-        if session_id not in chat_sessions:
+        session_id = data.get('session_id', '').strip()
+        
+        # Validate session ID format
+        if not validate_session_id(session_id):
             return jsonify({
                 "success": False,
-                "error": "Session not found. Your session may have expired. Please start a new chat."
+                "error": "Invalid session ID format"
+            }), 400
+        
+        # Validate session using SessionManager
+        ip_address = get_client_identifier(request)
+        is_valid, error_msg, session = session_manager.validate_session(session_id, ip_address)
+        
+        if not is_valid:
+            return jsonify({
+                "success": False,
+                "error": error_msg or "Session not found. Your session may have expired. Please start a new chat."
             }), 404
         
-        session = chat_sessions[session_id]
+        # Increment request count
+        session_manager.increment_request_count(session_id)
         
         if not openai_client:
             return jsonify({
@@ -568,18 +890,58 @@ def chat_generate_plan():
                 "error": "OpenAI client not initialized"
             }), 500
         
-        # Check if all required questions are answered
-        if not is_flow_complete(session["category"], session["answers"]):
-            return jsonify({
-                "success": False,
-                "error": "Please answer all questions before generating the plan"
-            }), 400
+        # Check if this is a template-based flow
+        uses_template = session.get("uses_template", False)
         
-        # Use chat_flows.py to generate structured marketing plan prompt
-        marketing_plan_prompt = generate_marketing_plan_prompt(
-            session["category"],
-            session["answers"]
-        )
+        if uses_template:
+            # Template-based flow: Use template to generate plan
+            template = session.get("template")
+            if not template:
+                return jsonify({
+                    "success": False,
+                    "error": "Template not found in session"
+                }), 500
+            
+            # Check if all required questions are answered
+            template_questions = template.get("questions", [])
+            required_questions = [q for q in template_questions if q.get("required", False)]
+            answered_required = sum(1 for q in required_questions if session["answers"].get(q["id"]))
+            
+            if answered_required < len(required_questions):
+                return jsonify({
+                    "success": False,
+                    "error": f"Please answer all required questions ({answered_required}/{len(required_questions)} answered)"
+                }), 400
+            
+            # Fill template with answers
+            from template_loader import fill_template_with_answers
+            prompt_template = template.get("prompt_template", "")
+            filled_template = fill_template_with_answers(prompt_template, session["answers"])
+            
+            # Build protected system prompt
+            system_prompt = create_protected_system_prompt(filled_template, session["answers"])
+            
+            # Create plan generation prompt
+            marketing_plan_prompt = f"{system_prompt}\n\nGenerate a comprehensive marketing plan based on the above information. Include:\n1. Executive Summary\n2. Target Audience Analysis\n3. Recommended Marketing Channels\n4. 90-Day Action Plan\n5. Success Metrics\n6. Budget Allocation"
+        else:
+            # chat_flows-based flow: Use existing logic
+            # Check if all required questions are answered
+            if not is_flow_complete(session["category"], session["answers"]):
+                return jsonify({
+                    "success": False,
+                    "error": "Please answer all questions before generating the plan"
+                }), 400
+            
+            # Sanitize answers before generating plan
+            sanitized_answers = {}
+            for key, value in session["answers"].items():
+                sanitized_answers[key] = sanitize_for_ai(str(value))
+            
+            # Use chat_flows.py to generate structured marketing plan prompt
+            marketing_plan_prompt = generate_marketing_plan_prompt(
+                session["category"],
+                sanitized_answers
+            )
         
         try:
             response = openai_client.chat.completions.create(
@@ -627,20 +989,22 @@ def chat_generate_plan():
 def get_chat_session(session_id):
     """Get conversation history for a session"""
     try:
-        if not session_id:
+        # Validate session ID format
+        if not validate_session_id(session_id):
             return jsonify({
                 "success": False,
-                "error": "Session ID is required"
+                "error": "Invalid session ID format"
             }), 400
         
-        # Check if session exists
-        if session_id not in chat_sessions:
+        # Validate session using SessionManager
+        ip_address = get_client_identifier(request)
+        is_valid, error_msg, session = session_manager.validate_session(session_id, ip_address)
+        
+        if not is_valid:
             return jsonify({
                 "success": False,
-                "error": "Session not found. Your session may have expired. Please start a new chat."
+                "error": error_msg or "Session not found. Your session may have expired. Please start a new chat."
             }), 404
-        
-        session = chat_sessions[session_id]
         
         return jsonify({
             "success": True,

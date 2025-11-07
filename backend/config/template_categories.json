@@ -1,0 +1,23 @@
+{
+  "restaurant": {
+    "user_domain": "I need marketing help for my restaurant. I want to attract more local diners, increase takeout/delivery orders, and build a loyal customer base who comes back regularly.",
+    "user_framing": "Focus on small restaurants with limited budgets ($500-2500/month). Prioritize practical tactics over theory. I'm not a marketing expert - make it actionable."
+  },
+  "retail_store": {
+    "user_domain": "I need marketing help for my brick-and-mortar retail store. I want to drive foot traffic, compete with online shopping and big box stores, and increase average transaction value.",
+    "user_framing": "Focus on independent retail shops, not chains. Budget-conscious approach. Need to track ROI on every dollar spent."
+  },
+  "professional_services": {
+    "user_domain": "I need marketing help for my professional services business (lawyer, accountant, consultant, financial advisor). I want to attract high-quality clients and establish thought leadership.",
+    "user_framing": "Focus on solo practitioners and small firms. Limited time for marketing. Need strategies that build trust and credibility."
+  },
+  "ecommerce": {
+    "user_domain": "I need marketing help for my e-commerce store. I want to increase conversion rates, reduce cart abandonment, improve customer lifetime value, and compete with Amazon.",
+    "user_framing": "Focus on small e-commerce businesses. Budget-conscious paid advertising. Need to optimize every step of the funnel."
+  },
+  "local_services": {
+    "user_domain": "I need marketing help for my local service business (plumber, electrician, cleaner, landscaper, handyman). I want to get more local leads and build a strong reputation.",
+    "user_framing": "Focus on owner-operator businesses. Very limited marketing budget. Need to leverage free/low-cost channels effectively."
+  }
+}
+

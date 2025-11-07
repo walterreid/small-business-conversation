@@ -1,0 +1,261 @@
+{
+  "increase_sales": {
+    "name": "Increase Sales",
+    "icon": "📈",
+    "user_domain": "I need help increasing sales for my small business. I want to convert more prospects into paying customers and boost my revenue.",
+    "user_framing": "Focus on practical, actionable tactics for small businesses with limited budgets. I need strategies that work quickly and show measurable results. I'm not a marketing expert - make it simple and clear.",
+    "starter_questions": [
+      {
+        "id": "current_sales_process",
+        "question": "How do you currently make sales? (e.g., in-person, online, phone, email)",
+        "type": "select",
+        "options": ["In-person only", "Online only", "Phone/Email", "Mixed channels"],
+        "why_matters": "Understanding your sales process helps tailor conversion strategies"
+      },
+      {
+        "id": "average_transaction_value",
+        "question": "What's your average transaction value?",
+        "type": "text",
+        "placeholder": "e.g., $50, $500, $5000",
+        "why_matters": "Different price points need different sales approaches"
+      },
+      {
+        "id": "sales_challenge",
+        "question": "What's your biggest challenge in closing sales?",
+        "type": "textarea",
+        "placeholder": "e.g., Price objections, lack of trust, long sales cycle",
+        "why_matters": "Identifies specific barriers to address"
+      },
+      {
+        "id": "target_increase",
+        "question": "What percentage increase in sales are you aiming for?",
+        "type": "select",
+        "options": ["10-25%", "25-50%", "50-100%", "100%+"],
+        "why_matters": "Helps prioritize high-impact strategies"
+      },
+      {
+        "id": "sales_budget",
+        "question": "What's your monthly budget for sales/marketing?",
+        "type": "select",
+        "options": ["Under $500", "$500-1000", "$1000-2500", "$2500-5000", "$5000+"],
+        "why_matters": "Determines which tactics are feasible"
+      }
+    ]
+  },
+  "build_brand_awareness": {
+    "name": "Build Brand Awareness",
+    "icon": "🎯",
+    "user_domain": "I need help building brand awareness for my small business. I want more people to know about my business and remember my brand when they need my products or services.",
+    "user_framing": "Focus on cost-effective brand building for small businesses. I need strategies that work on a limited budget and help me stand out from competitors. Make it practical, not theoretical.",
+    "starter_questions": [
+      {
+        "id": "current_awareness_level",
+        "question": "How well-known is your business currently?",
+        "type": "select",
+        "options": ["Just starting out", "Known locally only", "Some regional recognition", "Building national presence"],
+        "why_matters": "Helps determine starting point and realistic goals"
+      },
+      {
+        "id": "target_audience_location",
+        "question": "Where are your ideal customers located?",
+        "type": "select",
+        "options": ["Local only (same city)", "Regional (state/region)", "National", "International"],
+        "why_matters": "Geographic scope determines which channels to use"
+      },
+      {
+        "id": "brand_differentiator",
+        "question": "What makes your brand unique or different?",
+        "type": "textarea",
+        "placeholder": "e.g., Family-owned for 3 generations, eco-friendly, fastest service",
+        "why_matters": "Unique value proposition is key to memorable branding"
+      },
+      {
+        "id": "awareness_budget",
+        "question": "What's your monthly budget for brand awareness?",
+        "type": "select",
+        "options": ["Under $500", "$500-1000", "$1000-2500", "$2500-5000", "$5000+"],
+        "why_matters": "Budget determines which brand-building channels are viable"
+      },
+      {
+        "id": "awareness_timeline",
+        "question": "What's your timeline for building awareness?",
+        "type": "select",
+        "options": ["Immediate (next month)", "Short-term (3-6 months)", "Long-term (6-12 months)", "Ongoing"],
+        "why_matters": "Timeline affects strategy selection (quick wins vs. long-term)"
+      }
+    ]
+  },
+  "generate_more_leads": {
+    "name": "Generate More Leads",
+    "icon": "🎁",
+    "user_domain": "I need help generating more leads for my small business. I want to attract more potential customers who are interested in what I offer.",
+    "user_framing": "Focus on lead generation tactics that work for small businesses with limited resources. I need strategies that bring in qualified leads, not just traffic. Make it actionable and trackable.",
+    "starter_questions": [
+      {
+        "id": "current_lead_sources",
+        "question": "Where do your current leads come from?",
+        "type": "textarea",
+        "placeholder": "e.g., Referrals, Google Ads, social media, trade shows",
+        "why_matters": "Identifies what's working and what needs improvement"
+      },
+      {
+        "id": "lead_quality_issue",
+        "question": "What's your biggest challenge with leads?",
+        "type": "select",
+        "options": ["Not enough leads", "Leads not qualified", "Leads don't respond", "Can't convert leads"],
+        "why_matters": "Different problems need different solutions"
+      },
+      {
+        "id": "ideal_lead_profile",
+        "question": "Describe your ideal lead (who you want to attract)",
+        "type": "textarea",
+        "placeholder": "e.g., Small business owners, 25-45 years old, tech-savvy",
+        "why_matters": "Targeting the right audience improves lead quality"
+      },
+      {
+        "id": "lead_generation_budget",
+        "question": "What's your monthly budget for lead generation?",
+        "type": "select",
+        "options": ["Under $500", "$500-1000", "$1000-2500", "$2500-5000", "$5000+"],
+        "why_matters": "Budget determines which lead gen channels are feasible"
+      },
+      {
+        "id": "leads_per_month_goal",
+        "question": "How many new leads do you want per month?",
+        "type": "text",
+        "placeholder": "e.g., 10, 50, 100, 500",
+        "why_matters": "Volume goals help prioritize high-volume vs. high-quality strategies"
+      }
+    ]
+  },
+  "drive_foot_traffic": {
+    "name": "Drive Foot Traffic",
+    "icon": "🚶",
+    "user_domain": "I need help driving more foot traffic to my physical location. I want more people to visit my store, restaurant, or office.",
+    "user_framing": "Focus on local marketing tactics for brick-and-mortar businesses. I need strategies that bring people through the door, especially from the local area. Make it practical and location-specific.",
+    "starter_questions": [
+      {
+        "id": "business_type_location",
+        "question": "What type of business and where is it located?",
+        "type": "text",
+        "placeholder": "e.g., Coffee shop in downtown Seattle",
+        "why_matters": "Business type and location determine best tactics"
+      },
+      {
+        "id": "current_traffic_sources",
+        "question": "How do people currently find your location?",
+        "type": "textarea",
+        "placeholder": "e.g., Walk-ins, Google Maps, signs, word of mouth",
+        "why_matters": "Identifies what's working and what to improve"
+      },
+      {
+        "id": "peak_times",
+        "question": "When are your busiest times?",
+        "type": "select",
+        "options": ["Morning rush", "Lunch hour", "Afternoon", "Evening", "Weekends", "All day"],
+        "why_matters": "Timing affects which promotions and tactics work best"
+      },
+      {
+        "id": "foot_traffic_budget",
+        "question": "What's your monthly budget for driving foot traffic?",
+        "type": "select",
+        "options": ["Under $500", "$500-1000", "$1000-2500", "$2500-5000", "$5000+"],
+        "why_matters": "Budget determines which local marketing tactics are viable"
+      },
+      {
+        "id": "local_competition",
+        "question": "How many similar businesses are nearby?",
+        "type": "select",
+        "options": ["None (unique)", "1-2 competitors", "3-5 competitors", "Many competitors"],
+        "why_matters": "Competition level affects differentiation strategy"
+      }
+    ]
+  },
+  "retain_customers": {
+    "name": "Retain Customers",
+    "icon": "🔁",
+    "user_domain": "I need help retaining customers and reducing churn. I want my existing customers to come back and stay loyal to my business.",
+    "user_framing": "Focus on customer retention strategies for small businesses. I need tactics that build loyalty and keep customers coming back without breaking the bank. Make it practical and relationship-focused.",
+    "starter_questions": [
+      {
+        "id": "current_retention_rate",
+        "question": "What percentage of customers come back?",
+        "type": "select",
+        "options": ["Less than 25%", "25-50%", "50-75%", "75%+"],
+        "why_matters": "Current retention rate shows how much improvement is needed"
+      },
+      {
+        "id": "customer_churn_reason",
+        "question": "Why do customers stop coming back?",
+        "type": "textarea",
+        "placeholder": "e.g., Price, found cheaper option, poor experience, moved away",
+        "why_matters": "Understanding churn reasons helps target retention strategies"
+      },
+      {
+        "id": "customer_communication",
+        "question": "How do you currently communicate with customers?",
+        "type": "textarea",
+        "placeholder": "e.g., Email, social media, in-person, phone, not regularly",
+        "why_matters": "Communication channels affect retention tactics"
+      },
+      {
+        "id": "retention_budget",
+        "question": "What's your monthly budget for customer retention?",
+        "type": "select",
+        "options": ["Under $500", "$500-1000", "$1000-2500", "$2500-5000", "$5000+"],
+        "why_matters": "Budget determines which retention programs are feasible"
+      },
+      {
+        "id": "loyalty_program",
+        "question": "Do you have any loyalty or rewards program?",
+        "type": "select",
+        "options": ["No program", "Basic program", "Comprehensive program", "Planning to start"],
+        "why_matters": "Existing programs can be enhanced, new ones need to be designed"
+      }
+    ]
+  },
+  "launch_new_service_product": {
+    "name": "Launch New Service / Product",
+    "icon": "🎉",
+    "user_domain": "I need help launching a new service or product for my small business. I want to create excitement, attract early customers, and make the launch successful.",
+    "user_framing": "Focus on launch strategies for small businesses with limited marketing resources. I need tactics that create buzz and drive initial sales without a huge budget. Make it practical and launch-focused.",
+    "starter_questions": [
+      {
+        "id": "product_service_type",
+        "question": "What are you launching?",
+        "type": "text",
+        "placeholder": "e.g., New menu item, consulting service, online course, physical product",
+        "why_matters": "Product type determines best launch channels and tactics"
+      },
+      {
+        "id": "launch_timeline",
+        "question": "When are you launching?",
+        "type": "select",
+        "options": ["This week", "This month", "Next month", "2-3 months", "Planning stage"],
+        "why_matters": "Timeline affects urgency and strategy selection"
+      },
+      {
+        "id": "target_early_adopters",
+        "question": "Who are your ideal early customers?",
+        "type": "textarea",
+        "placeholder": "e.g., Existing customers, new market segment, tech early adopters",
+        "why_matters": "Target audience determines launch messaging and channels"
+      },
+      {
+        "id": "launch_budget",
+        "question": "What's your budget for the launch?",
+        "type": "select",
+        "options": ["Under $500", "$500-1000", "$1000-2500", "$2500-5000", "$5000+"],
+        "why_matters": "Budget determines which launch tactics are feasible"
+      },
+      {
+        "id": "launch_goal",
+        "question": "What's your main goal for the launch?",
+        "type": "select",
+        "options": ["Generate buzz/awareness", "Get first 10 customers", "Build waitlist", "Maximize initial sales"],
+        "why_matters": "Goal determines success metrics and strategy focus"
+      }
+    ]
+  }
+}
+

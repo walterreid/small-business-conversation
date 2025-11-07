@@ -428,8 +428,9 @@ When helping with this project:
 
 **Start local dev:**
 ```bash
-# Terminal 1 - Backend (runs on port 5000)
+# Terminal 1 - Backend (runs on port 5001)
 cd backend
+source venv/bin/activate  # Activate virtual environment
 python3 app.py
 
 # Terminal 2 - Frontend (runs on port 3001)
@@ -437,7 +438,7 @@ cd frontend
 npm start
 ```
 
-**Note**: Backend runs on port 5000, frontend on port 3001 to avoid conflicts. Frontend proxies API calls to backend during development.
+**Note**: Backend runs on port 5001 (changed from 5000 to avoid macOS AirPlay conflict), frontend on port 3001. Frontend proxies API calls to backend during development via `package.json` proxy setting.
 
 **Deploy to Render:**
 ```bash
