@@ -22,7 +22,14 @@
       "question": "Which industry does your brand belong to?",
       "type": "select",
       "options": [
-        "Options: Fashion, Technology, Food & Beverage, etc."
+        "Fashion",
+        "Technology",
+        "Food & Beverage",
+        "Healthcare",
+        "Education",
+        "Retail",
+        "Professional Services",
+        "Other"
       ],
       "why_matters": "Allows focus on industry-specific trends and challenges, ensuring the advice is relevant.",
       "required": true

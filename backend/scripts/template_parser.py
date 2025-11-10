@@ -276,11 +276,25 @@ def parse_questions(raw_output: str) -> List[Dict]:
         if placeholder_match:
             placeholder_text = placeholder_match.group(1).strip()
             if question['type'] == 'select':
-                # Parse options (could be pipe-separated or newline-separated)
+                # Parse options (could be pipe-separated, comma-separated, or newline-separated)
                 if '|' in placeholder_text:
-                    question['options'] = [opt.strip() for opt in placeholder_text.split('|')]
+                    options = [opt.strip() for opt in placeholder_text.split('|')]
+                elif ',' in placeholder_text:
+                    options = [opt.strip() for opt in placeholder_text.split(',')]
                 else:
-                    question['options'] = [opt.strip() for opt in placeholder_text.split('\n') if opt.strip()]
+                    options = [opt.strip() for opt in placeholder_text.split('\n') if opt.strip()]
+                
+                # Clean up options - remove "Options:" prefix if present
+                cleaned_options = []
+                for opt in options:
+                    # Remove "Options:" prefix if it exists
+                    opt = opt.replace('Options:', '').strip()
+                    # Remove "etc." or "etc" at the end
+                    opt = re.sub(r'\s*,\s*etc\.?$', '', opt, flags=re.IGNORECASE).strip()
+                    if opt and opt.lower() not in ['options', 'option']:
+                        cleaned_options.append(opt)
+                
+                question['options'] = cleaned_options if cleaned_options else options
             else:
                 question['placeholder'] = placeholder_text
         
