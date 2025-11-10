@@ -8,12 +8,23 @@ function App() {
   // New 3-step flow state
   const [step, setStep] = useState(1); // 1: Category Selection, 2: Chat, 3: Marketing Plan
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const [selectedQuestionNumber, setSelectedQuestionNumber] = useState(null);
+  const [selectedQuestionText, setSelectedQuestionText] = useState(null);
   const [marketingPlan, setMarketingPlan] = useState(null);
   const [planMetadata, setPlanMetadata] = useState(null);
 
-  // Handle category selection
+  // Handle category selection (legacy - for backward compatibility)
   const handleCategorySelect = (category) => {
     setSelectedCategory(category);
+    setSelectedQuestionNumber(null);
+    setStep(2); // Move to chat interface
+  };
+
+  // Handle question selection from MarketingGoalSelector
+  const handleQuestionSelect = (category, questionNumber, questionText, templateData) => {
+    setSelectedCategory(category);
+    setSelectedQuestionNumber(questionNumber);
+    setSelectedQuestionText(questionText);
     setStep(2); // Move to chat interface
   };
 
@@ -34,8 +45,16 @@ function App() {
   const handleStartOver = () => {
     setStep(1);
     setSelectedCategory(null);
+    setSelectedQuestionNumber(null);
+    setSelectedQuestionText(null);
     setMarketingPlan(null);
     setPlanMetadata(null);
+  };
+
+  // Handle asking a different question (go back to question selection)
+  const handleAskDifferentQuestion = () => {
+    setStep(1);
+    // Keep category/question state so user can see what they had selected
   };
 
   // Render based on current step
@@ -43,7 +62,10 @@ function App() {
     <div className="App">
       {step === 1 && (
         <div className="page-enter">
-          <CategorySelector onSelectCategory={handleCategorySelect} />
+          <CategorySelector 
+            onSelectCategory={handleCategorySelect}
+            onSelectQuestion={handleQuestionSelect}
+          />
         </div>
       )}
       
@@ -51,8 +73,11 @@ function App() {
         <div className="page-enter">
           <ChatInterface
             category={selectedCategory}
+            questionNumber={selectedQuestionNumber}
+            initialQuestionText={selectedQuestionText}
             onComplete={handleChatComplete}
             onGeneratePlan={handleGeneratePlan}
+            onAskDifferentQuestion={handleAskDifferentQuestion}
           />
         </div>
       )}

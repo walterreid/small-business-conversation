@@ -43,7 +43,6 @@ function SidebarForm({ questions = [], answers = {}, onAnswersChange, disabled =
       >
         <label htmlFor={questionId} className="question-label">
           {question.question}
-          {isRequired && <span className="required-indicator">*</span>}
         </label>
 
         {question.why_matters && (
@@ -147,8 +146,6 @@ function SidebarForm({ questions = [], answers = {}, onAnswersChange, disabled =
   }
 
   const answeredCount = questions.filter(q => localAnswers[q.id] && localAnswers[q.id].trim().length > 0).length;
-  const requiredCount = questions.filter(q => q.required).length;
-  const requiredAnswered = questions.filter(q => q.required && localAnswers[q.id] && localAnswers[q.id].trim().length > 0).length;
 
   return (
     <div className="sidebar-form">
@@ -158,11 +155,6 @@ function SidebarForm({ questions = [], answers = {}, onAnswersChange, disabled =
           <span className="progress-text">
             {answeredCount} of {questions.length} answered
           </span>
-          {requiredCount > 0 && (
-            <span className="required-progress">
-              ({requiredAnswered}/{requiredCount} required)
-            </span>
-          )}
         </div>
       </div>
 
@@ -172,8 +164,7 @@ function SidebarForm({ questions = [], answers = {}, onAnswersChange, disabled =
 
       <div className="sidebar-footer">
         <p className="sidebar-help">
-          💡 Fill out these questions to help us create your personalized plan. 
-          You can also answer in the chat!
+          💡 Fill out these questions or chat with us to get your personalized plan based on your question.
         </p>
       </div>
     </div>

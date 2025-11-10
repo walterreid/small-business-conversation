@@ -37,70 +37,145 @@
   flex: 1;
   min-width: 0;
   height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .chat-main.with-sidebar {
   /* Adjust when sidebar is present */
 }
 
-/* Progress Bar */
-.chat-progress-bar {
-  margin: 1rem 0;
-  padding: 1rem;
-  background: rgba(255, 255, 255, 0.95);
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+/* Help Button - Bottom Right */
+.chat-help-button {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 50%;
+  background: var(--primary-gradient);
+  color: white;
+  border: none;
+  font-size: 1.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
 }
 
-.progress-bar-container {
-  width: 100%;
-  height: 8px;
-  background: #e0e0e0;
-  border-radius: 4px;
+.chat-help-button:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+}
+
+.chat-help-button:active {
+  transform: scale(1.05);
+}
+
+/* Help Modal */
+.chat-help-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  animation: fadeIn 0.2s ease;
+}
+
+.chat-help-modal {
+  background: white;
+  border-radius: 12px;
+  max-width: 500px;
+  width: 90%;
+  max-height: 80vh;
   overflow: hidden;
-  margin-bottom: 0.5rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  animation: slideUp 0.3s ease;
+  display: flex;
+  flex-direction: column;
 }
 
-.progress-bar-fill {
-  height: 100%;
-  background: linear-gradient(90deg, #2196f3, #21cbf3);
-  transition: width 0.3s ease;
-  border-radius: 4px;
-}
-
-.progress-text {
-  margin: 0;
-  font-size: 0.875rem;
-  color: #666;
-  text-align: center;
-  font-weight: 500;
-}
-
-/* Anti-patterns Banner */
-.anti-patterns-banner {
-  margin: 1rem 0;
-  padding: 1rem;
+.chat-help-modal-header {
+  padding: 1.5rem;
+  border-bottom: 1px solid #e0e0e0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   background: #fff3cd;
-  border-left: 4px solid #ffc107;
-  border-radius: 4px;
-  font-size: 0.875rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.anti-patterns-banner strong {
-  display: block;
-  margin-bottom: 0.5rem;
+.chat-help-modal-header h3 {
+  margin: 0;
+  font-size: 1.25rem;
   color: #856404;
+  font-weight: 600;
 }
 
-.anti-patterns-banner ul {
+.chat-help-modal-close {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: #856404;
+  cursor: pointer;
+  padding: 0;
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  transition: transform 0.2s ease;
+}
+
+.chat-help-modal-close:hover {
+  transform: scale(1.2);
+}
+
+.chat-help-modal-content {
+  padding: 1.5rem;
+  overflow-y: auto;
+}
+
+.chat-help-modal-content ul {
   margin: 0;
   padding-left: 1.5rem;
-  color: #856404;
+  color: #333;
 }
 
-.anti-patterns-banner li {
-  margin: 0.25rem 0;
+.chat-help-modal-content li {
+  margin: 0.75rem 0;
+  line-height: 1.6;
+  font-size: 0.95rem;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes fadeInUp {
@@ -118,7 +193,8 @@
   text-align: center;
   padding: 1.5rem 2rem;
   color: white;
-  margin-bottom: 1rem;
+  margin-top: auto;
+  flex-shrink: 0;
 }
 
 .chat-interface-header h2 {
@@ -132,7 +208,43 @@
 .chat-subtitle {
   font-size: 0.95rem;
   color: rgba(255, 255, 255, 0.95);
-  margin: 0;
+  margin: 0 0 0.75rem 0;
+}
+
+.ask-different-question {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.ask-different-or {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.8);
+  font-style: italic;
+}
+
+.ask-different-button {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: 500;
+}
+
+.ask-different-button:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.8);
+  transform: translateY(-1px);
+}
+
+.ask-different-button:active {
+  transform: translateY(0);
 }
 
 /* Chatscope Main Container Customization */
@@ -164,6 +276,11 @@
   animation: messageSlideIn 0.3s ease-out;
 }
 
+/* Make Zansei name bold in messages */
+.chatscope-main-container .cs-message--incoming .cs-message__content strong {
+  font-weight: 700;
+}
+
 @keyframes messageSlideIn {
   from {
     opacity: 0;
@@ -189,16 +306,25 @@
 .chatscope-main-container .cs-message-input {
   border-top: 1px solid rgba(0, 0, 0, 0.1);
   background: rgba(255, 255, 255, 0.98);
+  padding: 0.75rem 1rem;
 }
 
 .chatscope-main-container .cs-message-input__content-editor {
   border-radius: var(--border-radius);
-  border: 2px solid rgba(0, 0, 0, 0.1);
+  border: 2px solid #667eea; /* Dark blue outline */
+  background: #fff3cd; /* Yellow background for the input field */
+  color: #000; /* Black text for input */
+  padding: 0.5rem 0.75rem;
+}
+
+.chatscope-main-container .cs-message-input__content-editor::placeholder {
+  color: #888; /* Grey placeholder text */
 }
 
 .chatscope-main-container .cs-message-input__content-editor:focus {
   border-color: #667eea;
   box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  outline: none; /* Remove default outline */
 }
 
 .chatscope-main-container .cs-message-input__send-button {
@@ -302,6 +428,19 @@
 
   .chat-actions {
     padding: 1rem 1.5rem;
+  }
+
+  .chat-help-button {
+    bottom: 1.5rem;
+    right: 1.5rem;
+    width: 3rem;
+    height: 3rem;
+    font-size: 1.25rem;
+  }
+
+  .chat-help-modal {
+    max-width: 90%;
+    margin: 1rem;
   }
 }
 

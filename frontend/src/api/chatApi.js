@@ -6,23 +6,31 @@
 const API_BASE_URL = process.env.REACT_APP_API_URL || '';
 
 /**
- * Start a new chat session for a business category
- * @param {string} category - Business category (restaurant, retail_store, etc.)
+ * Start a new chat session for a business category or marketing goal question
+ * @param {string} category - Business category or marketing goal (restaurant, increase_sales, etc.)
+ * @param {number|null} questionNumber - Optional question number (1-5) for question-specific templates
  * @returns {Promise<Object>} API response with session_id and first_question
  */
-export async function startChatSession(category) {
+export async function startChatSession(category, questionNumber = null) {
   try {
     // Use proxy in development (empty string uses package.json proxy)
     // Or use full URL if REACT_APP_API_URL is set
     const url = API_BASE_URL ? `${API_BASE_URL}/api/chat/start` : '/api/chat/start';
+    const requestBody = {
+      category: category
+    };
+    
+    // Add question_number if provided
+    if (questionNumber !== null && questionNumber !== undefined) {
+      requestBody.question_number = questionNumber;
+    }
+    
     const response = await fetch(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        category: category
-      })
+      body: JSON.stringify(requestBody)
     });
 
     if (!response.ok) {
@@ -145,6 +153,69 @@ export async function getChatSession(sessionId) {
     
     if (!data.success) {
       throw new Error(data.error || 'Failed to get session');
+    }
+
+    return data;
+  } catch (error) {
+    if (error.name === 'TypeError' && error.message.includes('fetch')) {
+      throw new Error('Unable to connect to the server. Please check if the backend is running.');
+    }
+    throw error;
+  }
+}
+
+/**
+ * Get all marketing goal categories with their questions
+ * @returns {Promise<Object>} API response with goals data
+ */
+export async function getMarketingGoals() {
+  try {
+    const url = API_BASE_URL ? `${API_BASE_URL}/api/marketing-goals` : '/api/marketing-goals';
+    const response = await fetch(url);
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error(errorData.error || `HTTP ${response.status}: ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    
+    if (!data.success) {
+      throw new Error(data.error || 'Failed to load marketing goals');
+    }
+
+    return data;
+  } catch (error) {
+    if (error.name === 'TypeError' && error.message.includes('fetch')) {
+      throw new Error('Unable to connect to the server. Please check if the backend is running.');
+    }
+    throw error;
+  }
+}
+
+/**
+ * Get full question template for a specific marketing goal question
+ * @param {string} category - Marketing goal category
+ * @param {number} questionNumber - Question number (1-5)
+ * @returns {Promise<Object>} API response with template data
+ */
+export async function getQuestionTemplate(category, questionNumber) {
+  try {
+    const url = API_BASE_URL 
+      ? `${API_BASE_URL}/api/marketing-goals/${category}/question/${questionNumber}`
+      : `/api/marketing-goals/${category}/question/${questionNumber}`;
+    
+    const response = await fetch(url);
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error(errorData.error || `HTTP ${response.status}: ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    
+    if (!data.success) {
+      throw new Error(data.error || 'Failed to load question template');
     }
 
     return data;

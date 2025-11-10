@@ -13,7 +13,7 @@ import '../styles/ChatApp.css';
 import { startChatSession, sendChatMessage, generateMarketingPlan } from '../api/chatApi';
 import SidebarForm from './SidebarForm';
 
-function ChatInterface({ category, onComplete, onGeneratePlan }) {
+function ChatInterface({ category, questionNumber = null, initialQuestionText = null, onComplete, onGeneratePlan, onAskDifferentQuestion }) {
   const [messages, setMessages] = useState([]);
   const [isTyping, setIsTyping] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
@@ -24,8 +24,8 @@ function ChatInterface({ category, onComplete, onGeneratePlan }) {
   const [formAnswers, setFormAnswers] = useState({});
   const [openingDialog, setOpeningDialog] = useState('');
   const [usesTemplate, setUsesTemplate] = useState(false);
-  const [progress, setProgress] = useState({ current: 0, total: 0 });
   const [antiPatterns, setAntiPatterns] = useState([]);
+  const [showHelpModal, setShowHelpModal] = useState(false);
 
   // Initialize chat session on mount
   useEffect(() => {
@@ -34,7 +34,8 @@ function ChatInterface({ category, onComplete, onGeneratePlan }) {
         setIsTyping(true);
         setError(null);
         
-        const response = await startChatSession(category);
+        // Pass question_number if provided (for question-specific templates)
+        const response = await startChatSession(category, questionNumber);
         
         if (response.success) {
           setSessionId(response.session_id);
@@ -47,15 +48,11 @@ function ChatInterface({ category, onComplete, onGeneratePlan }) {
             setQuestions(templateQuestions);
             setOpeningDialog(response.opening_dialog || '');
             setAntiPatterns(response.anti_patterns || []);
-            setProgress({
-              current: 1,
-              total: response.total_questions || templateQuestions.length
-            });
             
             // Add opening dialog as first message
             if (response.opening_dialog) {
               const openingMessage = {
-                message: response.opening_dialog,
+                message: `<strong>Zansei:</strong> ${response.opening_dialog}`,
                 sentTime: new Date().toISOString(),
                 sender: 'assistant',
                 direction: 'incoming',
@@ -67,7 +64,7 @@ function ChatInterface({ category, onComplete, onGeneratePlan }) {
             // Handle chat_flows-based flow
             // Convert conversation history to Chatscope message format
             const initialMessages = response.conversation.map(msg => ({
-              message: msg.content,
+              message: msg.role === 'assistant' ? `<strong>Zansei:</strong> ${msg.content}` : msg.content,
               sentTime: msg.timestamp,
               sender: msg.role === 'user' ? 'user' : 'assistant',
               direction: msg.role === 'user' ? 'outgoing' : 'incoming',
@@ -88,7 +85,7 @@ function ChatInterface({ category, onComplete, onGeneratePlan }) {
     if (category) {
       initializeChat();
     }
-  }, [category]);
+  }, [category, questionNumber]);
 
   const handleFormAnswersChange = (newAnswers) => {
     setFormAnswers(newAnswers);
@@ -126,7 +123,7 @@ function ChatInterface({ category, onComplete, onGeneratePlan }) {
       if (response.success) {
         // Add AI response to messages
         const aiMessage = {
-          message: response.ai_response,
+          message: `<strong>Zansei:</strong> ${response.ai_response}`,
           sentTime: new Date().toISOString(),
           sender: 'assistant',
           direction: 'incoming',
@@ -134,11 +131,6 @@ function ChatInterface({ category, onComplete, onGeneratePlan }) {
         };
         
         setMessages(prev => [...prev, aiMessage]);
-        
-        // Update progress if available
-        if (response.progress) {
-          setProgress(response.progress);
-        }
         
         // Check if flow is complete
         if (response.is_complete) {
@@ -183,11 +175,6 @@ function ChatInterface({ category, onComplete, onGeneratePlan }) {
 
   return (
     <div className="chat-interface-wrapper">
-      <div className="chat-interface-header">
-        <h2>Let's build your marketing plan</h2>
-        <p className="chat-subtitle">Answer a few questions to get started</p>
-      </div>
-
       {/* Main layout: Sidebar + Chat */}
       <div className="chat-layout-container">
         {/* Sidebar Form (only show if using template and has questions) */}
@@ -217,11 +204,11 @@ function ChatInterface({ category, onComplete, onGeneratePlan }) {
           <MainContainer className="chatscope-main-container">
             <ChatContainer className="chatscope-chat-container">
               <ConversationHeader>
-                <ConversationHeader.Content userName="Marketing Plan Assistant" />
+                <ConversationHeader.Content userName="Zansei: Marketing Plan Assistant" />
               </ConversationHeader>
               
               <MessageList
-                typingIndicator={isTyping ? <TypingIndicator content="AI is typing" /> : null}
+                typingIndicator={isTyping ? <TypingIndicator content="Zansei is typing" /> : null}
               >
                 {messages.map((msg, index) => (
                   <Message
@@ -232,6 +219,13 @@ function ChatInterface({ category, onComplete, onGeneratePlan }) {
                       sender: msg.sender,
                       direction: msg.direction,
                       position: msg.position
+                    }}
+                    render={(message) => {
+                      // Render HTML if message contains HTML tags
+                      if (message.message && message.message.includes('<strong>')) {
+                        return <div dangerouslySetInnerHTML={{ __html: message.message }} />;
+                      }
+                      return message.message;
                     }}
                   />
                 ))}
@@ -268,32 +262,63 @@ function ChatInterface({ category, onComplete, onGeneratePlan }) {
               </div>
             )}
           </MainContainer>
+
+          {/* Header Text - Below Chat (in same column) */}
+          <div className="chat-interface-header">
+            <h2>Let's build your marketing plan</h2>
+            <p className="chat-subtitle">Answer a few questions to get started</p>
+            {onAskDifferentQuestion && (
+              <div className="ask-different-question">
+                <span className="ask-different-or">or</span>
+                <button 
+                  className="ask-different-button"
+                  onClick={onAskDifferentQuestion}
+                  type="button"
+                >
+                  Ask A Different Question
+                </button>
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
-      {/* Progress Bar - Moved to bottom */}
-      {progress.total > 0 && (
-        <div className="chat-progress-bar">
-          <div className="progress-bar-container">
-            <div 
-              className="progress-bar-fill" 
-              style={{ width: `${(progress.current / progress.total) * 100}%` }}
-            />
-          </div>
-          <p className="progress-text">Question {progress.current} of {progress.total}</p>
-        </div>
-      )}
-
-      {/* Anti-patterns Banner - Moved to bottom */}
+      {/* Help Button - Bottom Right */}
       {antiPatterns.length > 0 && (
-        <div className="anti-patterns-banner">
-          <strong>💡 We'll help you avoid:</strong>
-          <ul>
-            {antiPatterns.slice(0, 2).map((pattern, idx) => (
-              <li key={idx}>{pattern}</li>
-            ))}
-          </ul>
-        </div>
+        <>
+          <button 
+            className="chat-help-button"
+            onClick={() => setShowHelpModal(true)}
+            title="What we'll help you avoid"
+          >
+            ?
+          </button>
+
+          {/* Help Modal */}
+          {showHelpModal && (
+            <div className="chat-help-modal-overlay" onClick={() => setShowHelpModal(false)}>
+              <div className="chat-help-modal" onClick={(e) => e.stopPropagation()}>
+                <div className="chat-help-modal-header">
+                  <h3>💡 We'll help you avoid:</h3>
+                  <button 
+                    className="chat-help-modal-close"
+                    onClick={() => setShowHelpModal(false)}
+                    aria-label="Close"
+                  >
+                    ×
+                  </button>
+                </div>
+                <div className="chat-help-modal-content">
+                  <ul>
+                    {antiPatterns.map((pattern, idx) => (
+                      <li key={idx}>{pattern}</li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </div>
+          )}
+        </>
       )}
     </div>
   );
