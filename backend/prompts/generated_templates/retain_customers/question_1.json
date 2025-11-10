@@ -1,0 +1,109 @@
+{
+  "category": "retain_customers",
+  "version": "1.0.0",
+  "meta_prompt_version": "v1.0",
+  "anti_patterns": [
+    "Common Pattern 1: Relying solely on discounts or promotions to drive loyalty",
+    "Common Pattern 2: Using generic loyalty programs without personalization",
+    "Common Pattern 3: Focusing on acquisition rather than retention tactics"
+  ],
+  "prompt_template": "- **Role:** Guide\n- **Intent:** {{userIntent}}  \n  The user wants to learn how to effectively reduce customer churn for their product/service within a specified timeframe and range.\n\n- **Approach:**  \n  Explain practical, actionable strategies tailored for small businesses with limited budgets. Build understanding step-by-step and check comprehension by connecting advice to the user's existing business context.\n\n- **Variables:**  \n  - {{productService}}: Understanding the specifics of the product or service helps tailor strategies that address unique challenges and customer needs.\n  - {{range}}: Knowing the range helps in setting realistic goals and measuring success over time.\n  - {{frequency}}: Weekly, monthly, or annually impacts the type of strategies that can be implemented effectively.\n\n- **Constraints:**  \n  - Length: Concise and focused on key actions.\n  - Style: Practical and relatable, not overly theoretical.\n  - Avoid: Generic advice, complex jargon.\n  - Focus: Small business context, budget-conscious strategies.\n\n- **Output Guidance:**  \n  Provide a structured plan with specific tactics and examples that the user can implement immediately.\n\n- **Success Conditions:**  \n  The user gains a clear understanding of specific, actionable strategies to reduce customer churn and feels confident to implement them within their business context effectively.",
+  "questions": [
+    {
+      "id": "productService",
+      "question": "What product or service do you offer?",
+      "type": "text",
+      "placeholder": "e.g., SaaS software, consulting services, physical products",
+      "why_matters": "Knowing the specifics of your product or service allows for customized strategies that address the unique challenges and customer needs of your offering.",
+      "required": true
+    },
+    {
+      "id": "range",
+      "question": "What is your current customer churn rate or range?",
+      "type": "text",
+      "placeholder": "e.g., 5%, 10-15%, 20% monthly",
+      "why_matters": "Clarifying the current churn range helps in setting realistic, measurable goals and identifying the extent of the retention issue.",
+      "required": true
+    },
+    {
+      "id": "frequency",
+      "question": "How do you want to measure churn reduction?",
+      "type": "select",
+      "options": [
+        "Weekly",
+        "Monthly",
+        "Annually"
+      ],
+      "why_matters": "The frequency of measurement impacts the choice of strategies and how progress is evaluated over time.",
+      "required": true
+    }
+  ],
+  "opening_dialog": "Hi! I'm here to help you reduce customer churn for your business. Let's start by understanding your current situation so I can provide tailored strategies.",
+  "question_number": 1,
+  "question_text": "How do I reduce customer churn for my (product/service) from (range) (weekly/monthly/annually) ",
+  "generated_at": "2025-11-10T12:32:41.325289",
+  "generated_by": "generate_question_templates.py",
+  "smb_insights": {
+    "budget_ranges": [
+      "Under $500",
+      "$500-1000",
+      "$1000-2500",
+      "$2500-5000",
+      "$5000+"
+    ],
+    "pain_points": [
+      "Limited time for marketing",
+      "Don't know where to start",
+      "Wasted money on ineffective ads",
+      "Can't track ROI",
+      "Competing with bigger businesses"
+    ],
+    "effective_channels": [
+      "Google Business Profile (free)",
+      "Instagram organic",
+      "Local SEO",
+      "Email marketing",
+      "Facebook ads (if budget allows)",
+      "Word of mouth referrals"
+    ],
+    "budget_allocations": {
+      "Under $500": {
+        "focus": "Free and low-cost channels",
+        "channels": [
+          "Google Business Profile",
+          "Social media organic",
+          "Email marketing"
+        ]
+      },
+      "$500-1000": {
+        "focus": "Mix of free and paid",
+        "channels": [
+          "Google Ads (limited)",
+          "Social media ads",
+          "Email marketing"
+        ]
+      },
+      "$1000-2500": {
+        "focus": "Balanced paid and organic",
+        "channels": [
+          "Google Ads",
+          "Social media ads",
+          "Email marketing",
+          "Content marketing"
+        ]
+      },
+      "$2500+": {
+        "focus": "Multi-channel strategy",
+        "channels": [
+          "Google Ads",
+          "Social media ads",
+          "Email marketing",
+          "Content marketing",
+          "Retargeting"
+        ]
+      }
+    },
+    "source": "defaults",
+    "note": "pandas not installed, using hardcoded defaults"
+  }
+}

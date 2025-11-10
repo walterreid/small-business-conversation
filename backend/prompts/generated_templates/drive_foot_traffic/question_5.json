@@ -1,0 +1,106 @@
+{
+  "category": "drive_foot_traffic",
+  "version": "1.0.0",
+  "meta_prompt_version": "v1.0",
+  "anti_patterns": [
+    "Common Pattern 1: Over-reliance on discounts or promotions without considering community engagement",
+    "Common Pattern 2: Generic social media posts without local or personalized content",
+    "Common Pattern 3: Solely focusing on foot traffic without considering customer retention strategies"
+    ],
+  "prompt_template": "Role: Social Media Marketing Guide\n\nIntent: Help the user understand how to leverage a specific social media platform to drive more visits to their local business.\n\nApproach: Explain concepts, check understanding, build gradually by offering actionable strategies tailored to small businesses with limited budgets.\n\nVariables:\n- {{socialMediaPlatform}}: Identifies which platform to focus on, as different platforms offer different tools and audience demographics.\n- {{location}}: Provides context for geographical targeting and local marketing strategies.\n- {{businessType}}: Helps tailor strategies to industry-specific practices and audience interests.\n\nConstraints:\n- Length: Concise, actionable advice (around 300 words per strategy)\n- Style: Practical, jargon-free, and straightforward\n- Avoid: Generic advice, overly complex or costly strategies\n- Focus: Specific tactics that can be implemented quickly and affordably\n\nOutput guidance: Provide a list of 3-5 actionable strategies with step-by-step guidance for each.\n\nSuccess conditions: The user understands how to effectively use the specified social media platform to attract more visitors to their business, with clear next steps for implementation.\n\n---\n\n**PART 3 - GENERATE QUESTIONS**\n\nVariable: {{socialMediaPlatform}}\nQuestion: \"Which social media platform are you interested in using to drive more visits to your business?\"\nType: select\nPlaceholder/Options: \"Options: Facebook, Instagram, Twitter, LinkedIn, TikTok\"\nWhy it matters: Different platforms have unique features and user demographics, which influence the strategies you'll use.\n\nVariable: {{location}}\nQuestion: \"What is the location of your business? (City, State, Country)\"\nType: text\nPlaceholder: \"e.g., New York, NY, USA\"\nWhy it matters: Knowing the location helps tailor strategies to local audiences and optimize for geographic targeting.\n\nVariable: {{businessType}}\nQuestion: \"What type of business do you operate?\"\nType: text\nPlaceholder: \"e.g., café, retail store, fitness center\"\nWhy it matters: Understanding the business type allows for customization of strategies to align with industry-specific trends and customer expectations.\n\nThis structured approach ensures that the user receives tailored, actionable advice that is both practical and specific to their needs.",
+  "questions": [
+    {
+      "id": "socialMediaPlatform",
+      "question": "Which social media platform are you interested in using to drive more visits to your business?",
+      "type": "select",
+      "options": [
+        "Options: Facebook, Instagram, Twitter, LinkedIn, TikTok"
+      ],
+      "required": true
+    },
+    {
+      "id": "location",
+      "question": "What is the location of your business? (City, State, Country)",
+      "type": "text",
+      "placeholder": "e.g., New York, NY, USA",
+      "why_matters": "Knowing the location helps tailor strategies to local audiences and optimize for geographic targeting.",
+      "required": true
+    },
+    {
+      "id": "businessType",
+      "question": "What type of business do you operate?",
+      "type": "text",
+      "placeholder": "e.g., café, retail store, fitness center",
+      "why_matters": "Understanding the business type allows for customization of strategies to align with industry-specific trends and customer expectations.",
+      "required": true
+    }
+  ],
+  "opening_dialog": "Hi! I'm here to help you with your drive foot traffic question 5 business. Let's get started.",
+  "question_number": 5,
+  "question_text": "How can I leverage (social media platform) to drive more visits to my (location) (business type) ",
+  "generated_at": "2025-11-10T12:29:16.623656",
+  "generated_by": "generate_question_templates.py",
+  "smb_insights": {
+    "budget_ranges": [
+      "Under $500",
+      "$500-1000",
+      "$1000-2500",
+      "$2500-5000",
+      "$5000+"
+    ],
+    "pain_points": [
+      "Limited time for marketing",
+      "Don't know where to start",
+      "Wasted money on ineffective ads",
+      "Can't track ROI",
+      "Competing with bigger businesses"
+    ],
+    "effective_channels": [
+      "Google Business Profile (free)",
+      "Instagram organic",
+      "Local SEO",
+      "Email marketing",
+      "Facebook ads (if budget allows)",
+      "Word of mouth referrals"
+    ],
+    "budget_allocations": {
+      "Under $500": {
+        "focus": "Free and low-cost channels",
+        "channels": [
+          "Google Business Profile",
+          "Social media organic",
+          "Email marketing"
+        ]
+      },
+      "$500-1000": {
+        "focus": "Mix of free and paid",
+        "channels": [
+          "Google Ads (limited)",
+          "Social media ads",
+          "Email marketing"
+        ]
+      },
+      "$1000-2500": {
+        "focus": "Balanced paid and organic",
+        "channels": [
+          "Google Ads",
+          "Social media ads",
+          "Email marketing",
+          "Content marketing"
+        ]
+      },
+      "$2500+": {
+        "focus": "Multi-channel strategy",
+        "channels": [
+          "Google Ads",
+          "Social media ads",
+          "Email marketing",
+          "Content marketing",
+          "Retargeting"
+        ]
+      }
+    },
+    "source": "defaults",
+    "note": "pandas not installed, using hardcoded defaults"
+  }
+}

@@ -1,0 +1,113 @@
+{
+  "category": "drive_foot_traffic",
+  "version": "1.0.0",
+  "meta_prompt_version": "v1.0",
+  "anti_patterns": [
+    "Common Pattern 1: Over-reliance on discounts or promotions without considering community engagement",
+    "Common Pattern 2: Generic social media posts without local or personalized content",
+    "Common Pattern 3: Solely focusing on foot traffic without considering customer retention strategies"
+    ],
+  "prompt_template": "Role: Guide\n\nIntent: {{userIntent}}\nHelp the user understand how to effectively compete with national chains to drive traffic to their local business.\n\nApproach: Explain concepts, check understanding, build gradually by providing specific, actionable strategies tailored for small businesses with limited budgets.\n\nVariables:\n- {{location}}: Helps tailor strategies to specific regional characteristics and consumer behavior.\n- {{businessType}}: Allows for customization of strategies based on industry-specific dynamics and competition.\n- {{priorKnowledge}}: Assesses the user's existing understanding to avoid redundancy and ensure tailored advice.\n- {{goals}}: Identifies what the user aims to achieve to provide focused guidance.\n\nConstraints:\n- Length: Concise yet comprehensive\n- Style: Practical and actionable\n- Avoid: Generic advice, overly theoretical models\n- Focus: Specific tactics that have proven effective for small businesses\n\nOutput guidance: Provide a step-by-step guide or checklist of strategies.\n\nSuccess conditions: The user understands specific strategies that can be immediately applied to drive traffic to their small business and feels equipped to compete with national chains.",
+  "questions": [
+    {
+      "id": "location",
+      "question": "What is the location of your business? Please specify the city or region.",
+      "type": "text",
+      "placeholder": "e.g., San Francisco, CA",
+      "why_matters": "Understanding the location helps in tailoring strategies to local market conditions and consumer behavior, which can differ significantly by region.",
+      "required": true
+    },
+    {
+      "id": "businessType",
+      "question": "What type of business do you operate? Please describe your industry or niche.",
+      "type": "text",
+      "placeholder": "e.g., independent coffee shop, boutique retail store",
+      "why_matters": "Different industries face unique challenges and opportunities, and specifying the business type allows for more precise and relevant marketing strategies.",
+      "required": true
+    },
+    {
+      "id": "priorKnowledge",
+      "question": "What is your current level of understanding of small business marketing strategies?",
+      "type": "select",
+      "options": [
+        "["
+      ],
+      "required": true
+    },
+    {
+      "id": "goals",
+      "question": "What are your specific goals for driving traffic to your business?",
+      "type": "textarea",
+      "placeholder": "e.g., Increase foot traffic by 20%, boost online sales",
+      "required": true
+    }
+  ],
+  "opening_dialog": "Hi! I'm here to help you with your drive foot traffic question 3 business. Let's get started.",
+  "question_number": 3,
+  "question_text": "How do I compete with national chains to drive traffic to my (location) (business type) ",
+  "generated_at": "2025-11-10T12:28:59.110766",
+  "generated_by": "generate_question_templates.py",
+  "smb_insights": {
+    "budget_ranges": [
+      "Under $500",
+      "$500-1000",
+      "$1000-2500",
+      "$2500-5000",
+      "$5000+"
+    ],
+    "pain_points": [
+      "Limited time for marketing",
+      "Don't know where to start",
+      "Wasted money on ineffective ads",
+      "Can't track ROI",
+      "Competing with bigger businesses"
+    ],
+    "effective_channels": [
+      "Google Business Profile (free)",
+      "Instagram organic",
+      "Local SEO",
+      "Email marketing",
+      "Facebook ads (if budget allows)",
+      "Word of mouth referrals"
+    ],
+    "budget_allocations": {
+      "Under $500": {
+        "focus": "Free and low-cost channels",
+        "channels": [
+          "Google Business Profile",
+          "Social media organic",
+          "Email marketing"
+        ]
+      },
+      "$500-1000": {
+        "focus": "Mix of free and paid",
+        "channels": [
+          "Google Ads (limited)",
+          "Social media ads",
+          "Email marketing"
+        ]
+      },
+      "$1000-2500": {
+        "focus": "Balanced paid and organic",
+        "channels": [
+          "Google Ads",
+          "Social media ads",
+          "Email marketing",
+          "Content marketing"
+        ]
+      },
+      "$2500+": {
+        "focus": "Multi-channel strategy",
+        "channels": [
+          "Google Ads",
+          "Social media ads",
+          "Email marketing",
+          "Content marketing",
+          "Retargeting"
+        ]
+      }
+    },
+    "source": "defaults",
+    "note": "pandas not installed, using hardcoded defaults"
+  }
+}

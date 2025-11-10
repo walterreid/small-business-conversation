@@ -1,0 +1,125 @@
+{
+  "category": "drive_foot_traffic",
+  "version": "1.0.0",
+  "meta_prompt_version": "v1.0",
+  "anti_patterns": [
+    "Common Pattern 1: Over-reliance on discounts or promotions without considering community engagement",
+    "Common Pattern 2: Generic social media posts without local or personalized content",
+    "Common Pattern 3: Solely focusing on foot traffic without considering customer retention strategies"
+    ],
+  "prompt_template": "Role: Marketing Guide\n\nIntent: {{userIntent}}\nUnderstand which marketing tactics should be employed to attract more customers to a specific type of business, considering budget constraints and the desired geographical focus.\n\nApproach: Explain concepts, check understanding, build gradually\n- Provide an overview of practical marketing strategies for the specified level (local, regional, or national).\n- Offer examples tailored to the business type.\n- Explore budget-friendly options and prioritize tactics that deliver the highest ROI.\n\nVariables:\n- {{businessType}}: Understanding the type of business helps tailor marketing strategies to industry-specific challenges and customer behaviors.\n- {{geographicalFocus}}: Determines whether tactics should be localized, regionally expanded, or nationally scaled.\n- {{budgetRange}}: Guides the selection of cost-effective marketing strategies and the feasibility of implementation.\n- {{currentChallenges}}: Helps address specific issues the business is facing, ensuring that recommendations are relevant.\n- {{marketingGoals}}: Clarifies what the business aims to achieve, allowing for targeted advice.\n\nConstraints:\n- Length: Concise and focused on actionable insights\n- Style: Practical, jargon-free, and easily digestible\n- Avoid: Generic advice that lacks specificity\n- Focus: Nuanced understanding of real-world application over theoretical models\n\nOutput guidance: Provide a step-by-step guide or list of recommended tactics, including potential pitfalls and success tips.\n\nSuccess conditions: The user gains clarity on suitable marketing tactics and feels confident in implementing them to attract more customers.",
+  "questions": [
+    {
+      "id": "businessType",
+      "question": "What type of business do you run?",
+      "type": "text",
+      "placeholder": "E.g., coffee shop, online retail, consulting firm",
+      "why_matters": "Understanding the business type helps tailor marketing strategies to industry-specific challenges and customer behaviors.",
+      "required": true
+    },
+    {
+      "id": "geographicalFocus",
+      "question": "What is your target geographical focus for marketing?",
+      "type": "select",
+      "options": [
+        "Local, Regional, National"
+      ],
+      "why_matters": "Determines whether tactics should be localized, regionally expanded, or nationally scaled.",
+      "required": true
+    },
+    {
+      "id": "budgetRange",
+      "question": "What is your marketing budget range?",
+      "type": "select",
+      "options": [
+        "Low (< $1,000), Medium ($1,000 - $5,000), High (> $5,000)"
+      ],
+      "why_matters": "Guides the selection of cost-effective marketing strategies and the feasibility of implementation.",
+      "required": true
+    },
+    {
+      "id": "currentChallenges",
+      "question": "What are the current marketing challenges your business is facing?",
+      "type": "textarea",
+      "placeholder": "E.g., low brand awareness, high competition, limited online presence",
+      "why_matters": "Helps address specific issues the business is facing, ensuring that recommendations are relevant.",
+      "required": true
+    },
+    {
+      "id": "marketingGoals",
+      "question": "What are your primary marketing goals?",
+      "type": "textarea",
+      "placeholder": "E.g., increase foot traffic, boost online sales, expand customer base",
+      "why_matters": "Clarifies what the business aims to achieve, allowing for targeted advice.",
+      "required": true
+    }
+  ],
+  "opening_dialog": "Hi! I'm here to help you with your drive foot traffic question 2 business. Let's get started.",
+  "question_number": 2,
+  "question_text": "What (local/regional/national) marketing tactics should I use to attract more customers to my (business type)",
+  "generated_at": "2025-11-10T12:28:45.272062",
+  "generated_by": "generate_question_templates.py",
+  "smb_insights": {
+    "budget_ranges": [
+      "Under $500",
+      "$500-1000",
+      "$1000-2500",
+      "$2500-5000",
+      "$5000+"
+    ],
+    "pain_points": [
+      "Limited time for marketing",
+      "Don't know where to start",
+      "Wasted money on ineffective ads",
+      "Can't track ROI",
+      "Competing with bigger businesses"
+    ],
+    "effective_channels": [
+      "Google Business Profile (free)",
+      "Instagram organic",
+      "Local SEO",
+      "Email marketing",
+      "Facebook ads (if budget allows)",
+      "Word of mouth referrals"
+    ],
+    "budget_allocations": {
+      "Under $500": {
+        "focus": "Free and low-cost channels",
+        "channels": [
+          "Google Business Profile",
+          "Social media organic",
+          "Email marketing"
+        ]
+      },
+      "$500-1000": {
+        "focus": "Mix of free and paid",
+        "channels": [
+          "Google Ads (limited)",
+          "Social media ads",
+          "Email marketing"
+        ]
+      },
+      "$1000-2500": {
+        "focus": "Balanced paid and organic",
+        "channels": [
+          "Google Ads",
+          "Social media ads",
+          "Email marketing",
+          "Content marketing"
+        ]
+      },
+      "$2500+": {
+        "focus": "Multi-channel strategy",
+        "channels": [
+          "Google Ads",
+          "Social media ads",
+          "Email marketing",
+          "Content marketing",
+          "Retargeting"
+        ]
+      }
+    },
+    "source": "defaults",
+    "note": "pandas not installed, using hardcoded defaults"
+  }
+}

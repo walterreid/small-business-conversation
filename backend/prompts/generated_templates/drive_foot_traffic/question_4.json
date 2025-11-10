@@ -1,0 +1,113 @@
+{
+  "category": "drive_foot_traffic",
+  "version": "1.0.0",
+  "meta_prompt_version": "v1.0",
+  "anti_patterns": [
+    "Common Pattern 1: Over-reliance on discounts or promotions without considering community engagement",
+    "Common Pattern 2: Generic social media posts without local or personalized content",
+    "Common Pattern 3: Solely focusing on foot traffic without considering customer retention strategies"
+    ],
+  "prompt_template": "Role: Event Planner\n\nIntent: {{userIntent}}\nIdentify and design effective events for {{location}} {{businessType}} to attract new customers.\n\nApproach: Generate a first draft of event ideas, iterate based on feedback, refine to suit specific limitations and context.\n\nVariables:\n- {{location}}: Understanding the geographical and cultural specifics to tailor events.\n- {{businessType}}: Aligning events with the nature of the business to ensure relevance.\n- {{targetAudience}}: Knowing who the events should appeal to, for better targeting.\n- {{budget}}: Ensuring suggestions are financially viable.\n\nConstraints:\n- Length: Concise and actionable\n- Style: Practical, engaging\n- Avoid: Generic event suggestions\n- Focus: Specific tactics that align with small business realities\n\nOutput guidance: A list of event ideas with brief descriptions and actionable steps for implementation.\n\nSuccess conditions: The user has a clear, actionable list of event ideas tailored to their business and location that can attract new customers.",
+  "questions": [
+    {
+      "id": "location",
+      "question": "What is the location of your business? Describe any unique characteristics or cultural aspects.",
+      "type": "text",
+      "placeholder": "e.g., downtown area, near a park, culturally diverse neighborhood",
+      "why_matters": "Understanding the location helps tailor events to the area’s specific characteristics and potential customer base.",
+      "required": true
+    },
+    {
+      "id": "businessType",
+      "question": "What type of business do you operate?",
+      "type": "text",
+      "placeholder": "e.g., cafe, retail store, yoga studio",
+      "why_matters": "Knowing the business type ensures that the event ideas align with the services or products offered, making them more relevant and effective.",
+      "required": true
+    },
+    {
+      "id": "targetAudience",
+      "question": "Who is your target audience for these events?",
+      "type": "textarea",
+      "placeholder": "e.g., young professionals, families, college students",
+      "why_matters": "Identifying the target audience allows for the creation of events that are more likely to attract and engage the desired customer segment.",
+      "required": true
+    },
+    {
+      "id": "budget",
+      "question": "What is your budget for hosting these events?",
+      "type": "text",
+      "placeholder": "e.g., $500, $2000, limited budget",
+      "why_matters": "Understanding the budget constraints is crucial for suggesting feasible and realistic event ideas that can be executed within financial limits.",
+      "required": true
+    }
+  ],
+  "opening_dialog": "Hi! I'm here to help you with your drive foot traffic question 4 business. Let's get started.",
+  "question_number": 4,
+  "question_text": "What events should I host at my (location) (business type) to bring in new customers ",
+  "generated_at": "2025-11-10T12:29:06.381015",
+  "generated_by": "generate_question_templates.py",
+  "smb_insights": {
+    "budget_ranges": [
+      "Under $500",
+      "$500-1000",
+      "$1000-2500",
+      "$2500-5000",
+      "$5000+"
+    ],
+    "pain_points": [
+      "Limited time for marketing",
+      "Don't know where to start",
+      "Wasted money on ineffective ads",
+      "Can't track ROI",
+      "Competing with bigger businesses"
+    ],
+    "effective_channels": [
+      "Google Business Profile (free)",
+      "Instagram organic",
+      "Local SEO",
+      "Email marketing",
+      "Facebook ads (if budget allows)",
+      "Word of mouth referrals"
+    ],
+    "budget_allocations": {
+      "Under $500": {
+        "focus": "Free and low-cost channels",
+        "channels": [
+          "Google Business Profile",
+          "Social media organic",
+          "Email marketing"
+        ]
+      },
+      "$500-1000": {
+        "focus": "Mix of free and paid",
+        "channels": [
+          "Google Ads (limited)",
+          "Social media ads",
+          "Email marketing"
+        ]
+      },
+      "$1000-2500": {
+        "focus": "Balanced paid and organic",
+        "channels": [
+          "Google Ads",
+          "Social media ads",
+          "Email marketing",
+          "Content marketing"
+        ]
+      },
+      "$2500+": {
+        "focus": "Multi-channel strategy",
+        "channels": [
+          "Google Ads",
+          "Social media ads",
+          "Email marketing",
+          "Content marketing",
+          "Retargeting"
+        ]
+      }
+    },
+    "source": "defaults",
+    "note": "pandas not installed, using hardcoded defaults"
+  }
+}

@@ -413,9 +413,25 @@ def chat_start():
             }), 400
         
         category = data.get('category', '').strip().lower()
+        question_number = data.get('question_number')  # Optional: for question-specific templates
         
         # Sanitize category
         category = sanitize_string(category, max_length=100)
+        
+        # Validate question_number if provided
+        if question_number is not None:
+            try:
+                question_number = int(question_number)
+                if question_number < 1 or question_number > 5:
+                    return jsonify({
+                        "success": False,
+                        "error": "Question number must be between 1 and 5"
+                    }), 400
+            except (ValueError, TypeError):
+                return jsonify({
+                    "success": False,
+                    "error": "Invalid question number"
+                }), 400
         
         # Define business type categories (use chat_flows.py, not templates)
         valid_chat_flows_categories = [
@@ -460,13 +476,13 @@ def chat_start():
         session['uses_template'] = uses_template
         
         if uses_template:
-            # Load pre-generated template
-            template = load_template(category)
+            # Load pre-generated template (question-specific if question_number provided)
+            template = load_template(category, question_number=question_number)
             if not template:
-                logger.error(f"Template not found for category: {category}")
+                logger.error(f"Template not found for category: {category}, question: {question_number}")
                 return jsonify({
                     "success": False,
-                    "error": "Template not available for this category"
+                    "error": "Template not available for this category/question"
                 }), 500
             
             # Store template in session
@@ -980,6 +996,105 @@ def chat_generate_plan():
         
     except Exception as e:
         logger.error(f"Error generating marketing plan: {str(e)}")
+        return jsonify({
+            "success": False,
+            "error": "An unexpected error occurred"
+        }), 500
+
+@app.route('/api/marketing-goals', methods=['GET'])
+def get_marketing_goals():
+    """Get all marketing goal categories with their questions"""
+    try:
+        index_path = os.path.join(os.path.dirname(__file__), 'config', 'marketing_questions_index.json')
+        
+        if not os.path.exists(index_path):
+            return jsonify({
+                "success": False,
+                "error": "Marketing goals index not found"
+            }), 404
+        
+        with open(index_path, 'r', encoding='utf-8') as f:
+            index_data = json.load(f)
+        
+        return jsonify({
+            "success": True,
+            "goals": index_data
+        })
+        
+    except Exception as e:
+        logger.error(f"Error loading marketing goals: {str(e)}")
+        return jsonify({
+            "success": False,
+            "error": "An unexpected error occurred"
+        }), 500
+
+@app.route('/api/marketing-goals/<category>/question/<int:question_number>', methods=['GET'])
+def get_question_template(category, question_number):
+    """Get full question template for a specific marketing goal question"""
+    try:
+        # Validate category
+        valid_categories = ['increase_sales', 'build_brand_awareness', 'drive_foot_traffic', 
+                           'generate_more_leads', 'launch_new_service_product', 'retain_customers']
+        if category not in valid_categories:
+            return jsonify({
+                "success": False,
+                "error": f"Invalid category. Must be one of: {', '.join(valid_categories)}"
+            }), 400
+        
+        # Validate question number
+        if question_number < 1 or question_number > 5:
+            return jsonify({
+                "success": False,
+                "error": "Question number must be between 1 and 5"
+            }), 400
+        
+        # Load the question template
+        template_path = os.path.join(
+            os.path.dirname(__file__),
+            'prompts',
+            'generated_templates',
+            category,
+            f'question_{question_number}.json'
+        )
+        
+        if not os.path.exists(template_path):
+            return jsonify({
+                "success": False,
+                "error": f"Question template not found for {category} question {question_number}"
+            }), 404
+        
+        with open(template_path, 'r', encoding='utf-8') as f:
+            template_data = json.load(f)
+        
+        return jsonify({
+            "success": True,
+            "template": template_data
+        })
+        
+    except Exception as e:
+        logger.error(f"Error loading question template: {str(e)}")
+        return jsonify({
+            "success": False,
+            "error": "An unexpected error occurred"
+        }), 500
+
+@app.route('/api/sessions/clear', methods=['POST'])
+def clear_sessions():
+    """Clear all sessions for the requesting IP address"""
+    try:
+        ip_address = get_client_identifier(request)
+        
+        # Clear all sessions for this IP
+        session_manager.clear_sessions_for_ip(ip_address)
+        
+        logger.info(f"Cleared all sessions for IP: {ip_address}")
+        
+        return jsonify({
+            "success": True,
+            "message": "All sessions cleared for your IP address"
+        })
+    except Exception as e:
+        logger.error(f"Error clearing sessions: {str(e)}")
         return jsonify({
             "success": False,
             "error": "An unexpected error occurred"

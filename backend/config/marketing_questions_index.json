@@ -1,0 +1,230 @@
+{
+  "increase_sales": {
+    "category": "increase_sales",
+    "display_name": "Increase Sales",
+    "icon": "📈",
+    "description": "Convert more prospects into paying customers",
+    "questions": [
+      {
+        "question_number": 1,
+        "question_text": "How do I increase sales at my (size) business ",
+        "file_path": "increase_sales/question_1.json",
+        "category": "increase_sales"
+      },
+      {
+        "question_number": 2,
+        "question_text": "What pricing strategy should I use for my (product/service) to maximize revenue ",
+        "file_path": "increase_sales/question_2.json",
+        "category": "increase_sales"
+      },
+      {
+        "question_number": 3,
+        "question_text": "How can I upsell more effectively to my existing customers ",
+        "file_path": "increase_sales/question_3.json",
+        "category": "increase_sales"
+      },
+      {
+        "question_number": 4,
+        "question_text": "What promotions should I run for my business during the (holiday/event season) ",
+        "file_path": "increase_sales/question_4.json",
+        "category": "increase_sales"
+      },
+      {
+        "question_number": 5,
+        "question_text": "How do I convert more website visitors into paying customers ",
+        "file_path": "increase_sales/question_5.json",
+        "category": "increase_sales"
+      }
+    ]
+  },
+  "build_brand_awareness": {
+    "category": "build_brand_awareness",
+    "display_name": "Build Brand Awareness",
+    "icon": "💡",
+    "description": "Get your brand noticed by the right people",
+    "questions": [
+      {
+        "question_number": 1,
+        "question_text": "How do I increase brand awareness for my (unique proposition) (industry) brand among (demographic) in urban areas ",
+        "file_path": "build_brand_awareness/question_1.json",
+        "category": "build_brand_awareness"
+      },
+      {
+        "question_number": 2,
+        "question_text": "What content strategy should I use to build my brand on (LinkedIn/Business Channel) for B2B buyers ",
+        "file_path": "build_brand_awareness/question_2.json",
+        "category": "build_brand_awareness"
+      },
+      {
+        "question_number": 3,
+        "question_text": "How can I get media coverage for my (business type) in (location) ",
+        "file_path": "build_brand_awareness/question_3.json",
+        "category": "build_brand_awareness"
+      },
+      {
+        "question_number": 4,
+        "question_text": "What partnerships would boost brand visibility for my (location) (business type) service ",
+        "file_path": "build_brand_awareness/question_4.json",
+        "category": "build_brand_awareness"
+      },
+      {
+        "question_number": 5,
+        "question_text": "How do I differentiate my (business type) from competitors in a crowded market ",
+        "file_path": "build_brand_awareness/question_5.json",
+        "category": "build_brand_awareness"
+      }
+    ]
+  },
+  "drive_foot_traffic": {
+    "category": "drive_foot_traffic",
+    "display_name": "Drive Foot Traffic",
+    "icon": "🚶",
+    "description": "Bring more customers to your physical location",
+    "questions": [
+      {
+        "question_number": 1,
+        "question_text": "How can I increase foot traffic to my boutique in (location) by (XX%) ",
+        "file_path": "drive_foot_traffic/question_1.json",
+        "category": "drive_foot_traffic"
+      },
+      {
+        "question_number": 2,
+        "question_text": "What (local/regional/national) marketing tactics should I use to attract more customers to my (business type)",
+        "file_path": "drive_foot_traffic/question_2.json",
+        "category": "drive_foot_traffic"
+      },
+      {
+        "question_number": 3,
+        "question_text": "How do I compete with national chains to drive traffic to my (location) (business type) ",
+        "file_path": "drive_foot_traffic/question_3.json",
+        "category": "drive_foot_traffic"
+      },
+      {
+        "question_number": 4,
+        "question_text": "What events should I host at my (location) (business type) to bring in new customers ",
+        "file_path": "drive_foot_traffic/question_4.json",
+        "category": "drive_foot_traffic"
+      },
+      {
+        "question_number": 5,
+        "question_text": "How can I leverage (social media platform) to drive more visits to my (location) (business type) ",
+        "file_path": "drive_foot_traffic/question_5.json",
+        "category": "drive_foot_traffic"
+      }
+    ]
+  },
+  "generate_more_leads": {
+    "category": "generate_more_leads",
+    "display_name": "Generate More Leads",
+    "icon": "🎯",
+    "description": "Find and attract potential customers",
+    "questions": [
+      {
+        "question_number": 1,
+        "question_text": "How do I generate (XZY) more qualified leads per month for my (business type) business ",
+        "file_path": "generate_more_leads/question_1.json",
+        "category": "generate_more_leads"
+      },
+      {
+        "question_number": 2,
+        "question_text": "What lead magnet should I create for (industry type) investors interested in (business type) ",
+        "file_path": "generate_more_leads/question_2.json",
+        "category": "generate_more_leads"
+      },
+      {
+        "question_number": 3,
+        "question_text": "How can I optimize my (website/social platform) to capture more leads from organic search traffic ",
+        "file_path": "generate_more_leads/question_3.json",
+        "category": "generate_more_leads"
+      },
+      {
+        "question_number": 4,
+        "question_text": "What outreach strategy should I use to generate B2B leads in the (industry type) sector ",
+        "file_path": "generate_more_leads/question_4.json",
+        "category": "generate_more_leads"
+      },
+      {
+        "question_number": 5,
+        "question_text": "How do I nurture cold leads into warm prospects for my (business type) ",
+        "file_path": "generate_more_leads/question_5.json",
+        "category": "generate_more_leads"
+      }
+    ]
+  },
+  "launch_new_service_product": {
+    "category": "launch_new_service_product",
+    "display_name": "Launch New Product/Service",
+    "icon": "🚀",
+    "description": "Successfully introduce your new offering",
+    "questions": [
+      {
+        "question_number": 1,
+        "question_text": "How should I launch my new product to (demographic)) with a budget of $(XXXXXX) ",
+        "file_path": "launch_new_service_product/question_1.json",
+        "category": "launch_new_service_product"
+      },
+      {
+        "question_number": 2,
+        "question_text": "What pre-launch marketing should I use to build anticipation for my (business type)) ",
+        "file_path": "launch_new_service_product/question_2.json",
+        "category": "launch_new_service_product"
+      },
+      {
+        "question_number": 3,
+        "question_text": "How do I price my (product/service) for (demographic) when launching (timeframe) ",
+        "file_path": "launch_new_service_product/question_3.json",
+        "category": "launch_new_service_product"
+      },
+      {
+        "question_number": 4,
+        "question_text": "What distribution channels should I use to launch my (unique business proposition) (business type) in (location) ",
+        "file_path": "launch_new_service_product/question_4.json",
+        "category": "launch_new_service_product"
+      },
+      {
+        "question_number": 5,
+        "question_text": "How can I get early adopters to try my new (product))and provide testimonials ",
+        "file_path": "launch_new_service_product/question_5.json",
+        "category": "launch_new_service_product"
+      }
+    ]
+  },
+  "retain_customers": {
+    "category": "retain_customers",
+    "display_name": "Retain Customers",
+    "icon": "🔄",
+    "description": "Keep customers coming back",
+    "questions": [
+      {
+        "question_number": 1,
+        "question_text": "How do I reduce customer churn for my (product/service) from (range) (weekly/monthly/annually) ",
+        "file_path": "retain_customers/question_1.json",
+        "category": "retain_customers"
+      },
+      {
+        "question_number": 2,
+        "question_text": "What loyalty program should I create for my (business type) customers ",
+        "file_path": "retain_customers/question_2.json",
+        "category": "retain_customers"
+      },
+      {
+        "question_number": 3,
+        "question_text": "How can I re-engage inactive customers who haven't purchased from my (digital/brick-and-mortar) buiness in (timeframe) ",
+        "file_path": "retain_customers/question_3.json",
+        "category": "retain_customers"
+      },
+      {
+        "question_number": 4,
+        "question_text": "What customer service improvements will increase retention for my (business type) in competitive downtown ",
+        "file_path": "retain_customers/question_4.json",
+        "category": "retain_customers"
+      },
+      {
+        "question_number": 5,
+        "question_text": "How do I turn one-time buyers into repeat customers for my (product/service) ",
+        "file_path": "retain_customers/question_5.json",
+        "category": "retain_customers"
+      }
+    ]
+  }
+}

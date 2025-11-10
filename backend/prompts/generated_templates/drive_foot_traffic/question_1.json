@@ -1,0 +1,104 @@
+{
+  "category": "drive_foot_traffic",
+  "version": "1.0.0",
+  "meta_prompt_version": "v1.0",
+  "anti_patterns": [
+    "Common Pattern 1: Over-reliance on discounts or promotions without considering community engagement",
+    "Common Pattern 2: Generic social media posts without local or personalized content",
+    "Common Pattern 3: Solely focusing on foot traffic without considering customer retention strategies"
+    ],
+  "prompt_template": "Role: Marketing Guide\n\nIntent: {{userIntent}}\nHelp the user understand and apply practical strategies to increase foot traffic to their boutique in {{location}} by {{XX%}}.\n\nApproach: \n- Explain effective, low-budget marketing strategies tailored for small businesses.\n- Build understanding of how these strategies can be applied in the user's specific context.\n- Check understanding and adapt recommendations based on user feedback.\n\nVariables:\n- {{location}}: Provides context for tailoring strategies to local demographics and market conditions.\n- {{XX%}}: Sets a clear, measurable goal to guide the strategy development.\n- {{currentMarketing}}: Helps assess current efforts and identify gaps.\n- {{targetAudience}}: Ensures strategies are directed towards the most relevant customer base.\n\nConstraints:\n- Length: Concise and actionable\n- Style: Practical and jargon-free\n- Avoid: Generic advice, overly complex theories\n- Focus: Specific tactics that have been proven to work for small boutiques\n\nOutput guidance: Provide a step-by-step plan with clear explanations and examples of each strategy.\n\nSuccess conditions: The user can articulate and apply at least three specific strategies to increase foot traffic by {{XX%}} in their location.",
+  "questions": [
+    {
+      "id": "location",
+      "question": "What is the location of your boutique?",
+      "type": "text",
+      "placeholder": "e.g., downtown Chicago",
+      "why_matters": "Different locations have unique demographics and market conditions, which influence the effectiveness of certain marketing strategies.",
+      "required": true
+    },
+    {
+      "id": "currentMarketing",
+      "question": "What current marketing strategies are you using?",
+      "type": "textarea",
+      "placeholder": "e.g., social media ads, local events, flyers",
+      "required": true
+    },
+    {
+      "id": "targetAudience",
+      "question": "Who is your target audience?",
+      "type": "textarea",
+      "placeholder": "e.g., young professionals, tourists, local families",
+      "why_matters": "Targeting the right audience ensures that marketing efforts are directed towards potential customers who are most likely to visit the boutique.",
+      "required": true
+    }
+  ],
+  "opening_dialog": "Hi! I'm here to help you with your drive foot traffic question 1 business. Let's get started.",
+  "question_number": 1,
+  "question_text": "How can I increase foot traffic to my boutique in (location) by (XX%) ",
+  "generated_at": "2025-11-10T12:28:12.385802",
+  "generated_by": "generate_question_templates.py",
+  "smb_insights": {
+    "budget_ranges": [
+      "Under $500",
+      "$500-1000",
+      "$1000-2500",
+      "$2500-5000",
+      "$5000+"
+    ],
+    "pain_points": [
+      "Limited time for marketing",
+      "Don't know where to start",
+      "Wasted money on ineffective ads",
+      "Can't track ROI",
+      "Competing with bigger businesses"
+    ],
+    "effective_channels": [
+      "Google Business Profile (free)",
+      "Instagram organic",
+      "Local SEO",
+      "Email marketing",
+      "Facebook ads (if budget allows)",
+      "Word of mouth referrals"
+    ],
+    "budget_allocations": {
+      "Under $500": {
+        "focus": "Free and low-cost channels",
+        "channels": [
+          "Google Business Profile",
+          "Social media organic",
+          "Email marketing"
+        ]
+      },
+      "$500-1000": {
+        "focus": "Mix of free and paid",
+        "channels": [
+          "Google Ads (limited)",
+          "Social media ads",
+          "Email marketing"
+        ]
+      },
+      "$1000-2500": {
+        "focus": "Balanced paid and organic",
+        "channels": [
+          "Google Ads",
+          "Social media ads",
+          "Email marketing",
+          "Content marketing"
+        ]
+      },
+      "$2500+": {
+        "focus": "Multi-channel strategy",
+        "channels": [
+          "Google Ads",
+          "Social media ads",
+          "Email marketing",
+          "Content marketing",
+          "Retargeting"
+        ]
+      }
+    },
+    "source": "defaults",
+    "note": "pandas not installed, using hardcoded defaults"
+  }
+}

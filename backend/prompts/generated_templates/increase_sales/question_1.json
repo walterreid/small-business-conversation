@@ -1,0 +1,123 @@
+{
+  "category": "increase_sales",
+  "version": "1.0.0",
+  "meta_prompt_version": "v1.0",
+  "anti_patterns": [
+    "Common Pattern 1: Overly broad advice without actionable steps.",
+    "Common Pattern 2: Focus on expensive marketing strategies not suitable for small budgets.",
+    "Common Pattern 3: Advice that requires extensive expertise or technical skills."
+  ],
+  "prompt_template": "Role: Guide\n\nIntent: {{userIntent}}  \nHelp the user understand practical strategies to increase sales at their small business.\n\nApproach: Explain concepts, check understanding, build gradually  \nProvide specific, actionable strategies tailored to small businesses with limited budgets. Focus on cutting through theoretical noise to deliver real-world, applicable advice.\n\nVariables:\n- {{businessSize}}: Understanding the size of the business helps tailor strategies to scale and resource availability.\n- {{currentChallenges}}: Identifying current challenges allows for targeted advice that addresses specific pain points.\n- {{budgetConstraints}}: Knowing budget limits ensures recommendations are financially feasible.\n- {{targetMarket}}: Understanding the target market enables the crafting of strategies that resonate with the intended audience.\n- {{successfulStrategies}}: Leveraging past successes can build on proven tactics and avoid starting from scratch.\n\nConstraints:\n- Length: Concise, actionable steps\n- Style: Practical, jargon-free, relatable\n- Avoid: Generic advice, theoretical models without applicability\n- Focus: Real-world examples, cost-effective solutions\n\nOutput guidance: Provide step-by-step guidance with examples, case studies, and potential pitfalls to avoid.\n\nSuccess conditions: The user understands and can apply specific strategies to increase sales in their small business context.\n\n---\n\n**PART 3 - GENERATE QUESTIONS**\n\nVariable: {{businessSize}}\nQuestion: \"What is the size of your business?\"\nType: select\nPlaceholder/Options: \"Micro (1-9 employees), Small (10-49 employees), Medium (50-249 employees)\"\nWhy it matters: Knowing the size of the business helps tailor advice to the scale and resources available.\n\nVariable: {{currentChallenges}}\nQuestion: \"What are the current challenges you face in increasing sales?\"\nType: textarea\nPlaceholder: \"Describe any specific obstacles or issues you are encountering.\"\nWhy it matters: Identifying specific challenges allows for targeted strategies that address real pain points.\n\nVariable: {{budgetConstraints}}\nQuestion: \"What is your budget for sales and marketing initiatives?\"\nType: text\nPlaceholder: \"Enter your available budget here.\"\nWhy it matters: Understanding budget constraints ensures that the strategies suggested are financially feasible.\n\nVariable: {{targetMarket}}\nQuestion: \"Who is your target market?\"\nType: textarea\nPlaceholder: \"Describe your ideal customer or market segment.\"\nWhy it matters: Knowing the target market helps in devising strategies that are more likely to resonate with the intended audience.\n\nVariable: {{successfulStrategies}}\nQuestion: \"Have you implemented any strategies in the past that successfully increased sales?\"\nType: textarea\nPlaceholder: \"List any successful tactics you've used before.\"\nWhy it matters: Building on past successful strategies can enhance effectiveness and save time on experimentation.",
+  "questions": [
+    {
+      "id": "businessSize",
+      "question": "What is the size of your business?",
+      "type": "select",
+      "options": [
+        "Micro (1-9 employees), Small (10-49 employees), Medium (50-249 employees)"
+      ],
+      "why_matters": "Knowing the size of the business helps tailor advice to the scale and resources available.",
+      "required": true
+    },
+    {
+      "id": "currentChallenges",
+      "question": "What are the current challenges you face in increasing sales?",
+      "type": "textarea",
+      "placeholder": "Describe any specific obstacles or issues you are encountering.",
+      "why_matters": "Identifying specific challenges allows for targeted strategies that address real pain points.",
+      "required": true
+    },
+    {
+      "id": "budgetConstraints",
+      "question": "What is your budget for sales and marketing initiatives?",
+      "type": "text",
+      "placeholder": "Enter your available budget here.",
+      "why_matters": "Understanding budget constraints ensures that the strategies suggested are financially feasible.",
+      "required": true
+    },
+    {
+      "id": "targetMarket",
+      "question": "Who is your target market?",
+      "type": "textarea",
+      "placeholder": "Describe your ideal customer or market segment.",
+      "why_matters": "Knowing the target market helps in devising strategies that are more likely to resonate with the intended audience.",
+      "required": true
+    },
+    {
+      "id": "successfulStrategies",
+      "question": "Have you implemented any strategies in the past that successfully increased sales?",
+      "type": "textarea",
+      "placeholder": "List any successful tactics you",
+      "why_matters": "Building on past successful strategies can enhance effectiveness and save time on experimentation.",
+      "required": true
+    }
+  ],
+  "opening_dialog": "Hi! I'm here to help you with your increase sales question 1 business. Let's get started.",
+  "question_number": 1,
+  "question_text": "How do I increase sales at my (size) business ",
+  "generated_at": "2025-11-10T12:18:15.869370",
+  "generated_by": "generate_question_templates.py",
+  "smb_insights": {
+    "budget_ranges": [
+      "Under $500",
+      "$500-1000",
+      "$1000-2500",
+      "$2500-5000",
+      "$5000+"
+    ],
+    "pain_points": [
+      "Limited time for marketing",
+      "Don't know where to start",
+      "Wasted money on ineffective ads",
+      "Can't track ROI",
+      "Competing with bigger businesses"
+    ],
+    "effective_channels": [
+      "Google Business Profile (free)",
+      "Instagram organic",
+      "Local SEO",
+      "Email marketing",
+      "Facebook ads (if budget allows)",
+      "Word of mouth referrals"
+    ],
+    "budget_allocations": {
+      "Under $500": {
+        "focus": "Free and low-cost channels",
+        "channels": [
+          "Google Business Profile",
+          "Social media organic",
+          "Email marketing"
+        ]
+      },
+      "$500-1000": {
+        "focus": "Mix of free and paid",
+        "channels": [
+          "Google Ads (limited)",
+          "Social media ads",
+          "Email marketing"
+        ]
+      },
+      "$1000-2500": {
+        "focus": "Balanced paid and organic",
+        "channels": [
+          "Google Ads",
+          "Social media ads",
+          "Email marketing",
+          "Content marketing"
+        ]
+      },
+      "$2500+": {
+        "focus": "Multi-channel strategy",
+        "channels": [
+          "Google Ads",
+          "Social media ads",
+          "Email marketing",
+          "Content marketing",
+          "Retargeting"
+        ]
+      }
+    },
+    "source": "defaults",
+    "note": "pandas not installed, using hardcoded defaults"
+  }
+}

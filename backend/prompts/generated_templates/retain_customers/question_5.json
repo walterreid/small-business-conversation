@@ -1,0 +1,105 @@
+{
+  "category": "retain_customers",
+  "version": "1.0.0",
+  "meta_prompt_version": "v1.0",
+  "anti_patterns": [
+    "Common Pattern 1: Relying solely on discounts or promotions to drive loyalty",
+    "Common Pattern 2: Using generic loyalty programs without personalization",
+    "Common Pattern 3: Focusing on acquisition rather than retention tactics"
+  ],
+  "prompt_template": "Role: Marketing Guide\n\nIntent: {{userIntent}}  \nTo understand practical, actionable strategies to turn one-time buyers into repeat customers for a small business.\n\nApproach: Explain concepts, check understanding, build gradually.  \nProvide practical, step-by-step strategies and real-world examples that can be applied by a small business with a limited budget.\n\nVariables:\n- {{productOrService}}: Understanding the specific product or service helps tailor strategies that align with the nature of what is being sold.\n- {{budget}}: Knowing the budget constraints ensures that the strategies suggested are financially feasible for the user.\n- {{currentCustomerEngagement}}: Understanding current customer engagement practices helps in building upon or refining existing efforts.\n\nConstraints:\n- Length: Concise and focused\n- Style: Practical and relatable\n- Avoid: Generic advice, overly theoretical explanations\n- Focus: Tactics that have been proven effective for small businesses\n\nOutput guidance: Provide a list of actionable strategies with explanations on how to implement them effectively.\n\nSuccess conditions: The user gains a clear understanding of practical strategies that can be applied to turn one-time buyers into repeat customers, fitting within their budget and aligning with their current customer engagement practices.",
+  "questions": [
+    {
+      "id": "productOrService",
+      "question": "What is the specific product or service you are offering?",
+      "type": "text",
+      "placeholder": "e.g., organic skincare products, web design services",
+      "why_matters": "Understanding the product or service allows for tailored strategies that consider the nature and appeal of what is being sold.",
+      "required": true
+    },
+    {
+      "id": "budget",
+      "question": "What is your budget for customer retention strategies?",
+      "type": "text",
+      "placeholder": "e.g., $500 per month",
+      "why_matters": "Knowing the budget helps ensure that the strategies recommended are financially feasible and aligned with the user’s resources.",
+      "required": true
+    },
+    {
+      "id": "currentCustomerEngagement",
+      "question": "What are your current practices for engaging with customers?",
+      "type": "textarea",
+      "placeholder": "e.g., email newsletters, social media interactions, loyalty programs",
+      "why_matters": "Understanding current engagement practices allows for building upon existing efforts and identifying areas for improvement or new opportunities.",
+      "required": true
+    }
+  ],
+  "opening_dialog": "Hi! I'm here to help you with your retain customers question 5 business. Let's get started.",
+  "question_number": 5,
+  "question_text": "How do I turn one-time buyers into repeat customers for my (product/service) ",
+  "generated_at": "2025-11-10T12:31:52.791750",
+  "generated_by": "generate_question_templates.py",
+  "smb_insights": {
+    "budget_ranges": [
+      "Under $500",
+      "$500-1000",
+      "$1000-2500",
+      "$2500-5000",
+      "$5000+"
+    ],
+    "pain_points": [
+      "Limited time for marketing",
+      "Don't know where to start",
+      "Wasted money on ineffective ads",
+      "Can't track ROI",
+      "Competing with bigger businesses"
+    ],
+    "effective_channels": [
+      "Google Business Profile (free)",
+      "Instagram organic",
+      "Local SEO",
+      "Email marketing",
+      "Facebook ads (if budget allows)",
+      "Word of mouth referrals"
+    ],
+    "budget_allocations": {
+      "Under $500": {
+        "focus": "Free and low-cost channels",
+        "channels": [
+          "Google Business Profile",
+          "Social media organic",
+          "Email marketing"
+        ]
+      },
+      "$500-1000": {
+        "focus": "Mix of free and paid",
+        "channels": [
+          "Google Ads (limited)",
+          "Social media ads",
+          "Email marketing"
+        ]
+      },
+      "$1000-2500": {
+        "focus": "Balanced paid and organic",
+        "channels": [
+          "Google Ads",
+          "Social media ads",
+          "Email marketing",
+          "Content marketing"
+        ]
+      },
+      "$2500+": {
+        "focus": "Multi-channel strategy",
+        "channels": [
+          "Google Ads",
+          "Social media ads",
+          "Email marketing",
+          "Content marketing",
+          "Retargeting"
+        ]
+      }
+    },
+    "source": "defaults",
+    "note": "pandas not installed, using hardcoded defaults"
+  }
+}

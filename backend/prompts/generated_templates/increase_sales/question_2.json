@@ -1,0 +1,105 @@
+{
+  "category": "increase_sales",
+  "version": "1.0.0",
+  "meta_prompt_version": "v1.0",
+  "anti_patterns": [
+    "Common Pattern 1: Overly broad advice without actionable steps.",
+    "Common Pattern 2: Focus on expensive marketing strategies not suitable for small budgets.",
+    "Common Pattern 3: Advice that requires extensive expertise or technical skills."
+  ],
+  "prompt_template": "Role: Pricing Strategy Guide\n\nIntent: {{userIntent}}\nHelp the user understand and identify the most suitable pricing strategy for their product/service to maximize revenue effectively.\n\nApproach: \nExplain various pricing strategies, highlight the pros and cons of each, and provide practical examples relevant to small businesses. Offer guidance on how to apply these strategies considering the user's specific business context and constraints.\n\nVariables: \n- {{productOrService}}: Identifying the product or service will allow for tailored pricing strategy recommendations.\n- {{businessContext}}: Understanding the business context helps in aligning pricing strategies with the user's specific circumstances.\n- {{revenueGoals}}: Knowing the revenue goals provides a target to benchmark the effectiveness of different strategies.\n\nConstraints:\n- Length: Concise, actionable insights\n- Style: Practical, real-world examples\n- Avoid: Generic, theory-heavy explanations\n- Focus: Specific strategies for small businesses with limited budgets\n\nOutput guidance: Provide a step-by-step explanation of suitable pricing strategies, including actionable steps for implementation.\n\nSuccess conditions: The user understands different pricing strategies and can choose one that aligns with their business goals and constraints.\n\n---",
+  "questions": [
+    {
+      "id": "productOrService",
+      "question": "What is the product or service you are looking to price?",
+      "type": "text",
+      "placeholder": "e.g., handmade jewelry, consulting services",
+      "why_matters": "Specifying the product or service helps tailor the pricing strategies to fit the unique characteristics and market positioning of what you are offering.",
+      "required": true
+    },
+    {
+      "id": "businessContext",
+      "question": "Can you describe the current context of your business?",
+      "type": "textarea",
+      "placeholder": "e.g., startup phase, established local business, online store",
+      "why_matters": "Understanding the business context ensures the pricing strategy recommendations are relevant to your specific situation and challenges.",
+      "required": true
+    },
+    {
+      "id": "revenueGoals",
+      "question": "What are your revenue goals for this product/service?",
+      "type": "text",
+      "placeholder": "e.g., increase by 20%, achieve $10,000 monthly",
+      "why_matters": "Knowing your revenue goals provides a clear target to aim for, allowing the pricing strategy to be aligned with your financial objectives.",
+      "required": true
+    }
+  ],
+  "opening_dialog": "Hi! I'm here to help you with your increase sales question 2 business. Let's get started.",
+  "question_number": 2,
+  "question_text": "What pricing strategy should I use for my (product/service) to maximize revenue ",
+  "generated_at": "2025-11-10T12:18:28.210521",
+  "generated_by": "generate_question_templates.py",
+  "smb_insights": {
+    "budget_ranges": [
+      "Under $500",
+      "$500-1000",
+      "$1000-2500",
+      "$2500-5000",
+      "$5000+"
+    ],
+    "pain_points": [
+      "Limited time for marketing",
+      "Don't know where to start",
+      "Wasted money on ineffective ads",
+      "Can't track ROI",
+      "Competing with bigger businesses"
+    ],
+    "effective_channels": [
+      "Google Business Profile (free)",
+      "Instagram organic",
+      "Local SEO",
+      "Email marketing",
+      "Facebook ads (if budget allows)",
+      "Word of mouth referrals"
+    ],
+    "budget_allocations": {
+      "Under $500": {
+        "focus": "Free and low-cost channels",
+        "channels": [
+          "Google Business Profile",
+          "Social media organic",
+          "Email marketing"
+        ]
+      },
+      "$500-1000": {
+        "focus": "Mix of free and paid",
+        "channels": [
+          "Google Ads (limited)",
+          "Social media ads",
+          "Email marketing"
+        ]
+      },
+      "$1000-2500": {
+        "focus": "Balanced paid and organic",
+        "channels": [
+          "Google Ads",
+          "Social media ads",
+          "Email marketing",
+          "Content marketing"
+        ]
+      },
+      "$2500+": {
+        "focus": "Multi-channel strategy",
+        "channels": [
+          "Google Ads",
+          "Social media ads",
+          "Email marketing",
+          "Content marketing",
+          "Retargeting"
+        ]
+      }
+    },
+    "source": "defaults",
+    "note": "pandas not installed, using hardcoded defaults"
+  }
+}

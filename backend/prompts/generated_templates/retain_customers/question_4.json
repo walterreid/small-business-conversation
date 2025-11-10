@@ -1,0 +1,115 @@
+{
+  "category": "retain_customers",
+  "version": "1.0.0",
+  "meta_prompt_version": "v1.0",
+  "anti_patterns": [
+    "Common Pattern 1: Relying solely on discounts or promotions to drive loyalty",
+    "Common Pattern 2: Using generic loyalty programs without personalization",
+    "Common Pattern 3: Focusing on acquisition rather than retention tactics"
+  ],
+  "prompt_template": "Role: Customer Service Guide\n\nIntent: {{userIntent}}\nWhat specific customer service improvements will increase retention for my (business type) in a competitive downtown area?\n\nApproach: Explain concepts, check understanding, build gradually\nProvide step-by-step guidance on actionable customer service strategies that effectively improve customer retention, taking into account the unique challenges of a competitive downtown environment.\n\nVariables:\n- {{businessType}}: Helps tailor the strategies to the specific needs and characteristics of the user's business.\n- {{competitiveFactors}}: Identifies challenges unique to the downtown area that must be considered in customer service improvements.\n- {{currentRetentionStrategies}}: Provides a baseline to understand what is already in place and what gaps need addressing.\n- {{budgetConstraints}}: Ensures that the strategies suggested are financially viable for a small business.\n\nConstraints:\n- Length: Concise and focused\n- Style: Practical and actionable\n- Avoid: Generic advice\n- Focus: Specific tactics for small businesses\n\nOutput guidance: Provide a list of specific customer service improvements with explanations on how they will enhance customer retention.\n\nSuccess conditions: The user understands practical, actionable customer service strategies that can be implemented within their budget to improve customer retention.",
+  "questions": [
+    {
+      "id": "businessType",
+      "question": "What type of business do you operate in the downtown area?",
+      "type": "select",
+      "options": [
+        "Retail, Restaurant, Service Provider, etc."
+      ],
+      "why_matters": "Knowing the business type allows for targeted strategies that cater to specific industry needs.",
+      "required": true
+    },
+    {
+      "id": "competitiveFactors",
+      "question": "What are the main competitive challenges your business faces in the downtown area?",
+      "type": "textarea",
+      "placeholder": "Describe factors like high rent, foot traffic competition, etc.",
+      "why_matters": "Understanding these factors helps in designing strategies that address real-world challenges.",
+      "required": true
+    },
+    {
+      "id": "currentRetentionStrategies",
+      "question": "What customer retention strategies are you currently using?",
+      "type": "textarea",
+      "placeholder": "List existing strategies such as loyalty programs, personalized service, etc.",
+      "why_matters": "Identifying current strategies helps in refining and building upon them effectively.",
+      "required": true
+    },
+    {
+      "id": "budgetConstraints",
+      "question": "What is your budget for customer service improvements?",
+      "type": "text",
+      "placeholder": "Provide a specific budget range or amount.",
+      "why_matters": "Ensuring strategies are financially feasible prevents overextension and aligns with small business capabilities.",
+      "required": true
+    }
+  ],
+  "opening_dialog": "Hi! I'm here to help you with your retain customers question 4 business. Let's get started.",
+  "question_number": 4,
+  "question_text": "What customer service improvements will increase retention for my (business type) in competitive downtown ",
+  "generated_at": "2025-11-10T12:31:45.691600",
+  "generated_by": "generate_question_templates.py",
+  "smb_insights": {
+    "budget_ranges": [
+      "Under $500",
+      "$500-1000",
+      "$1000-2500",
+      "$2500-5000",
+      "$5000+"
+    ],
+    "pain_points": [
+      "Limited time for marketing",
+      "Don't know where to start",
+      "Wasted money on ineffective ads",
+      "Can't track ROI",
+      "Competing with bigger businesses"
+    ],
+    "effective_channels": [
+      "Google Business Profile (free)",
+      "Instagram organic",
+      "Local SEO",
+      "Email marketing",
+      "Facebook ads (if budget allows)",
+      "Word of mouth referrals"
+    ],
+    "budget_allocations": {
+      "Under $500": {
+        "focus": "Free and low-cost channels",
+        "channels": [
+          "Google Business Profile",
+          "Social media organic",
+          "Email marketing"
+        ]
+      },
+      "$500-1000": {
+        "focus": "Mix of free and paid",
+        "channels": [
+          "Google Ads (limited)",
+          "Social media ads",
+          "Email marketing"
+        ]
+      },
+      "$1000-2500": {
+        "focus": "Balanced paid and organic",
+        "channels": [
+          "Google Ads",
+          "Social media ads",
+          "Email marketing",
+          "Content marketing"
+        ]
+      },
+      "$2500+": {
+        "focus": "Multi-channel strategy",
+        "channels": [
+          "Google Ads",
+          "Social media ads",
+          "Email marketing",
+          "Content marketing",
+          "Retargeting"
+        ]
+      }
+    },
+    "source": "defaults",
+    "note": "pandas not installed, using hardcoded defaults"
+  }
+}

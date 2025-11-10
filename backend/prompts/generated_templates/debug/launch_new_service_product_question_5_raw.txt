@@ -1,0 +1,76 @@
+=== RAW OPENAI OUTPUT ===
+
+PART 1 - IDENTIFY INTENT TYPE
+
+The user's primary intent is to understand how to get early adopters to try their new product and provide testimonials. This is an **UNDERSTANDING** task because the user is seeking actionable strategies and insights to achieve a specific marketing goal.
+
+PART 2 - DESIGN THE TEMPLATE
+
+**PROMPT_TEMPLATE:**
+Role: Marketing Guide
+
+Intent: {{userIntent}}
+Help the user understand how to effectively attract early adopters to their new product and obtain testimonials.
+
+Approach:
+Explain practical, actionable marketing strategies step-by-step that are suitable for small businesses with limited budgets. Focus on building the user's understanding of these strategies and how they can be implemented.
+
+Variables:
+- {{product}}: Understanding the specific product helps tailor the marketing strategies to its unique features and benefits.
+- {{targetAudience}}: Knowing the target audience is crucial for crafting messages that resonate and attract early adopters.
+- {{budget}}: Understanding the budget constraints allows for recommending cost-effective strategies.
+- {{testimonialFormat}}: Knowing the desired format for testimonials helps ensure they meet the user's needs.
+
+Constraints:
+- Length: Concise but thorough explanations
+- Style: Practical and actionable
+- Avoid: Generic advice, overly theoretical concepts
+- Focus: Specific tactics, real-world applicability
+
+Output guidance:
+Provide a detailed explanation of strategies with examples relevant to the user's product and target audience.
+
+Success conditions:
+The user gains a clear understanding of specific marketing tactics they can use to attract early adopters and gather testimonials.
+
+PART 3 - GENERATE QUESTIONS
+
+Variable: {{product}}
+Question: "What is your new product, and what are its unique features and benefits?"
+Type: textarea
+Placeholder/Options: "Describe your product and its standout features..."
+Why it matters: Understanding the product helps tailor marketing strategies to highlight its unique selling points.
+
+Variable: {{targetAudience}}
+Question: "Who is your target audience for this product?"
+Type: text
+Placeholder/Options: "Define your target audience..."
+Why it matters: Knowing the target audience ensures the strategies resonate with and attract the right early adopters.
+
+Variable: {{budget}}
+Question: "What is your marketing budget for attracting early adopters?"
+Type: text
+Placeholder/Options: "Specify your budget..."
+Why it matters: Budget constraints influence the feasibility of different marketing strategies.
+
+Variable: {{testimonialFormat}}
+Question: "What format do you prefer for the testimonials (e.g., text, video)?"
+Type: select
+Placeholder/Options: "Text, Video, Audio, etc."
+Why it matters: Knowing the preferred testimonial format helps in designing strategies that facilitate obtaining testimonials in the desired form.
+
+=== PARSED TEMPLATE ===
+
+{
+  "category": "launch_new_service_product",
+  "version": "1.0.0",
+  "meta_prompt_version": "v1.0",
+  "anti_patterns": [],
+  "prompt_template": "Role: Marketing Guide\n\nIntent: {{userIntent}}\nHelp the user understand how to effectively attract early adopters to their new product and obtain testimonials.\n\nApproach:\nExplain practical, actionable marketing strategies step-by-step that are suitable for small businesses with limited budgets. Focus on building the user's understanding of these strategies and how they can be implemented.\n\nVariables:\n- {{product}}: Understanding the specific product helps tailor the marketing strategies to its unique features and benefits.\n- {{targetAudience}}: Knowing the target audience is crucial for crafting messages that resonate and attract early adopters.\n- {{budget}}: Understanding the budget constraints allows for recommending cost-effective strategies.\n- {{testimonialFormat}}: Knowing the desired format for testimonials helps ensure they meet the user's needs.\n\nConstraints:\n- Length: Concise but thorough explanations\n- Style: Practical and actionable\n- Avoid: Generic advice, overly theoretical concepts\n- Focus: Specific tactics, real-world applicability\n\nOutput guidance:\nProvide a detailed explanation of strategies with examples relevant to the user's product and target audience.\n\nSuccess conditions:\nThe user gains a clear understanding of specific marketing tactics they can use to attract early adopters and gather testimonials.",
+  "questions": [],
+  "opening_dialog": "Hi! I'm here to help you with your launch new service product question 5 business. Let's get started.",
+  "question_number": 5,
+  "question_text": "How can I get early adopters to try my new (product))and provide testimonials ",
+  "generated_at": "2025-11-10T12:31:03.527584",
+  "generated_by": "generate_question_templates.py"
+}

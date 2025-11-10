@@ -1,0 +1,97 @@
+{
+  "category": "launch_new_service_product",
+  "version": "1.0.0",
+  "meta_prompt_version": "v1.0",
+  "anti_patterns": [
+    "Common Pattern 1: Overly broad marketing language without actionable details",
+    "Common Pattern 2: Focus on features rather than benefits to early adopters",
+    "Common Pattern 3: Generic \"social media buzz\" strategies without targeted audience engagement"
+    ],
+  "prompt_template": "- **Role:** Marketing Strategist\n\n- **Intent:** {{userIntent}}\n  - The user wants to develop a practical and actionable product launch strategy targeting a specific demographic within a limited budget.\n\n- **Approach:**\n  - Generate a first draft of the launch plan, iterate based on feedback, and refine to ensure practicality and effectiveness.\n\n- **Variables:**\n  - {{demographic}}: Understanding the target audience is crucial for tailoring marketing messages and selecting appropriate channels.\n  - {{budget}}: Defines the scope and scale of marketing activities, ensuring cost-effective strategies are prioritized.\n\n- **Constraints:**\n  - Length: Concise, actionable plan (1-2 pages)\n  - Style: Practical, direct, and jargon-free\n  - Avoid: Generic advice that lacks specificity to small business needs\n  - Focus: Cost-effective tactics, leveraging existing resources, and direct engagement methods\n\n- **Output Guidance:**\n  - Provide a structured plan with clear steps, timelines, and measurable goals.\n\n- **Success Conditions:**\n  - The user receives a detailed launch strategy that is feasible within their budget and effectively targets the specified demographic.",
+  "questions": [
+    {
+      "id": "demographic",
+      "question": "Who is your target demographic for this product launch?",
+      "type": "textarea",
+      "placeholder": "e.g., young professionals aged 25-35, small business owners, tech-savvy millennials",
+      "why_matters": "Understanding the target demographic is crucial for tailoring marketing messages and selecting the most appropriate channels to reach your ideal customers.",
+      "required": true
+    },
+    {
+      "id": "budget",
+      "question": "What is your budget for the product launch?",
+      "type": "text",
+      "placeholder": "e.g., $500, $1000, $5000, under $2000",
+      "why_matters": "The budget determines the scope and scale of marketing activities, ensuring cost-effective strategies are prioritized and the launch plan is feasible.",
+      "required": true
+    }
+  ],
+  "opening_dialog": "Hi! I'm here to help you launch your new product successfully. Let's start by understanding your target audience and budget so I can create a practical launch strategy for you.",
+  "question_number": 1,
+  "question_text": "How should I launch my new product to (demographic)) with a budget of $(XXXXXX) ",
+  "generated_at": "2025-11-10T12:30:19.725788",
+  "generated_by": "generate_question_templates.py",
+  "smb_insights": {
+    "budget_ranges": [
+      "Under $500",
+      "$500-1000",
+      "$1000-2500",
+      "$2500-5000",
+      "$5000+"
+    ],
+    "pain_points": [
+      "Limited time for marketing",
+      "Don't know where to start",
+      "Wasted money on ineffective ads",
+      "Can't track ROI",
+      "Competing with bigger businesses"
+    ],
+    "effective_channels": [
+      "Google Business Profile (free)",
+      "Instagram organic",
+      "Local SEO",
+      "Email marketing",
+      "Facebook ads (if budget allows)",
+      "Word of mouth referrals"
+    ],
+    "budget_allocations": {
+      "Under $500": {
+        "focus": "Free and low-cost channels",
+        "channels": [
+          "Google Business Profile",
+          "Social media organic",
+          "Email marketing"
+        ]
+      },
+      "$500-1000": {
+        "focus": "Mix of free and paid",
+        "channels": [
+          "Google Ads (limited)",
+          "Social media ads",
+          "Email marketing"
+        ]
+      },
+      "$1000-2500": {
+        "focus": "Balanced paid and organic",
+        "channels": [
+          "Google Ads",
+          "Social media ads",
+          "Email marketing",
+          "Content marketing"
+        ]
+      },
+      "$2500+": {
+        "focus": "Multi-channel strategy",
+        "channels": [
+          "Google Ads",
+          "Social media ads",
+          "Email marketing",
+          "Content marketing",
+          "Retargeting"
+        ]
+      }
+    },
+    "source": "defaults",
+    "note": "pandas not installed, using hardcoded defaults"
+  }
+}

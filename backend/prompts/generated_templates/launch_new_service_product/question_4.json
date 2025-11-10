@@ -1,0 +1,107 @@
+{
+  "category": "launch_new_service_product",
+  "version": "1.0.0",
+  "meta_prompt_version": "v1.0",
+  "anti_patterns": [
+    "Common Pattern 1: Overly broad marketing language without actionable details",
+    "Common Pattern 2: Focus on features rather than benefits to early adopters",
+    "Common Pattern 3: Generic \"social media buzz\" strategies without targeted audience engagement"
+    ],
+  "prompt_template": "Role: Guide\n\nIntent: {{userIntent}}\nHelp the user understand the most effective distribution channels for launching their specific business in the given location.\n\nApproach: Explain the pros and cons of different distribution channels and suggest tailored strategies considering the unique aspects of their business proposition, type, and location. Build the user's understanding gradually by connecting these strategies to their goals and existing knowledge.\n\nVariables:\n- {{uniqueBusinessProposition}}: Helps in identifying what makes the business stand out, which can influence channel selection.\n- {{businessType}}: Provides context on the industry, which may have specific successful channels.\n- {{location}}: Offers insights into local market dynamics and customer preferences.\n\nConstraints:\n- Style: Practical and specific\n- Avoid: Generic advice\n- Focus: Nuance and practicality\n\nOutput guidance: Provide a list of recommended channels with explanations on why they are suitable for the user's business context.\n\nSuccess conditions: The user can confidently decide on the distribution channels that align with their business goals, budget, and market context.\n\n**PART 3 - GENERATE QUESTIONS**\n\nVariable: {{uniqueBusinessProposition}}\nQuestion: \"What is your unique business proposition that sets you apart from competitors?\"\nType: textarea\nPlaceholder/Options: \"e.g., eco-friendly packaging for your product\"\nWhy it matters: Understanding the unique aspects of your business helps tailor distribution channel recommendations that highlight and leverage your strengths.\n\nVariable: {{businessType}}\nQuestion: \"What type of business are you launching?\"\nType: select\nPlaceholder/Options: \"Retail, Service, Food & Beverage, Technology, etc.\"\nWhy it matters: Different business types often require different distribution strategies, and this information helps in providing more industry-specific advice.\n\nVariable: {{location}}\nQuestion: \"Where is your business located?\"\nType: text\nPlaceholder/Options: \"City, State, or Country\"\nWhy it matters: The location can significantly impact distribution channel effectiveness due to local customer behavior, competition, and logistical considerations.",
+  "questions": [
+    {
+      "id": "uniqueBusinessProposition",
+      "question": "What is your unique business proposition that sets you apart from competitors?",
+      "type": "textarea",
+      "placeholder": "e.g., eco-friendly packaging for your product",
+      "why_matters": "Understanding the unique aspects of your business helps tailor distribution channel recommendations that highlight and leverage your strengths.",
+      "required": true
+    },
+    {
+      "id": "businessType",
+      "question": "What type of business are you launching?",
+      "type": "select",
+      "options": [
+        "Retail, Service, Food & Beverage, Technology, etc."
+      ],
+      "why_matters": "Different business types often require different distribution strategies, and this information helps in providing more industry-specific advice.",
+      "required": true
+    },
+    {
+      "id": "location",
+      "question": "Where is your business located?",
+      "type": "text",
+      "placeholder": "City, State, or Country",
+      "why_matters": "The location can significantly impact distribution channel effectiveness due to local customer behavior, competition, and logistical considerations.",
+      "required": true
+    }
+  ],
+  "opening_dialog": "Hi! I'm here to help you with your launch new service product question 4 business. Let's get started.",
+  "question_number": 4,
+  "question_text": "What distribution channels should I use to launch my (unique business proposition) (business type) in (location) ",
+  "generated_at": "2025-11-10T12:32:15.698343",
+  "generated_by": "generate_question_templates.py",
+  "smb_insights": {
+    "budget_ranges": [
+      "Under $500",
+      "$500-1000",
+      "$1000-2500",
+      "$2500-5000",
+      "$5000+"
+    ],
+    "pain_points": [
+      "Limited time for marketing",
+      "Don't know where to start",
+      "Wasted money on ineffective ads",
+      "Can't track ROI",
+      "Competing with bigger businesses"
+    ],
+    "effective_channels": [
+      "Google Business Profile (free)",
+      "Instagram organic",
+      "Local SEO",
+      "Email marketing",
+      "Facebook ads (if budget allows)",
+      "Word of mouth referrals"
+    ],
+    "budget_allocations": {
+      "Under $500": {
+        "focus": "Free and low-cost channels",
+        "channels": [
+          "Google Business Profile",
+          "Social media organic",
+          "Email marketing"
+        ]
+      },
+      "$500-1000": {
+        "focus": "Mix of free and paid",
+        "channels": [
+          "Google Ads (limited)",
+          "Social media ads",
+          "Email marketing"
+        ]
+      },
+      "$1000-2500": {
+        "focus": "Balanced paid and organic",
+        "channels": [
+          "Google Ads",
+          "Social media ads",
+          "Email marketing",
+          "Content marketing"
+        ]
+      },
+      "$2500+": {
+        "focus": "Multi-channel strategy",
+        "channels": [
+          "Google Ads",
+          "Social media ads",
+          "Email marketing",
+          "Content marketing",
+          "Retargeting"
+        ]
+      }
+    },
+    "source": "defaults",
+    "note": "pandas not installed, using hardcoded defaults"
+  }
+}

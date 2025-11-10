@@ -1,0 +1,97 @@
+{
+  "category": "build_brand_awareness",
+  "version": "1.0.0",
+  "meta_prompt_version": "v1.0",
+  "anti_patterns": [
+    "Common Pattern 1: Overemphasis on social media presence without unique content",
+    "Common Pattern 2: Relying solely on discounts and promotions to attract attention",
+    "Common Pattern 3: Generic messaging that lacks a clear brand voice or story"
+  ],
+  "prompt_template": "Role: Media Strategy Guide\n\nIntent: {{userIntent}}\nDetermine effective strategies to gain media coverage for a small business in a specific location.\n\nApproach: \nExplain concepts of media engagement for small businesses, check understanding of proposed strategies, and build gradually on practical steps.\n\nVariables:\n- {{businessType}}: Understanding the nature of the business helps tailor media outreach strategies that align with industry norms and newsworthiness.\n- {{location}}: Knowing the location allows for the identification of local media outlets and tailoring of strategies to fit regional interests and news cycles.\n\nConstraints:\n- Length: Concise and actionable\n- Style: Practical and relatable\n- Avoid: Generic advice that doesn't consider specific business or local context\n- Focus: Cost-effective strategies, leveraging existing resources, and building relationships\n\nOutput guidance: Provide a step-by-step guide on media outreach strategies, incorporating examples relevant to the user's business type and location.\n\nSuccess conditions: The user understands and feels confident in executing media outreach strategies tailored to their business type and location, leading to actual media coverage.",
+  "questions": [
+    {
+      "id": "businessType",
+      "question": "What type of business do you have?",
+      "type": "text",
+      "placeholder": "e.g., bakery, tech startup, clothing boutique",
+      "why_matters": "The nature of your business influences which media outlets and story angles will be most effective in gaining coverage.",
+      "required": true
+    },
+    {
+      "id": "location",
+      "question": "Where is your business located?",
+      "type": "text",
+      "placeholder": "e.g., New York City, rural Texas, downtown Chicago",
+      "why_matters": "Location affects the choice of media outlets and the relevance of your story to the local audience, helping to tailor outreach strategies effectively.",
+      "required": true
+    }
+  ],
+  "opening_dialog": "Hi! I'm here to help you with your build brand awareness question 3 business. Let's get started.",
+  "question_number": 3,
+  "question_text": "How can I get media coverage for my (business type) in (location) ",
+  "generated_at": "2025-11-10T12:27:36.982997",
+  "generated_by": "generate_question_templates.py",
+  "smb_insights": {
+    "budget_ranges": [
+      "Under $500",
+      "$500-1000",
+      "$1000-2500",
+      "$2500-5000",
+      "$5000+"
+    ],
+    "pain_points": [
+      "Limited time for marketing",
+      "Don't know where to start",
+      "Wasted money on ineffective ads",
+      "Can't track ROI",
+      "Competing with bigger businesses"
+    ],
+    "effective_channels": [
+      "Google Business Profile (free)",
+      "Instagram organic",
+      "Local SEO",
+      "Email marketing",
+      "Facebook ads (if budget allows)",
+      "Word of mouth referrals"
+    ],
+    "budget_allocations": {
+      "Under $500": {
+        "focus": "Free and low-cost channels",
+        "channels": [
+          "Google Business Profile",
+          "Social media organic",
+          "Email marketing"
+        ]
+      },
+      "$500-1000": {
+        "focus": "Mix of free and paid",
+        "channels": [
+          "Google Ads (limited)",
+          "Social media ads",
+          "Email marketing"
+        ]
+      },
+      "$1000-2500": {
+        "focus": "Balanced paid and organic",
+        "channels": [
+          "Google Ads",
+          "Social media ads",
+          "Email marketing",
+          "Content marketing"
+        ]
+      },
+      "$2500+": {
+        "focus": "Multi-channel strategy",
+        "channels": [
+          "Google Ads",
+          "Social media ads",
+          "Email marketing",
+          "Content marketing",
+          "Retargeting"
+        ]
+      }
+    },
+    "source": "defaults",
+    "note": "pandas not installed, using hardcoded defaults"
+  }
+}

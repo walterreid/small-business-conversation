@@ -1,0 +1,124 @@
+{
+  "category": "generate_more_leads",
+  "version": "1.0.0",
+  "meta_prompt_version": "v1.0",
+  "anti_patterns": [
+    "Common Pattern 1: Generic lead magnets (like 'Free Guide') without targeting specific pain points or industry needs",
+    "Common Pattern 2: Spray-and-pray email outreach with no personalization or relevance to the recipient",
+    "Common Pattern 3: Over-reliance on paid ads without building organic lead generation channels or nurturing existing contacts",
+    "Common Pattern 4: Collecting leads without a clear follow-up sequence or qualification process",
+    "Common Pattern 5: Focusing solely on lead quantity without considering lead quality or conversion potential"
+  ],
+  "prompt_template": "Role: Guide\n\nIntent: {{userIntent}}\nHelp the user understand how to optimize their {{platformType}} to capture more leads from organic search traffic, focusing on practical, actionable strategies suitable for small businesses with limited budgets.\n\nApproach: \n- Explain key concepts and strategies for optimizing a {{platformType}} for organic search.\n- Build understanding gradually by connecting to existing knowledge and emphasizing practical application.\n- Check comprehension by providing examples and asking reflective questions.\n\nVariables:\n- {{platformType}}: Helps tailor the advice to the specific platform being optimized.\n- {{currentChallenges}}: Identifies the user's existing issues or bottlenecks, allowing for targeted advice.\n- {{goals}}: Clarifies what the user aims to achieve, ensuring that the guidance is aligned with their objectives.\n- {{budgetConstraints}}: Ensures that the strategies are feasible within the user's budget limitations.\n- {{industryType}}: Provides context for tailoring strategies to the specific industry or market.\n\nConstraints:\n- Length: Concise explanations with actionable steps.\n- Style: Direct and practical, avoiding technical jargon.\n- Avoid: Generic advice that lacks specificity or practical application.\n- Focus: Specific tactics that work for small businesses.\n\nOutput guidance: Provide step-by-step strategies and examples that demonstrate how the user can apply the concepts to their {{platformType}}.\n\nSuccess conditions: The user gains a clear understanding of practical strategies to optimize their {{platformType}} for lead generation from organic search traffic, and they feel confident in applying these strategies.",
+  "questions": [
+    {
+      "id": "platformType",
+      "question": "Which platform are you looking to optimize (e.g., website, social media platform)?",
+      "type": "select",
+      "options": [
+        "Website, Facebook, Instagram, LinkedIn, Other"
+      ],
+      "why_matters": "Understanding the specific platform helps tailor the optimization strategies to its unique features and requirements.",
+      "required": true
+    },
+    {
+      "id": "currentChallenges",
+      "question": "What challenges are you currently facing in capturing leads from organic search traffic?",
+      "type": "textarea",
+      "placeholder": "E.g., low traffic, high bounce rate, poor conversion rate",
+      "required": true
+    },
+    {
+      "id": "goals",
+      "question": "What are your specific goals for lead generation from organic search traffic?",
+      "type": "textarea",
+      "placeholder": "E.g., increase lead volume, improve lead quality, enhance user engagement",
+      "required": true
+    },
+    {
+      "id": "budgetConstraints",
+      "question": "What budget constraints should be considered when optimizing your platform?",
+      "type": "text",
+      "placeholder": "E.g., limited marketing budget, no room for additional tools",
+      "required": true
+    },
+    {
+      "id": "industryType",
+      "question": "What industry or market does your business operate in?",
+      "type": "select",
+      "options": [
+        "E-commerce, Local Services, B2B, B2C, Other"
+      ],
+      "why_matters": "Tailoring strategies to the specific industry can increase their effectiveness and relevance.",
+      "required": true
+    }
+  ],
+  "opening_dialog": "Hi! I'm here to help you with your generate more leads question 3 business. Let's get started.",
+  "question_number": 3,
+  "question_text": "How can I optimize my (website/social platform) to capture more leads from organic search traffic ",
+  "generated_at": "2025-11-10T12:29:47.863689",
+  "generated_by": "generate_question_templates.py",
+  "smb_insights": {
+    "budget_ranges": [
+      "Under $500",
+      "$500-1000",
+      "$1000-2500",
+      "$2500-5000",
+      "$5000+"
+    ],
+    "pain_points": [
+      "Limited time for marketing",
+      "Don't know where to start",
+      "Wasted money on ineffective ads",
+      "Can't track ROI",
+      "Competing with bigger businesses"
+    ],
+    "effective_channels": [
+      "Google Business Profile (free)",
+      "Instagram organic",
+      "Local SEO",
+      "Email marketing",
+      "Facebook ads (if budget allows)",
+      "Word of mouth referrals"
+    ],
+    "budget_allocations": {
+      "Under $500": {
+        "focus": "Free and low-cost channels",
+        "channels": [
+          "Google Business Profile",
+          "Social media organic",
+          "Email marketing"
+        ]
+      },
+      "$500-1000": {
+        "focus": "Mix of free and paid",
+        "channels": [
+          "Google Ads (limited)",
+          "Social media ads",
+          "Email marketing"
+        ]
+      },
+      "$1000-2500": {
+        "focus": "Balanced paid and organic",
+        "channels": [
+          "Google Ads",
+          "Social media ads",
+          "Email marketing",
+          "Content marketing"
+        ]
+      },
+      "$2500+": {
+        "focus": "Multi-channel strategy",
+        "channels": [
+          "Google Ads",
+          "Social media ads",
+          "Email marketing",
+          "Content marketing",
+          "Retargeting"
+        ]
+      }
+    },
+    "source": "defaults",
+    "note": "pandas not installed, using hardcoded defaults"
+  }
+}

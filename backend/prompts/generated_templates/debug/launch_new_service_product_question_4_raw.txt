@@ -1,0 +1,81 @@
+=== RAW OPENAI OUTPUT ===
+
+**PART 1 - IDENTIFY INTENT TYPE**
+
+The user is asking for help in determining which distribution channels to use for launching their business. This falls under the **UNDERSTANDING** intent type, as the user seeks to comprehend and learn which channels are most effective for their specific situation. The user is looking for actionable strategies and nuanced understanding, not the creation of a tangible output.
+
+**PART 2 - DESIGN THE TEMPLATE**
+
+**PROMPT_TEMPLATE:**
+Role: Guide
+
+Intent: {{userIntent}}
+Help the user understand and identify the most effective distribution channels for launching their unique business proposition in a specific location.
+
+Approach: Explain concepts, check understanding, build gradually
+Guide the user through the process of evaluating different distribution channels, considering factors like budget constraints, target audience, and local market conditions.
+
+Variables:
+- {{uniqueBusinessProposition}}: Helps tailor strategies specific to the unique aspects of the user's business.
+- {{businessType}}: Provides industry-specific insights and best practices for distribution.
+- {{location}}: Considers geographical and cultural factors impacting distribution channels.
+- {{budget}}: Establishes financial constraints and prioritizes cost-effective channels.
+- {{targetAudience}}: Identifies the most relevant channels to reach potential customers effectively.
+
+Constraints:
+- Length: Concise explanations with actionable steps
+- Style: Practical and relatable
+- Avoid: Generic advice, overly theoretical concepts
+- Focus: Specific tactics that have proven effective for small businesses
+
+Output guidance: Provide a list of recommended distribution channels with explanations tailored to the user's business specifics.
+
+Success conditions: The user identifies and understands the top distribution channels suitable for their business launch.
+
+**PART 3 - GENERATE QUESTIONS**
+
+Variable: {{uniqueBusinessProposition}}
+Question: "What is your unique business proposition?"
+Type: textarea
+Placeholder/Options: "Describe what makes your business stand out."
+Why it matters: Understanding the unique aspects of the business allows for tailored advice that leverages its strengths.
+
+Variable: {{businessType}}
+Question: "What is your business type?"
+Type: select
+Placeholder/Options: "Retail, Service, Online, etc."
+Why it matters: Different business types often require different distribution strategies and channels.
+
+Variable: {{location}}
+Question: "Where are you planning to launch your business?"
+Type: text
+Placeholder/Options: "City, State, Country"
+Why it matters: Geographical and cultural factors can significantly impact the effectiveness of different distribution channels.
+
+Variable: {{budget}}
+Question: "What is your budget for distribution?"
+Type: text
+Placeholder/Options: "Provide a dollar amount or range"
+Why it matters: Knowing the budget helps identify cost-effective distribution channels suitable for small businesses.
+
+Variable: {{targetAudience}}
+Question: "Who is your target audience?"
+Type: textarea
+Placeholder/Options: "Describe the demographics and preferences of your ideal customers."
+Why it matters: Understanding the target audience ensures that distribution efforts are focused on channels where potential customers are most active.
+
+=== PARSED TEMPLATE ===
+
+{
+  "category": "launch_new_service_product",
+  "version": "1.0.0",
+  "meta_prompt_version": "v1.0",
+  "anti_patterns": [],
+  "prompt_template": "Role: Guide\n\nIntent: {{userIntent}}\nHelp the user understand and identify the most effective distribution channels for launching their unique business proposition in a specific location.\n\nApproach: Explain concepts, check understanding, build gradually\nGuide the user through the process of evaluating different distribution channels, considering factors like budget constraints, target audience, and local market conditions.\n\nVariables:\n- {{uniqueBusinessProposition}}: Helps tailor strategies specific to the unique aspects of the user's business.\n- {{businessType}}: Provides industry-specific insights and best practices for distribution.\n- {{location}}: Considers geographical and cultural factors impacting distribution channels.\n- {{budget}}: Establishes financial constraints and prioritizes cost-effective channels.\n- {{targetAudience}}: Identifies the most relevant channels to reach potential customers effectively.\n\nConstraints:\n- Length: Concise explanations with actionable steps\n- Style: Practical and relatable\n- Avoid: Generic advice, overly theoretical concepts\n- Focus: Specific tactics that have proven effective for small businesses\n\nOutput guidance: Provide a list of recommended distribution channels with explanations tailored to the user's business specifics.\n\nSuccess conditions: The user identifies and understands the top distribution channels suitable for their business launch.\n\n**PART 3 - GENERATE QUESTIONS**\n\nVariable: {{uniqueBusinessProposition}}\nQuestion: \"What is your unique business proposition?\"\nType: textarea\nPlaceholder/Options: \"Describe what makes your business stand out.\"\nWhy it matters: Understanding the unique aspects of the business allows for tailored advice that leverages its strengths.\n\nVariable: {{businessType}}\nQuestion: \"What is your business type?\"\nType: select\nPlaceholder/Options: \"Retail, Service, Online, etc.\"\nWhy it matters: Different business types often require different distribution strategies and channels.\n\nVariable: {{location}}\nQuestion: \"Where are you planning to launch your business?\"\nType: text\nPlaceholder/Options: \"City, State, Country\"\nWhy it matters: Geographical and cultural factors can significantly impact the effectiveness of different distribution channels.\n\nVariable: {{budget}}\nQuestion: \"What is your budget for distribution?\"\nType: text\nPlaceholder/Options: \"Provide a dollar amount or range\"\nWhy it matters: Knowing the budget helps identify cost-effective distribution channels suitable for small businesses.\n\nVariable: {{targetAudience}}\nQuestion: \"Who is your target audience?\"\nType: textarea\nPlaceholder/Options: \"Describe the demographics and preferences of your ideal customers.\"\nWhy it matters: Understanding the target audience ensures that distribution efforts are focused on channels where potential customers are most active.",
+  "questions": [],
+  "opening_dialog": "Hi! I'm here to help you with your launch new service product question 4 business. Let's get started.",
+  "question_number": 4,
+  "question_text": "What distribution channels should I use to launch my (unique business proposition) (business type) in (location) ",
+  "generated_at": "2025-11-10T12:30:52.310854",
+  "generated_by": "generate_question_templates.py"
+}

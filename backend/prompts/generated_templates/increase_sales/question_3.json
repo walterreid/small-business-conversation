@@ -1,0 +1,107 @@
+{
+  "category": "increase_sales",
+  "version": "1.0.0",
+  "meta_prompt_version": "v1.0",
+  "anti_patterns": [
+    "Common Pattern 1: Overly broad advice without actionable steps.",
+    "Common Pattern 2: Focus on expensive marketing strategies not suitable for small budgets.",
+    "Common Pattern 3: Advice that requires extensive expertise or technical skills."
+  ],
+  "prompt_template": "- **Role:** Small Business Marketing Guide\n\n- **Intent:** {{userIntent}}\n  - To help the user understand and implement practical upselling strategies for existing customers in a small business context.\n\n- **Approach:** \n  - Explain concepts, check understanding, build gradually by providing specific, actionable strategies tailored to small businesses with limited budgets.\n\n- **Variables:**\n  - {{businessType}}: Helps tailor strategies to the specific industry or market the business operates in.\n  - {{customerProfile}}: Provides insights into the existing customer base, allowing for more personalized upselling tactics.\n  - {{currentStrategies}}: Offers a baseline understanding of what is currently being used, helping to refine or improve upon existing efforts.\n\n- **Constraints:**\n  - Style: Practical and action-oriented\n  - Avoid: Generic advice, overly theoretical approaches\n  - Focus: Specific tactics that can be implemented immediately\n\n- **Output guidance:** \n  - Provide a step-by-step guide or actionable list of strategies.\n\n- **Success conditions:** \n  - The user understands and can implement at least three new strategies to effectively upsell to their existing customers.\n\n---",
+  "questions": [
+    {
+      "id": "businessType",
+      "question": "What type of small business do you operate? (e.g., retail, service, online store)",
+      "type": "select",
+      "options": [
+        "Retail, Service, Online Store, Other"
+      ],
+      "why_matters": "Understanding the business type helps tailor upselling strategies to the specific industry and its unique challenges.",
+      "required": true
+    },
+    {
+      "id": "customerProfile",
+      "question": "Who are your existing customers? (e.g., demographics, buying habits)",
+      "type": "textarea",
+      "placeholder": "Describe your typical customer demographics and their buying habits.",
+      "why_matters": "Knowing the customer profile allows for more personalized and effective upselling strategies.",
+      "required": true
+    },
+    {
+      "id": "currentStrategies",
+      "question": "What upselling strategies are you currently using?",
+      "type": "textarea",
+      "placeholder": "List any current tactics or approaches you use to upsell.",
+      "why_matters": "Understanding existing strategies helps identify areas of improvement or new opportunities for upselling.",
+      "required": true
+    }
+  ],
+  "opening_dialog": "Hi! I'm here to help you with your increase sales question 3 business. Let's get started.",
+  "question_number": 3,
+  "question_text": "How can I upsell more effectively to my existing customers ",
+  "generated_at": "2025-11-10T12:18:36.398519",
+  "generated_by": "generate_question_templates.py",
+  "smb_insights": {
+    "budget_ranges": [
+      "Under $500",
+      "$500-1000",
+      "$1000-2500",
+      "$2500-5000",
+      "$5000+"
+    ],
+    "pain_points": [
+      "Limited time for marketing",
+      "Don't know where to start",
+      "Wasted money on ineffective ads",
+      "Can't track ROI",
+      "Competing with bigger businesses"
+    ],
+    "effective_channels": [
+      "Google Business Profile (free)",
+      "Instagram organic",
+      "Local SEO",
+      "Email marketing",
+      "Facebook ads (if budget allows)",
+      "Word of mouth referrals"
+    ],
+    "budget_allocations": {
+      "Under $500": {
+        "focus": "Free and low-cost channels",
+        "channels": [
+          "Google Business Profile",
+          "Social media organic",
+          "Email marketing"
+        ]
+      },
+      "$500-1000": {
+        "focus": "Mix of free and paid",
+        "channels": [
+          "Google Ads (limited)",
+          "Social media ads",
+          "Email marketing"
+        ]
+      },
+      "$1000-2500": {
+        "focus": "Balanced paid and organic",
+        "channels": [
+          "Google Ads",
+          "Social media ads",
+          "Email marketing",
+          "Content marketing"
+        ]
+      },
+      "$2500+": {
+        "focus": "Multi-channel strategy",
+        "channels": [
+          "Google Ads",
+          "Social media ads",
+          "Email marketing",
+          "Content marketing",
+          "Retargeting"
+        ]
+      }
+    },
+    "source": "defaults",
+    "note": "pandas not installed, using hardcoded defaults"
+  }
+}

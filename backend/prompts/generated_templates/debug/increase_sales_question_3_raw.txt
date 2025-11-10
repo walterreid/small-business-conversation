@@ -1,0 +1,127 @@
+=== RAW OPENAI OUTPUT ===
+
+Sure, let's go through the process of creating a structured prompt template for your specified need: "How can I upsell more effectively to my existing customers?"
+
+---
+
+### Stage 1: Template & Question Generation
+
+#### Part 1: Identify Intent Type
+
+**User Intent**: "How can I upsell more effectively to my existing customers"
+
+- **Intent Type Indicators**:
+  - **CREATION indicators**: Not applicable as the user does not want to create a specific tangible output.
+  - **UNDERSTANDING indicators**: The user wants to comprehend or improve a strategy. This aligns with understanding the nuances of upselling.
+
+**Classification**: UNDERSTANDING
+
+#### Part 2: Design the Template
+
+**PROMPT_TEMPLATE:**
+
+```
+Role: Act as a business consultant specializing in sales strategies for small businesses.
+
+Intent: Help {{userName}} understand effective upselling techniques to apply with their existing customers.
+
+Approach: Provide a step-by-step guide on analyzing current customer data, identifying upselling opportunities, crafting personalized offers, and measuring success.
+
+Variables:
+- {{userName}}: The business owner seeking advice
+- {{businessType}}: Type of business or industry
+- {{currentStrategies}}: Current upselling strategies in use
+- {{customerProfile}}: Typical customer demographics and behavior
+- {{successMetrics}}: How success is currently measured
+- {{learningPreferences}}: Preferred style of receiving information
+
+Constraints:
+- Avoid generic advice like "improve customer service" without specifics
+- Ensure strategies are applicable to {{businessType}} with limited resources
+- Focus on actionable insights over theoretical knowledge
+
+Output guidance: Provide practical steps with examples tailored to {{businessType}}.
+
+Success conditions: {{userName}} can implement new upselling techniques and measure their effectiveness within a month.
+```
+
+#### Part 3: Generate Questions
+
+For each variable, create a question:
+
+```
+Variable: {{userName}}
+Question: "Your name:"
+Type: text
+Placeholder: "Alex"
+Why it matters: Personalizes the advice and ensures it is directed to a specific individual.
+
+Variable: {{businessType}}
+Question: "What type of business do you operate?"
+Type: text
+Placeholder: "Retail, online services, etc."
+Why it matters: Tailors strategies to the specific industry context.
+
+Variable: {{currentStrategies}}
+Question: "What upselling strategies are you currently using?"
+Type: textarea
+Placeholder: "Suggestive selling at checkout, loyalty programs"
+Why it matters: Builds on existing knowledge to enhance or tweak strategies.
+
+Variable: {{customerProfile}}
+Question: "Describe your typical customer demographics and behavior:"
+Type: textarea
+Placeholder: "Age range, buying habits, preferences"
+Why it matters: Helps in crafting personalized upselling messages.
+
+Variable: {{successMetrics}}
+Question: "How do you measure the success of your upselling efforts?"
+Type: textarea
+Placeholder: "Conversion rates, revenue per customer"
+Why it matters: Establishes a baseline for measuring improvement.
+
+Variable: {{learningPreferences}}
+Question: "How do you prefer to receive strategic advice?"
+Type: select
+Placeholder: "Detailed reports | Visual presentations | One-on-one discussions"
+Why it matters: Ensures the advice is delivered in a format that is most effective for the user.
+```
+
+#### Part 4: Identify Common Patterns to Avoid
+
+```
+[ANTI-PATTERNS]
+- Common Pattern 1: Suggesting upsells based solely on price without considering customer interest.
+- Common Pattern 2: Using generic scripts for all customers instead of personalized offers.
+- Common Pattern 3: Focusing on new customers at the expense of nurturing existing customer relationships.
+```
+
+---
+
+### Stage 2: Template Filling
+
+To fill in the template, you would provide user answers for each variable, and the system would replace placeholders with those answers to generate the final prompt.
+
+---
+
+This structured approach ensures that the generated prompt is specific, actionable, and tailored to the unique needs of the user, avoiding generic patterns and focusing on practical insights.
+
+=== PARSED TEMPLATE ===
+
+{
+  "category": "increase_sales",
+  "version": "1.0.0",
+  "meta_prompt_version": "v1.0",
+  "anti_patterns": [
+    "Common Pattern 1: Suggesting upsells based solely on price without considering customer interest.",
+    "Common Pattern 2: Using generic scripts for all customers instead of personalized offers.",
+    "Common Pattern 3: Focusing on new customers at the expense of nurturing existing customer relationships."
+  ],
+  "prompt_template": "```\nRole: Act as a business consultant specializing in sales strategies for small businesses.\n\nIntent: Help {{userName}} understand effective upselling techniques to apply with their existing customers.\n\nApproach: Provide a step-by-step guide on analyzing current customer data, identifying upselling opportunities, crafting personalized offers, and measuring success.\n\nVariables:\n- {{userName}}: The business owner seeking advice\n- {{businessType}}: Type of business or industry\n- {{currentStrategies}}: Current upselling strategies in use\n- {{customerProfile}}: Typical customer demographics and behavior\n- {{successMetrics}}: How success is currently measured\n- {{learningPreferences}}: Preferred style of receiving information\n\nConstraints:\n- Avoid generic advice like \"improve customer service\" without specifics\n- Ensure strategies are applicable to {{businessType}} with limited resources\n- Focus on actionable insights over theoretical knowledge\n\nOutput guidance: Provide practical steps with examples tailored to {{businessType}}.\n\nSuccess conditions: {{userName}} can implement new upselling techniques and measure their effectiveness within a month.\n```\n\n#### Part 3: Generate Questions\n\nFor each variable, create a question:\n\n```\nVariable: {{userName}}\nQuestion: \"Your name:\"\nType: text\nPlaceholder: \"Alex\"\nWhy it matters: Personalizes the advice and ensures it is directed to a specific individual.\n\nVariable: {{businessType}}\nQuestion: \"What type of business do you operate?\"\nType: text\nPlaceholder: \"Retail, online services, etc.\"\nWhy it matters: Tailors strategies to the specific industry context.\n\nVariable: {{currentStrategies}}\nQuestion: \"What upselling strategies are you currently using?\"\nType: textarea\nPlaceholder: \"Suggestive selling at checkout, loyalty programs\"\nWhy it matters: Builds on existing knowledge to enhance or tweak strategies.\n\nVariable: {{customerProfile}}\nQuestion: \"Describe your typical customer demographics and behavior:\"\nType: textarea\nPlaceholder: \"Age range, buying habits, preferences\"\nWhy it matters: Helps in crafting personalized upselling messages.\n\nVariable: {{successMetrics}}\nQuestion: \"How do you measure the success of your upselling efforts?\"\nType: textarea\nPlaceholder: \"Conversion rates, revenue per customer\"\nWhy it matters: Establishes a baseline for measuring improvement.\n\nVariable: {{learningPreferences}}\nQuestion: \"How do you prefer to receive strategic advice?\"\nType: select\nPlaceholder: \"Detailed reports | Visual presentations | One-on-one discussions\"\nWhy it matters: Ensures the advice is delivered in a format that is most effective for the user.\n```\n\n#### Part 4: Identify Common Patterns to Avoid\n\n```\n[ANTI-PATTERNS]\n- Common Pattern 1: Suggesting upsells based solely on price without considering customer interest.\n- Common Pattern 2: Using generic scripts for all customers instead of personalized offers.\n- Common Pattern 3: Focusing on new customers at the expense of nurturing existing customer relationships.\n```\n\n---\n\n### Stage 2: Template Filling\n\nTo fill in the template, you would provide user answers for each variable, and the system would replace placeholders with those answers to generate the final prompt.\n\n---\n\nThis structured approach ensures that the generated prompt is specific, actionable, and tailored to the unique needs of the user, avoiding generic patterns and focusing on practical insights.",
+  "questions": [],
+  "opening_dialog": "Hi! I'm here to help you with your increase sales question 3 business. Let's get started.",
+  "question_number": 3,
+  "question_text": "How can I upsell more effectively to my existing customers ",
+  "generated_at": "2025-11-10T12:07:07.052236",
+  "generated_by": "generate_question_templates.py"
+}

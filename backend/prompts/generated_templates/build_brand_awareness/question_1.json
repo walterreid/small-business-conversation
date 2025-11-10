@@ -1,0 +1,114 @@
+{
+  "category": "build_brand_awareness",
+  "version": "1.0.0",
+  "meta_prompt_version": "v1.0",
+  "question_text": "How do I increase brand awareness for my (unique proposition) (industry) brand among (demographic) in urban areas ",
+  "anti_patterns": [
+    "Common Pattern 1: Overemphasis on social media presence without unique content",
+    "Common Pattern 2: Relying solely on discounts and promotions to attract attention",
+    "Common Pattern 3: Generic messaging that lacks a clear brand voice or story"
+  ],
+  "prompt_template": "Role: Guide\n\nIntent: Increase brand awareness for {{uniqueProposition}} {{industry}} brand among {{demographic}} in urban areas.\nUser wants to understand effective, practical strategies to enhance brand visibility and awareness within a specific demographic and urban setting.\n\nApproach: Explain concepts, check understanding, build gradually.\n- Provide step-by-step strategies tailored to the unique proposition.\n- Offer practical examples and case studies.\n- Encourage iteration and feedback loops to refine strategies.\n\nVariables:\n- {{uniqueProposition}}: Helps tailor strategies that align with the brand's distinct attributes.\n- {{industry}}: Allows focus on industry-specific trends and consumer behavior.\n- {{demographic}}: Targets strategies to the specific audience.\n- {{urbanAreas}}: Considers the unique aspects of marketing in urban settings.\n\nConstraints:\n- Style: Practical, conversational, intuitive.\n- Avoid: Generic advice, overly theoretical approaches.\n- Focus: Specific tactics for small businesses with limited budgets, actionable steps.\n\nOutput guidance: Provide a tailored guide with actionable steps, examples, and a framework for testing and iterating on strategies.\n\nSuccess conditions: User gains a clear understanding of how to effectively increase brand awareness in their specified context, with actionable steps they can implement.",
+  "questions": [
+    {
+      "id": "uniqueProposition",
+      "question": "What is the unique proposition of your brand?",
+      "type": "text",
+      "placeholder": "e.g., eco-friendly materials, innovative technology",
+      "required": true
+    },
+    {
+      "id": "industry",
+      "question": "Which industry does your brand belong to?",
+      "type": "select",
+      "options": [
+        "Options: Fashion, Technology, Food & Beverage, etc."
+      ],
+      "why_matters": "Allows focus on industry-specific trends and challenges, ensuring the advice is relevant.",
+      "required": true
+    },
+    {
+      "id": "demographic",
+      "question": "Who is your target demographic?",
+      "type": "text",
+      "placeholder": "e.g., young professionals, families, college students",
+      "why_matters": "Ensures strategies are tailored to the preferences and behaviors of the target audience.",
+      "required": true
+    },
+    {
+      "id": "urbanAreas",
+      "question": "In which urban areas are you primarily targeting your brand awareness efforts?",
+      "type": "text",
+      "placeholder": "e.g., New York City, San Francisco",
+      "why_matters": "Takes into account the unique marketing opportunities and challenges in specific urban settings, allowing for more localized strategies.",
+      "required": true
+    }
+  ],
+  "opening_dialog": "Hi! I'm here to help you with your build brand awareness question 1 business. Let's get started.",
+  "question_number": 1,
+  "generated_at": "2025-11-10T12:27:17.837948",
+  "generated_by": "generate_question_templates.py",
+  "smb_insights": {
+    "budget_ranges": [
+      "Under $500",
+      "$500-1000",
+      "$1000-2500",
+      "$2500-5000",
+      "$5000+"
+    ],
+    "pain_points": [
+      "Limited time for marketing",
+      "Don't know where to start",
+      "Wasted money on ineffective ads",
+      "Can't track ROI",
+      "Competing with bigger businesses"
+    ],
+    "effective_channels": [
+      "Google Business Profile (free)",
+      "Instagram organic",
+      "Local SEO",
+      "Email marketing",
+      "Facebook ads (if budget allows)",
+      "Word of mouth referrals"
+    ],
+    "budget_allocations": {
+      "Under $500": {
+        "focus": "Free and low-cost channels",
+        "channels": [
+          "Google Business Profile",
+          "Social media organic",
+          "Email marketing"
+        ]
+      },
+      "$500-1000": {
+        "focus": "Mix of free and paid",
+        "channels": [
+          "Google Ads (limited)",
+          "Social media ads",
+          "Email marketing"
+        ]
+      },
+      "$1000-2500": {
+        "focus": "Balanced paid and organic",
+        "channels": [
+          "Google Ads",
+          "Social media ads",
+          "Email marketing",
+          "Content marketing"
+        ]
+      },
+      "$2500+": {
+        "focus": "Multi-channel strategy",
+        "channels": [
+          "Google Ads",
+          "Social media ads",
+          "Email marketing",
+          "Content marketing",
+          "Retargeting"
+        ]
+      }
+    },
+    "source": "defaults",
+    "note": "pandas not installed, using hardcoded defaults"
+  }
+}

@@ -1,0 +1,123 @@
+{
+  "category": "retain_customers",
+  "version": "1.0.0",
+  "meta_prompt_version": "v1.0",
+  "anti_patterns": [
+    "Common Pattern 1: Relying solely on discounts or promotions to drive loyalty",
+    "Common Pattern 2: Using generic loyalty programs without personalization",
+    "Common Pattern 3: Focusing on acquisition rather than retention tactics"
+  ],
+  "prompt_template": "Role: Program Designer\n\nIntent: {{userIntent}}\nCreate a loyalty program tailored for {{businessType}} customers.\n\nApproach: \nGenerate a first draft of the loyalty program, iterate based on feedback, and refine to suit specific customer needs.\n\nVariables: \n- {{businessType}}: Helps tailor the program to the specific industry and customer expectations.\n- {{customerDemographics}}: Provides insight into the target audience, ensuring the program appeals to them.\n- {{budget}}: Determines the scale and features of the program, ensuring it is feasible for a small business.\n- {{programGoals}}: Guides the purpose and success metrics of the loyalty program.\n- {{competitiveAnalysis}}: Offers insights into what competitors are doing, helping to differentiate the program.\n\nConstraints: \n- Length: Concise yet comprehensive description of the program.\n- Style: Practical and engaging to ensure customer interest.\n- Avoid: Generic rewards or overly complex structures that may deter participation.\n- Focus: Specificity in rewards and clear calls to action for customers.\n\nOutput guidance: \nProvide a structured outline of the loyalty program, including key features, reward mechanisms, and implementation steps.\n\nSuccess conditions: \nThe intent is accomplished when the user has a clear, actionable loyalty program plan that aligns with their business type, budget, and customer demographics.",
+  "questions": [
+    {
+      "id": "businessType",
+      "question": "What type of business do you own or operate?",
+      "type": "text",
+      "placeholder": "e.g., coffee shop, retail store, online boutique",
+      "why_matters": "Understanding the business type helps tailor the loyalty program to industry-specific needs and customer behaviors.",
+      "required": true
+    },
+    {
+      "id": "customerDemographics",
+      "question": "Who are your target customers? Consider age, gender, interests, etc.",
+      "type": "textarea",
+      "placeholder": "e.g., young professionals, families, tech enthusiasts",
+      "why_matters": "Knowing customer demographics ensures the program resonates with the intended audience, increasing engagement.",
+      "required": true
+    },
+    {
+      "id": "budget",
+      "question": "What is your budget for the loyalty program?",
+      "type": "text",
+      "placeholder": "e.g., $500, $1000, $2000",
+      "why_matters": "Budget constraints guide the scale and features of the loyalty program, ensuring it is sustainable.",
+      "required": true
+    },
+    {
+      "id": "programGoals",
+      "question": "What are your main goals for this loyalty program? (e.g., increase repeat sales, boost customer retention)",
+      "type": "textarea",
+      "placeholder": "e.g., improve customer loyalty, enhance brand awareness",
+      "why_matters": "Clear goals help define the structure and success metrics of the loyalty program.",
+      "required": true
+    },
+    {
+      "id": "competitiveAnalysis",
+      "question": "Have you analyzed what loyalty programs your competitors offer?",
+      "type": "select",
+      "options": [
+        "Yes, No"
+      ],
+      "why_matters": "Understanding competitor offerings helps differentiate your program and identify gaps or opportunities in the market.",
+      "required": true
+    }
+  ],
+  "opening_dialog": "Hi! I'm here to help you with your retain customers question 2 business. Let's get started.",
+  "question_number": 2,
+  "question_text": "What loyalty program should I create for my (business type) customers ",
+  "generated_at": "2025-11-10T12:31:22.738792",
+  "generated_by": "generate_question_templates.py",
+  "smb_insights": {
+    "budget_ranges": [
+      "Under $500",
+      "$500-1000",
+      "$1000-2500",
+      "$2500-5000",
+      "$5000+"
+    ],
+    "pain_points": [
+      "Limited time for marketing",
+      "Don't know where to start",
+      "Wasted money on ineffective ads",
+      "Can't track ROI",
+      "Competing with bigger businesses"
+    ],
+    "effective_channels": [
+      "Google Business Profile (free)",
+      "Instagram organic",
+      "Local SEO",
+      "Email marketing",
+      "Facebook ads (if budget allows)",
+      "Word of mouth referrals"
+    ],
+    "budget_allocations": {
+      "Under $500": {
+        "focus": "Free and low-cost channels",
+        "channels": [
+          "Google Business Profile",
+          "Social media organic",
+          "Email marketing"
+        ]
+      },
+      "$500-1000": {
+        "focus": "Mix of free and paid",
+        "channels": [
+          "Google Ads (limited)",
+          "Social media ads",
+          "Email marketing"
+        ]
+      },
+      "$1000-2500": {
+        "focus": "Balanced paid and organic",
+        "channels": [
+          "Google Ads",
+          "Social media ads",
+          "Email marketing",
+          "Content marketing"
+        ]
+      },
+      "$2500+": {
+        "focus": "Multi-channel strategy",
+        "channels": [
+          "Google Ads",
+          "Social media ads",
+          "Email marketing",
+          "Content marketing",
+          "Retargeting"
+        ]
+      }
+    },
+    "source": "defaults",
+    "note": "pandas not installed, using hardcoded defaults"
+  }
+}

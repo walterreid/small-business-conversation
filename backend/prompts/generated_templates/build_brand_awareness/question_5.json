@@ -1,0 +1,113 @@
+{
+  "category": "build_brand_awareness",
+  "version": "1.0.0",
+  "meta_prompt_version": "v1.0",
+  "anti_patterns": [
+    "Common Pattern 1: Overemphasis on social media presence without unique content",
+    "Common Pattern 2: Relying solely on discounts and promotions to attract attention",
+    "Common Pattern 3: Generic messaging that lacks a clear brand voice or story"
+  ],
+  "prompt_template": "Role: Guide\n\nIntent: {{userIntent}}\nThe user wants to understand how to differentiate their {{businessType}} from competitors in a crowded market with practical and actionable strategies.\n\nApproach: \n- Explain concepts of differentiation in the context of a crowded market.\n- Check understanding by relating strategies to the user's specific business type.\n- Build gradually from foundational strategies to more nuanced tactics.\n\nVariables:\n- {{businessType}}: Helps tailor strategies specific to the industry, recognizing unique challenges and opportunities.\n- {{budgetConstraints}}: Ensures strategies are feasible within the user's financial limitations.\n- {{targetAudience}}: Focuses on aligning differentiation strategies with the needs and preferences of the intended customer base.\n- {{currentChallenges}}: Identifies specific barriers to differentiation that the strategies must address.\n\nConstraints:\n- Length: Concise yet comprehensive.\n- Style: Practical and jargon-free.\n- Avoid: Generic advice that lacks specificity.\n- Focus: Actionable strategies that can be implemented by small businesses.\n\nOutput guidance: Provide a step-by-step guide with examples and case studies relevant to small businesses.\n\nSuccess conditions: The user gains a clear understanding of differentiation strategies applicable to their business type and can articulate specific actions to implement.\n\n---",
+  "questions": [
+    {
+      "id": "businessType",
+      "question": "What type of business do you operate?",
+      "type": "text",
+      "placeholder": "e.g., coffee shop, digital marketing agency, boutique retail",
+      "why_matters": "Knowing the business type allows for tailored strategies that address industry-specific challenges and opportunities.",
+      "required": true
+    },
+    {
+      "id": "budgetConstraints",
+      "question": "What is your budget for implementing differentiation strategies?",
+      "type": "text",
+      "placeholder": "e.g., $500, $2000, limited to existing resources",
+      "why_matters": "Understanding budget constraints ensures that proposed strategies are financially feasible and realistic for the user.",
+      "required": true
+    },
+    {
+      "id": "targetAudience",
+      "question": "Who is your primary target audience?",
+      "type": "textarea",
+      "placeholder": "e.g., young professionals, local families, tech enthusiasts",
+      "why_matters": "Differentiation strategies must resonate with the target audience to be effective, making this information crucial for customization.",
+      "required": true
+    },
+    {
+      "id": "currentChallenges",
+      "question": "What challenges are you currently facing in differentiating your business?",
+      "type": "textarea",
+      "placeholder": "e.g., price competition, market saturation, brand awareness",
+      "why_matters": "Identifying current challenges helps focus on strategies that address specific issues, making differentiation more achievable.",
+      "required": true
+    }
+  ],
+  "opening_dialog": "Hi! I'm here to help you with your build brand awareness question 5 business. Let's get started.",
+  "question_number": 5,
+  "question_text": "How do I differentiate my (business type) from competitors in a crowded market ",
+  "generated_at": "2025-11-10T12:27:57.493602",
+  "generated_by": "generate_question_templates.py",
+  "smb_insights": {
+    "budget_ranges": [
+      "Under $500",
+      "$500-1000",
+      "$1000-2500",
+      "$2500-5000",
+      "$5000+"
+    ],
+    "pain_points": [
+      "Limited time for marketing",
+      "Don't know where to start",
+      "Wasted money on ineffective ads",
+      "Can't track ROI",
+      "Competing with bigger businesses"
+    ],
+    "effective_channels": [
+      "Google Business Profile (free)",
+      "Instagram organic",
+      "Local SEO",
+      "Email marketing",
+      "Facebook ads (if budget allows)",
+      "Word of mouth referrals"
+    ],
+    "budget_allocations": {
+      "Under $500": {
+        "focus": "Free and low-cost channels",
+        "channels": [
+          "Google Business Profile",
+          "Social media organic",
+          "Email marketing"
+        ]
+      },
+      "$500-1000": {
+        "focus": "Mix of free and paid",
+        "channels": [
+          "Google Ads (limited)",
+          "Social media ads",
+          "Email marketing"
+        ]
+      },
+      "$1000-2500": {
+        "focus": "Balanced paid and organic",
+        "channels": [
+          "Google Ads",
+          "Social media ads",
+          "Email marketing",
+          "Content marketing"
+        ]
+      },
+      "$2500+": {
+        "focus": "Multi-channel strategy",
+        "channels": [
+          "Google Ads",
+          "Social media ads",
+          "Email marketing",
+          "Content marketing",
+          "Retargeting"
+        ]
+      }
+    },
+    "source": "defaults",
+    "note": "pandas not installed, using hardcoded defaults"
+  }
+}

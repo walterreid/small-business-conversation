@@ -1,0 +1,71 @@
+=== RAW OPENAI OUTPUT ===
+
+PART 1 - IDENTIFY INTENT TYPE
+
+The user is asking for help with reducing customer churn. This involves understanding strategies, tactics, and insights that can be applied to lessen the rate of customers leaving a business within a specified time frame. Therefore, the intent type is primarily:
+
+- **UNDERSTANDING**
+
+PART 2 - DESIGN THE TEMPLATE
+
+**PROMPT_TEMPLATE:**
+Role: Guide
+
+Intent: {{userIntent}}
+The user wants to understand how to reduce customer churn for their specific product or service within a given time range, focusing on practical and actionable strategies suited for a small business with a limited budget.
+
+Approach: Explain concepts, check understanding, build gradually
+- Provide an overview of effective churn reduction strategies.
+- Connect these strategies to typical small business constraints.
+- Offer practical examples that illustrate each strategy in action.
+
+Variables: 
+- {{productService}}: Understanding the specific product/service helps tailor strategies that align with the user’s business context.
+- {{timeRange}}: Knowing the time range (weekly, monthly, annually) helps in recommending timely interventions and measuring success.
+- {{budgetConstraints}}: Acknowledging budget limitations ensures the strategies are realistic and actionable for small businesses.
+
+Constraints: 
+- Length: Concise and focused on actionable insights.
+- Style: Practical and grounded in real-world application.
+- Avoid: Avoid generic advice that lacks specificity.
+- Focus: Emphasize nuanced understanding and practical applicability.
+
+Output guidance: Provide a structured guide with clear, actionable steps and examples.
+
+Success conditions: The user gains a clear understanding of effective churn reduction strategies tailored to their business and can implement them within their constraints.
+
+PART 3 - GENERATE QUESTIONS
+
+Variable: {{productService}}
+Question: "What is the product or service for which you are looking to reduce customer churn?"
+Type: text
+Placeholder/Options: "e.g., online subscription service, local bakery"
+Why it matters: Understanding the specific product or service helps tailor strategies that are relevant and effective for the user's business context.
+
+Variable: {{timeRange}}
+Question: "Over what time range are you aiming to reduce customer churn?"
+Type: select
+Placeholder/Options: "Weekly, Monthly, Annually"
+Why it matters: Knowing the time range allows for recommending timely interventions and setting appropriate goals for measuring success.
+
+Variable: {{budgetConstraints}}
+Question: "What budget constraints should be considered when planning customer churn reduction strategies?"
+Type: textarea
+Placeholder/Options: "e.g., $500 per month, minimal extra spending"
+Why it matters: Recognizing budget limitations ensures that the recommended strategies are feasible and actionable for small businesses, making them more likely to be implemented effectively.
+
+=== PARSED TEMPLATE ===
+
+{
+  "category": "retain_customers",
+  "version": "1.0.0",
+  "meta_prompt_version": "v1.0",
+  "anti_patterns": [],
+  "prompt_template": "Role: Guide\n\nIntent: {{userIntent}}\nThe user wants to understand how to reduce customer churn for their specific product or service within a given time range, focusing on practical and actionable strategies suited for a small business with a limited budget.\n\nApproach: Explain concepts, check understanding, build gradually\n- Provide an overview of effective churn reduction strategies.\n- Connect these strategies to typical small business constraints.\n- Offer practical examples that illustrate each strategy in action.\n\nVariables: \n- {{productService}}: Understanding the specific product/service helps tailor strategies that align with the user\u2019s business context.\n- {{timeRange}}: Knowing the time range (weekly, monthly, annually) helps in recommending timely interventions and measuring success.\n- {{budgetConstraints}}: Acknowledging budget limitations ensures the strategies are realistic and actionable for small businesses.\n\nConstraints: \n- Length: Concise and focused on actionable insights.\n- Style: Practical and grounded in real-world application.\n- Avoid: Avoid generic advice that lacks specificity.\n- Focus: Emphasize nuanced understanding and practical applicability.\n\nOutput guidance: Provide a structured guide with clear, actionable steps and examples.\n\nSuccess conditions: The user gains a clear understanding of effective churn reduction strategies tailored to their business and can implement them within their constraints.",
+  "questions": [],
+  "opening_dialog": "Hi! I'm here to help you with your retain customers question 1 business. Let's get started.",
+  "question_number": 1,
+  "question_text": "How do I reduce customer churn for my (product/service) from (range) (weekly/monthly/annually) ",
+  "generated_at": "2025-11-10T12:31:13.721775",
+  "generated_by": "generate_question_templates.py"
+}

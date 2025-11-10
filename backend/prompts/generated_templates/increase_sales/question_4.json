@@ -1,0 +1,117 @@
+{
+  "category": "increase_sales",
+  "version": "1.0.0",
+  "meta_prompt_version": "v1.0",
+  "anti_patterns": [
+    "Common Pattern 1: Overly broad advice without actionable steps.",
+    "Common Pattern 2: Focus on expensive marketing strategies not suitable for small budgets.",
+    "Common Pattern 3: Advice that requires extensive expertise or technical skills."
+  ],
+  "prompt_template": "Role: Marketing Strategist\n\nIntent: {{userIntent}}\nDevelop a targeted promotional plan for the business during the specified holiday or event season.\n\nApproach: \n- Generate a first draft of potential promotions\n- Iterate based on business constraints and target audience\n- Refine to ensure practical implementation within budget\n\nVariables: \n- {{holidayOrEvent}}: The specific holiday/event season to tailor promotions around\n- {{businessType}}: Type of business to ensure promotions are relevant and effective\n- {{budget}}: Budget constraints to ensure promotions are financially viable\n- {{targetAudience}}: To tailor promotions that resonate with the intended market\n\nConstraints: \n- Length: Concise and actionable plan, no longer than two pages\n- Style: Practical, innovative, and budget-conscious\n- Avoid: Generic promotions not tailored to the business type or audience\n- Focus: Specific tactics that leverage the holiday/event's themes\n\nOutput guidance: \nProvide a promotional strategy outline with specific tactics, estimated costs, and expected outcomes.\n\nSuccess conditions: \nThe user has a clear, actionable promotional plan that fits within their budget and targets their audience effectively.",
+  "questions": [
+    {
+      "id": "holidayOrEvent",
+      "question": "What holiday or event season are you planning promotions for?",
+      "type": "select",
+      "options": [
+        "Christmas, Black Friday, Valentine"
+      ],
+      "why_matters": "This helps tailor the promotions to the specific themes and opportunities associated with the holiday or event, increasing relevance and impact.",
+      "required": true
+    },
+    {
+      "id": "businessType",
+      "question": "What type of business do you operate?",
+      "type": "select",
+      "options": [
+        "Retail, Restaurant, Service, Online Store"
+      ],
+      "why_matters": "Understanding the business type ensures that the promotions are relevant and can be implemented effectively within the industry context.",
+      "required": true
+    },
+    {
+      "id": "budget",
+      "question": "What is your budget for these promotions?",
+      "type": "text",
+      "placeholder": "Enter an amount in USD",
+      "why_matters": "Knowing the budget helps in designing promotions that are financially feasible and prevents overspending.",
+      "required": true
+    },
+    {
+      "id": "targetAudience",
+      "question": "Who is your target audience for these promotions?",
+      "type": "textarea",
+      "placeholder": "Describe your target demographics",
+      "why_matters": "Tailoring promotions to the target audience increases the likelihood of engagement and conversion, making the promotions more effective.",
+      "required": true
+    }
+  ],
+  "opening_dialog": "Hi! I'm here to help you with your increase sales question 4 business. Let's get started.",
+  "question_number": 4,
+  "question_text": "What promotions should I run for my business during the (holiday/event season) ",
+  "generated_at": "2025-11-10T12:18:50.446613",
+  "generated_by": "generate_question_templates.py",
+  "smb_insights": {
+    "budget_ranges": [
+      "Under $500",
+      "$500-1000",
+      "$1000-2500",
+      "$2500-5000",
+      "$5000+"
+    ],
+    "pain_points": [
+      "Limited time for marketing",
+      "Don't know where to start",
+      "Wasted money on ineffective ads",
+      "Can't track ROI",
+      "Competing with bigger businesses"
+    ],
+    "effective_channels": [
+      "Google Business Profile (free)",
+      "Instagram organic",
+      "Local SEO",
+      "Email marketing",
+      "Facebook ads (if budget allows)",
+      "Word of mouth referrals"
+    ],
+    "budget_allocations": {
+      "Under $500": {
+        "focus": "Free and low-cost channels",
+        "channels": [
+          "Google Business Profile",
+          "Social media organic",
+          "Email marketing"
+        ]
+      },
+      "$500-1000": {
+        "focus": "Mix of free and paid",
+        "channels": [
+          "Google Ads (limited)",
+          "Social media ads",
+          "Email marketing"
+        ]
+      },
+      "$1000-2500": {
+        "focus": "Balanced paid and organic",
+        "channels": [
+          "Google Ads",
+          "Social media ads",
+          "Email marketing",
+          "Content marketing"
+        ]
+      },
+      "$2500+": {
+        "focus": "Multi-channel strategy",
+        "channels": [
+          "Google Ads",
+          "Social media ads",
+          "Email marketing",
+          "Content marketing",
+          "Retargeting"
+        ]
+      }
+    },
+    "source": "defaults",
+    "note": "pandas not installed, using hardcoded defaults"
+  }
+}

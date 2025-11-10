@@ -1,0 +1,116 @@
+{
+  "category": "generate_more_leads",
+  "version": "1.0.0",
+  "meta_prompt_version": "v1.0",
+  "anti_patterns": [
+    "Common Pattern 1: Generic lead magnets (like 'Free Guide') without targeting specific pain points or industry needs",
+    "Common Pattern 2: Spray-and-pray email outreach with no personalization or relevance to the recipient",
+    "Common Pattern 3: Over-reliance on paid ads without building organic lead generation channels or nurturing existing contacts",
+    "Common Pattern 4: Collecting leads without a clear follow-up sequence or qualification process",
+    "Common Pattern 5: Focusing solely on lead quantity without considering lead quality or conversion potential"
+  ],
+  "prompt_template": "Role: Marketing Guide\n\nIntent: {{userIntent}}\nThe user wants to understand how to effectively nurture cold leads into warm prospects for their specific business type.\n\nApproach: \nExplain concepts and provide actionable strategies tailored to small businesses with limited budgets. Gradually build understanding by connecting new ideas to the user's existing knowledge.\n\nVariables:\n- {{businessType}}: Helps tailor the strategies to the specific industry and its unique challenges.\n- {{currentStrategies}}: Understanding the user's current approach allows for more precise guidance.\n- {{targetAudience}}: Knowing who the user is trying to reach helps in crafting suitable tactics.\n- {{budgetConstraints}}: Ensures that the strategies are feasible given the user's financial limitations.\n\nConstraints:\n- Length: Concise and focused (approximately 300 words)\n- Style: Practical and engaging\n- Avoid: Generic advice; provide specific, actionable insights\n- Focus: Strategies that are workable for small businesses with limited resources\n\nOutput guidance: Provide a step-by-step guide with examples that illustrate how to nurture leads specific to the user's business type.\n\nSuccess conditions: The user understands and can implement at least three specific strategies to effectively nurture cold leads into warm prospects.",
+  "questions": [
+    {
+      "id": "businessType",
+      "question": "What type of business do you operate?",
+      "type": "select",
+      "options": [
+        "[Retail, Service, SaaS, etc.]"
+      ],
+      "why_matters": "This information helps tailor the strategies to the unique challenges and opportunities in your industry.",
+      "required": true
+    },
+    {
+      "id": "currentStrategies",
+      "question": "What strategies are you currently using to nurture leads?",
+      "type": "textarea",
+      "placeholder": "[List any tactics or systems you currently employ]",
+      "required": true
+    },
+    {
+      "id": "targetAudience",
+      "question": "Who is your target audience?",
+      "type": "textarea",
+      "placeholder": "[Describe the demographics and interests of your ideal customers]",
+      "why_matters": "Understanding your target audience helps in crafting strategies that resonate and engage effectively with them.",
+      "required": true
+    },
+    {
+      "id": "budgetConstraints",
+      "question": "What is your budget for nurturing leads?",
+      "type": "text",
+      "placeholder": "[Specify your monthly or yearly budget]",
+      "why_matters": "Ensures that the suggested strategies are feasible and can be implemented within your financial limitations.",
+      "required": true
+    }
+  ],
+  "opening_dialog": "Hi! I'm here to help you with your generate more leads question 5 business. Let's get started.",
+  "question_number": 5,
+  "question_text": "How do I nurture cold leads into warm prospects for my (business type) ",
+  "generated_at": "2025-11-10T12:30:07.644947",
+  "generated_by": "generate_question_templates.py",
+  "smb_insights": {
+    "budget_ranges": [
+      "Under $500",
+      "$500-1000",
+      "$1000-2500",
+      "$2500-5000",
+      "$5000+"
+    ],
+    "pain_points": [
+      "Limited time for marketing",
+      "Don't know where to start",
+      "Wasted money on ineffective ads",
+      "Can't track ROI",
+      "Competing with bigger businesses"
+    ],
+    "effective_channels": [
+      "Google Business Profile (free)",
+      "Instagram organic",
+      "Local SEO",
+      "Email marketing",
+      "Facebook ads (if budget allows)",
+      "Word of mouth referrals"
+    ],
+    "budget_allocations": {
+      "Under $500": {
+        "focus": "Free and low-cost channels",
+        "channels": [
+          "Google Business Profile",
+          "Social media organic",
+          "Email marketing"
+        ]
+      },
+      "$500-1000": {
+        "focus": "Mix of free and paid",
+        "channels": [
+          "Google Ads (limited)",
+          "Social media ads",
+          "Email marketing"
+        ]
+      },
+      "$1000-2500": {
+        "focus": "Balanced paid and organic",
+        "channels": [
+          "Google Ads",
+          "Social media ads",
+          "Email marketing",
+          "Content marketing"
+        ]
+      },
+      "$2500+": {
+        "focus": "Multi-channel strategy",
+        "channels": [
+          "Google Ads",
+          "Social media ads",
+          "Email marketing",
+          "Content marketing",
+          "Retargeting"
+        ]
+      }
+    },
+    "source": "defaults",
+    "note": "pandas not installed, using hardcoded defaults"
+  }
+}

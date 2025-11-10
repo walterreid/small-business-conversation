@@ -1,0 +1,107 @@
+{
+  "category": "generate_more_leads",
+  "version": "1.0.0",
+  "meta_prompt_version": "v1.0",
+  "anti_patterns": [
+    "Common Pattern 1: Generic lead magnets (like 'Free Guide') without targeting specific pain points or industry needs",
+    "Common Pattern 2: Spray-and-pray email outreach with no personalization or relevance to the recipient",
+    "Common Pattern 3: Over-reliance on paid ads without building organic lead generation channels or nurturing existing contacts",
+    "Common Pattern 4: Collecting leads without a clear follow-up sequence or qualification process",
+    "Common Pattern 5: Focusing solely on lead quantity without considering lead quality or conversion potential"
+  ],
+  "prompt_template": "Role: Marketing Strategist\n\nIntent: {{userIntent}}  \nThe user wants to generate {{XZY}} more qualified leads per month for their {{businessType}} business.\n\nApproach:  \nAs a Marketing Strategist, help the user create a tailored lead generation strategy. Start by generating a first draft of actionable tactics, iterate based on feedback, and refine to best fit the user's business context and goals.\n\nVariables: \n- {{XZY}}: The specific number of leads helps set a clear, measurable target.\n- {{businessType}}: Understanding the business type helps tailor strategies to industry-specific nuances and customer behaviors.\n- {{budget}}: Knowing the budget allows for realistic strategy development that aligns with financial constraints.\n\nConstraints: \n- Length: As brief as necessary to be actionable, with steps clearly outlined.\n- Style: Practical and professional.\n- Avoid: Overly generic advice, such as \"use social media.\"\n- Focus: Specific, cost-effective tactics that have proven results for small businesses.\n\nOutput guidance:  \nProvide a concise plan or list of actionable steps that the user can implement immediately to start generating more leads.\n\nSuccess conditions:  \nThe user has a clear, actionable strategy to generate {{XZY}} more qualified leads per month for their {{businessType}} business, with steps that fit their budget and industry context.",
+  "questions": [
+    {
+      "id": "XZY",
+      "question": "How many more qualified leads per month are you aiming to generate?",
+      "type": "text",
+      "placeholder": "e.g., 50, 100, 200",
+      "why_matters": "Knowing the exact number helps to create a focused and measurable strategy.",
+      "required": true
+    },
+    {
+      "id": "businessType",
+      "question": "What type of business do you own?",
+      "type": "text",
+      "placeholder": "e.g., retail, consulting, food service",
+      "why_matters": "Different business types require different lead generation strategies, so this helps tailor the approach.",
+      "required": true
+    },
+    {
+      "id": "budget",
+      "question": "What is your budget for lead generation efforts?",
+      "type": "text",
+      "placeholder": "e.g., $500, $1000, $1500",
+      "why_matters": "Understanding the budget ensures that the proposed strategies are feasible and sustainable for the user.",
+      "required": true
+    }
+  ],
+  "opening_dialog": "Hi! I'm here to help you with your generate more leads question 1 business. Let's get started.",
+  "question_number": 1,
+  "question_text": "How do I generate (XZY) more qualified leads per month for my (business type) business ",
+  "generated_at": "2025-11-10T12:29:24.885730",
+  "generated_by": "generate_question_templates.py",
+  "smb_insights": {
+    "budget_ranges": [
+      "Under $500",
+      "$500-1000",
+      "$1000-2500",
+      "$2500-5000",
+      "$5000+"
+    ],
+    "pain_points": [
+      "Limited time for marketing",
+      "Don't know where to start",
+      "Wasted money on ineffective ads",
+      "Can't track ROI",
+      "Competing with bigger businesses"
+    ],
+    "effective_channels": [
+      "Google Business Profile (free)",
+      "Instagram organic",
+      "Local SEO",
+      "Email marketing",
+      "Facebook ads (if budget allows)",
+      "Word of mouth referrals"
+    ],
+    "budget_allocations": {
+      "Under $500": {
+        "focus": "Free and low-cost channels",
+        "channels": [
+          "Google Business Profile",
+          "Social media organic",
+          "Email marketing"
+        ]
+      },
+      "$500-1000": {
+        "focus": "Mix of free and paid",
+        "channels": [
+          "Google Ads (limited)",
+          "Social media ads",
+          "Email marketing"
+        ]
+      },
+      "$1000-2500": {
+        "focus": "Balanced paid and organic",
+        "channels": [
+          "Google Ads",
+          "Social media ads",
+          "Email marketing",
+          "Content marketing"
+        ]
+      },
+      "$2500+": {
+        "focus": "Multi-channel strategy",
+        "channels": [
+          "Google Ads",
+          "Social media ads",
+          "Email marketing",
+          "Content marketing",
+          "Retargeting"
+        ]
+      }
+    },
+    "source": "defaults",
+    "note": "pandas not installed, using hardcoded defaults"
+  }
+}

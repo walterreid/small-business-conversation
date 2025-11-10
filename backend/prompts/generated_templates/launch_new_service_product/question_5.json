@@ -1,0 +1,113 @@
+{
+  "category": "launch_new_service_product",
+  "version": "1.0.0",
+  "meta_prompt_version": "v1.0",
+  "anti_patterns": [
+    "Common Pattern 1: Overly broad marketing language without actionable details",
+    "Common Pattern 2: Focus on features rather than benefits to early adopters",
+    "Common Pattern 3: Generic \"social media buzz\" strategies without targeted audience engagement"
+    ],
+  "prompt_template": "Role: Marketing Guide\n\nIntent: {{userIntent}}\nHelp the user understand how to attract early adopters for their new product and obtain testimonials, with a focus on practical strategies for small businesses.\n\nApproach: Explain concepts, check understanding, build gradually\nGuide the user through step-by-step strategies to engage early adopters and gather testimonials, emphasizing actionable tactics and real-world applications.\n\nVariables:\n- {{product}}: Understanding the product helps tailor strategies to its unique features and target market.\n- {{targetAudience}}: Identifying the target audience allows for more focused and effective marketing efforts.\n- {{budgetConstraints}}: Knowing the budget helps in suggesting cost-effective strategies that fit within financial limits.\n- {{desiredTestimonials}}: Clarifying what type of testimonials are needed guides the approach to gathering them.\n\nConstraints:\n- Length: Concise and practical advice, around 300 words\n- Style: Informal, accessible language\n- Avoid: Generic marketing jargon\n- Focus: Practicality and cost-effectiveness for small businesses\n\nOutput guidance: Provide a structured plan with specific tactics and examples.\n\nSuccess conditions: The user understands how to implement strategies to attract early adopters and gather testimonials effectively within budget constraints.",
+  "questions": [
+    {
+      "id": "product",
+      "question": "What is the product you are trying to promote?",
+      "type": "text",
+      "placeholder": "e.g., eco-friendly water bottle",
+      "why_matters": "Understanding the product helps tailor strategies to its unique features and target market.",
+      "required": true
+    },
+    {
+      "id": "targetAudience",
+      "question": "Who is your target audience for this product?",
+      "type": "text",
+      "placeholder": "e.g., environmentally-conscious millennials",
+      "why_matters": "Identifying the target audience allows for more focused and effective marketing efforts.",
+      "required": true
+    },
+    {
+      "id": "budgetConstraints",
+      "question": "What is your budget for marketing this product?",
+      "type": "text",
+      "placeholder": "e.g., $500",
+      "why_matters": "Knowing the budget helps in suggesting cost-effective strategies that fit within financial limits.",
+      "required": true
+    },
+    {
+      "id": "desiredTestimonials",
+      "question": "What kind of testimonials are you looking to obtain?",
+      "type": "textarea",
+      "placeholder": "e.g., brief quotes, detailed reviews, video testimonials",
+      "why_matters": "Clarifying what type of testimonials are needed guides the approach to gathering them.",
+      "required": true
+    }
+  ],
+  "opening_dialog": "Hi! I'm here to help you with your launch new service product question 5 business. Let's get started.",
+  "question_number": 5,
+  "question_text": "How can I get early adopters to try my new (product))and provide testimonials ",
+  "generated_at": "2025-11-10T12:32:26.930522",
+  "generated_by": "generate_question_templates.py",
+  "smb_insights": {
+    "budget_ranges": [
+      "Under $500",
+      "$500-1000",
+      "$1000-2500",
+      "$2500-5000",
+      "$5000+"
+    ],
+    "pain_points": [
+      "Limited time for marketing",
+      "Don't know where to start",
+      "Wasted money on ineffective ads",
+      "Can't track ROI",
+      "Competing with bigger businesses"
+    ],
+    "effective_channels": [
+      "Google Business Profile (free)",
+      "Instagram organic",
+      "Local SEO",
+      "Email marketing",
+      "Facebook ads (if budget allows)",
+      "Word of mouth referrals"
+    ],
+    "budget_allocations": {
+      "Under $500": {
+        "focus": "Free and low-cost channels",
+        "channels": [
+          "Google Business Profile",
+          "Social media organic",
+          "Email marketing"
+        ]
+      },
+      "$500-1000": {
+        "focus": "Mix of free and paid",
+        "channels": [
+          "Google Ads (limited)",
+          "Social media ads",
+          "Email marketing"
+        ]
+      },
+      "$1000-2500": {
+        "focus": "Balanced paid and organic",
+        "channels": [
+          "Google Ads",
+          "Social media ads",
+          "Email marketing",
+          "Content marketing"
+        ]
+      },
+      "$2500+": {
+        "focus": "Multi-channel strategy",
+        "channels": [
+          "Google Ads",
+          "Social media ads",
+          "Email marketing",
+          "Content marketing",
+          "Retargeting"
+        ]
+      }
+    },
+    "source": "defaults",
+    "note": "pandas not installed, using hardcoded defaults"
+  }
+}

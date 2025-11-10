@@ -127,7 +127,7 @@ Placeholder/Options: "[Helpful example or list of options]"
 Why it matters: "[Brief explanation of how this helps accomplish their intent]"
 ```
 
-Generate 8-12 questions that:
+Generate 2-6 questions that:
 - Clarify the specific intent
 - Provide context
 - Identify constraints/preferences

@@ -1,0 +1,137 @@
+{
+  "category": "generate_more_leads",
+  "version": "1.0.0",
+  "meta_prompt_version": "v1.0",
+  "anti_patterns": [
+    "Common Pattern 1: Generic lead magnets (like 'Free Guide') without targeting specific pain points or industry needs",
+    "Common Pattern 2: Spray-and-pray email outreach with no personalization or relevance to the recipient",
+    "Common Pattern 3: Over-reliance on paid ads without building organic lead generation channels or nurturing existing contacts",
+    "Common Pattern 4: Collecting leads without a clear follow-up sequence or qualification process",
+    "Common Pattern 5: Focusing solely on lead quantity without considering lead quality or conversion potential"
+  ],
+  "prompt_template": "Role: Marketing Strategist\n\nIntent: {{userIntent}}\nCreate a compelling lead magnet tailored for {{industryType}} investors interested in {{businessType}}.\n\nApproach: Generate a first draft of the lead magnet concept, iterate on the idea, and refine it to ensure it aligns with the target audience's interests and needs.\n\nVariables:\n- {{industryType}}: This determines the context and specific needs of the audience, allowing the lead magnet to be relevant and appealing.\n- {{businessType}}: This helps tailor the content and format of the lead magnet to match what the investors are looking for in this type of business.\n\nConstraints:\n- Length: {{length}}\n- Style: {{style}}\n- Avoid: {{avoidPatterns}}\n- Focus: {{focusAreas}}\n\nOutput guidance: Provide a detailed outline or draft of the lead magnet concept, including key topics, format, and delivery method.\n\nSuccess conditions: The lead magnet is designed in a way that effectively captures the interest of the target investor audience and encourages them to engage with the business further.",
+  "questions": [
+    {
+      "id": "industryType",
+      "question": "What industry are the investors you are targeting primarily involved in?",
+      "type": "select",
+      "options": [
+        "[Technology, Healthcare, Real Estate, Finance, etc.]"
+      ],
+      "why_matters": "Understanding the industry helps tailor the lead magnet to address specific interests and challenges faced by investors in that sector.",
+      "required": true
+    },
+    {
+      "id": "businessType",
+      "question": "What type of business are the investors interested in?",
+      "type": "select",
+      "options": [
+        "[Startup, Small Business, Franchise, Non-profit, etc.]"
+      ],
+      "why_matters": "Knowing the business type allows for the creation of a lead magnet that speaks directly to investor priorities and opportunities within that business model.",
+      "required": true
+    },
+    {
+      "id": "length",
+      "question": "What is the ideal length for the lead magnet?",
+      "type": "select",
+      "options": [
+        "[Short (1-2 pages), Medium (3-5 pages), Long (6+ pages)]"
+      ],
+      "why_matters": "The length influences the depth of content and format, ensuring it aligns with investor expectations and time constraints.",
+      "required": true
+    },
+    {
+      "id": "style",
+      "question": "What style should the lead magnet have?",
+      "type": "select",
+      "options": [
+        "[Formal, Informal, Persuasive, Informative, etc.]"
+      ],
+      "required": true
+    },
+    {
+      "id": "avoidPatterns",
+      "question": "Are there any specific elements or patterns to avoid in the lead magnet?",
+      "type": "textarea",
+      "placeholder": "[Examples: Avoid jargon, Avoid lengthy text, Avoid generic advice]",
+      "required": true
+    },
+    {
+      "id": "focusAreas",
+      "question": "What key areas or topics should the lead magnet emphasize?",
+      "type": "textarea",
+      "placeholder": "[Examples: Market trends, ROI potential, Innovation in the field]",
+      "why_matters": "Focusing on specific areas ensures the lead magnet addresses the most relevant and appealing aspects for the target investors.",
+      "required": true
+    }
+  ],
+  "opening_dialog": "Hi! I'm here to help you with your generate more leads question 2 business. Let's get started.",
+  "question_number": 2,
+  "question_text": "What lead magnet should I create for (industry type) investors interested in (business type) ",
+  "generated_at": "2025-11-10T12:29:36.295946",
+  "generated_by": "generate_question_templates.py",
+  "smb_insights": {
+    "budget_ranges": [
+      "Under $500",
+      "$500-1000",
+      "$1000-2500",
+      "$2500-5000",
+      "$5000+"
+    ],
+    "pain_points": [
+      "Limited time for marketing",
+      "Don't know where to start",
+      "Wasted money on ineffective ads",
+      "Can't track ROI",
+      "Competing with bigger businesses"
+    ],
+    "effective_channels": [
+      "Google Business Profile (free)",
+      "Instagram organic",
+      "Local SEO",
+      "Email marketing",
+      "Facebook ads (if budget allows)",
+      "Word of mouth referrals"
+    ],
+    "budget_allocations": {
+      "Under $500": {
+        "focus": "Free and low-cost channels",
+        "channels": [
+          "Google Business Profile",
+          "Social media organic",
+          "Email marketing"
+        ]
+      },
+      "$500-1000": {
+        "focus": "Mix of free and paid",
+        "channels": [
+          "Google Ads (limited)",
+          "Social media ads",
+          "Email marketing"
+        ]
+      },
+      "$1000-2500": {
+        "focus": "Balanced paid and organic",
+        "channels": [
+          "Google Ads",
+          "Social media ads",
+          "Email marketing",
+          "Content marketing"
+        ]
+      },
+      "$2500+": {
+        "focus": "Multi-channel strategy",
+        "channels": [
+          "Google Ads",
+          "Social media ads",
+          "Email marketing",
+          "Content marketing",
+          "Retargeting"
+        ]
+      }
+    },
+    "source": "defaults",
+    "note": "pandas not installed, using hardcoded defaults"
+  }
+}

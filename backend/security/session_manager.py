@@ -52,6 +52,9 @@ class SessionManager:
         Returns:
             Tuple of (session_id, security_token)
         """
+        # Clean up expired sessions first
+        self.cleanup_expired_sessions()
+        
         # Check session limit per IP
         ip_sessions = self._ip_sessions.get(ip_address, [])
         active_sessions = [s for s in ip_sessions if self._is_session_active(s)]
@@ -185,4 +188,18 @@ class SessionManager:
         """Get count of active sessions for IP address."""
         ip_sessions = self._ip_sessions.get(ip_address, [])
         return len([s for s in ip_sessions if self._is_session_active(s)])
+    
+    def clear_sessions_for_ip(self, ip_address: str):
+        """Clear all sessions for a specific IP address."""
+        if ip_address in self._ip_sessions:
+            session_ids = self._ip_sessions[ip_address].copy()
+            for session_id in session_ids:
+                if session_id in self._sessions:
+                    del self._sessions[session_id]
+            del self._ip_sessions[ip_address]
+    
+    def clear_all_sessions(self):
+        """Clear all sessions (useful for testing or reset)."""
+        self._sessions.clear()
+        self._ip_sessions.clear()
 

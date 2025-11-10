@@ -1,0 +1,122 @@
+{
+  "category": "retain_customers",
+  "version": "1.0.0",
+  "meta_prompt_version": "v1.0",
+  "anti_patterns": [
+    "Common Pattern 1: Relying solely on discounts or promotions to drive loyalty",
+    "Common Pattern 2: Using generic loyalty programs without personalization",
+    "Common Pattern 3: Focusing on acquisition rather than retention tactics"
+  ],
+  "prompt_template": "Role: Marketing Strategist\n\nIntent: {{userIntent}}  \nThe user wants to develop practical strategies to re-engage inactive customers who haven't purchased from their {{businessType}} business in {{timeframe}}.\n\nApproach:  \nGenerate a first draft of specific, actionable marketing strategies tailored to the business type and timeframe. Iterate and refine these strategies based on constraints and focus areas.\n\nVariables:\n- {{businessType}}: Helps tailor strategies to the appropriate business model, whether digital or brick-and-mortar.\n- {{timeframe}}: Provides context on how long customers have been inactive, affecting the urgency and type of re-engagement tactics.\n- {{budget}}: Ensures that the strategies are feasible and cost-effective for small businesses.\n- {{targetAudience}}: Helps in customizing strategies to the specific customer segment.\n- {{focusAreas}}: Directs attention to specific marketing channels or tactics that should be prioritized.\n\nConstraints:\n- Length: Concise strategies with actionable steps\n- Style: Practical, straightforward, and jargon-free\n- Avoid: Generic advice like \"increase social media presence\" without specifics\n- Focus: Innovative, cost-effective tactics that can be quickly implemented\n\nOutput guidance:  \nProvide a list of 3-5 specific marketing strategies, with a brief explanation of how each can be implemented and the expected outcome.\n\nSuccess conditions:  \nThe intent is accomplished when the user receives a tailored set of actionable and innovative strategies that can be implemented within their budget and timeframe to re-engage inactive customers effectively.\n\n---\n\n**PART 3 - GENERATE QUESTIONS**\n\nVariable: {{businessType}}\nQuestion: \"What type of business are you operating? (digital/brick-and-mortar)\"\nType: select\nPlaceholder/Options: \"Digital, Brick-and-Mortar\"\nWhy it matters: This determines the kind of strategies that will be effective, as digital and brick-and-mortar businesses have different customer engagement channels.\n\nVariable: {{timeframe}}\nQuestion: \"How long have the customers been inactive?\"\nType: text\nPlaceholder/Options: \"e.g., 3 months, 6 months, 1 year\"\nWhy it matters: Knowing the timeframe helps in crafting strategies that are sensitive to how recently customers interacted with the business.\n\nVariable: {{budget}}\nQuestion: \"What is your budget for re-engagement strategies?\"\nType: text\nPlaceholder/Options: \"e.g., $100, $500, $1000\"\nWhy it matters: The budget constraints will guide the development of feasible and cost-effective strategies.\n\nVariable: {{targetAudience}}\nQuestion: \"Who is your target audience for this re-engagement campaign?\"\nType: textarea\nPlaceholder/Options: \"e.g., previous buyers aged 25-35, subscribers, local customers\"\nWhy it matters: Identifying the target audience allows for more personalized and effective re-engagement strategies.\n\nVariable: {{focusAreas}}\nQuestion: \"Are there specific marketing channels or tactics you want to focus on?\"\nType: textarea\nPlaceholder/Options: \"e.g., email marketing, social media, loyalty programs\"\nWhy it matters: Focusing on specific channels or tactics ensures that the strategies are aligned with the business's current marketing efforts and strengths.",
+  "questions": [
+    {
+      "id": "businessType",
+      "question": "What type of business are you operating? (digital/brick-and-mortar)",
+      "type": "select",
+      "options": [
+        "Digital, Brick-and-Mortar"
+      ],
+      "why_matters": "This determines the kind of strategies that will be effective, as digital and brick-and-mortar businesses have different customer engagement channels.",
+      "required": true
+    },
+    {
+      "id": "timeframe",
+      "question": "How long have the customers been inactive?",
+      "type": "text",
+      "placeholder": "e.g., 3 months, 6 months, 1 year",
+      "why_matters": "Knowing the timeframe helps in crafting strategies that are sensitive to how recently customers interacted with the business.",
+      "required": true
+    },
+    {
+      "id": "budget",
+      "question": "What is your budget for re-engagement strategies?",
+      "type": "text",
+      "placeholder": "e.g., $100, $500, $1000",
+      "why_matters": "The budget constraints will guide the development of feasible and cost-effective strategies.",
+      "required": true
+    },
+    {
+      "id": "targetAudience",
+      "question": "Who is your target audience for this re-engagement campaign?",
+      "type": "textarea",
+      "placeholder": "e.g., previous buyers aged 25-35, subscribers, local customers",
+      "why_matters": "Identifying the target audience allows for more personalized and effective re-engagement strategies.",
+      "required": true
+    },
+    {
+      "id": "focusAreas",
+      "question": "Are there specific marketing channels or tactics you want to focus on?",
+      "type": "textarea",
+      "placeholder": "e.g., email marketing, social media, loyalty programs",
+      "required": true
+    }
+  ],
+  "opening_dialog": "Hi! I'm here to help you with your retain customers question 3 business. Let's get started.",
+  "question_number": 3,
+  "question_text": "How can I re-engage inactive customers who haven't purchased from my (digital/brick-and-mortar) buiness in (timeframe) ",
+  "generated_at": "2025-11-10T12:31:36.614715",
+  "generated_by": "generate_question_templates.py",
+  "smb_insights": {
+    "budget_ranges": [
+      "Under $500",
+      "$500-1000",
+      "$1000-2500",
+      "$2500-5000",
+      "$5000+"
+    ],
+    "pain_points": [
+      "Limited time for marketing",
+      "Don't know where to start",
+      "Wasted money on ineffective ads",
+      "Can't track ROI",
+      "Competing with bigger businesses"
+    ],
+    "effective_channels": [
+      "Google Business Profile (free)",
+      "Instagram organic",
+      "Local SEO",
+      "Email marketing",
+      "Facebook ads (if budget allows)",
+      "Word of mouth referrals"
+    ],
+    "budget_allocations": {
+      "Under $500": {
+        "focus": "Free and low-cost channels",
+        "channels": [
+          "Google Business Profile",
+          "Social media organic",
+          "Email marketing"
+        ]
+      },
+      "$500-1000": {
+        "focus": "Mix of free and paid",
+        "channels": [
+          "Google Ads (limited)",
+          "Social media ads",
+          "Email marketing"
+        ]
+      },
+      "$1000-2500": {
+        "focus": "Balanced paid and organic",
+        "channels": [
+          "Google Ads",
+          "Social media ads",
+          "Email marketing",
+          "Content marketing"
+        ]
+      },
+      "$2500+": {
+        "focus": "Multi-channel strategy",
+        "channels": [
+          "Google Ads",
+          "Social media ads",
+          "Email marketing",
+          "Content marketing",
+          "Retargeting"
+        ]
+      }
+    },
+    "source": "defaults",
+    "note": "pandas not installed, using hardcoded defaults"
+  }
+}

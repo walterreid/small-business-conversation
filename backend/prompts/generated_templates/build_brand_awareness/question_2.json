@@ -1,0 +1,114 @@
+{
+  "category": "build_brand_awareness",
+  "version": "1.0.0",
+  "meta_prompt_version": "v1.0",
+  "anti_patterns": [
+    "Common Pattern 1: Overemphasis on social media presence without unique content",
+    "Common Pattern 2: Relying solely on discounts and promotions to attract attention",
+    "Common Pattern 3: Generic messaging that lacks a clear brand voice or story"
+  ],
+  "prompt_template": "Role: Content Strategist\n\nIntent: {{userIntent}}\nDevelop a practical and actionable content strategy to build a brand on {{businessChannel}} for B2B buyers, tailored to small businesses with limited budgets.\n\nApproach: Generate a first draft of the content strategy, iterate on the plan based on specific business needs, and refine to ensure practicality and effectiveness.\n- Focus on creating content that resonates with B2B buyers and leverages the unique features of {{businessChannel}}.\n\nVariables:\n- {{businessChannel}}: Helps tailor the strategy to the specific platform's strengths and audience expectations.\n- {{brandIdentity}}: Guides the content tone and style to align with the brand's unique voice.\n- {{targetAudience}}: Ensures the content is relevant and engaging to the specific B2B buyers being targeted.\n- {{budget}}: Dictates the feasibility of content types and distribution methods, ensuring cost-effectiveness.\n\nConstraints:\n- Length: Concise and actionable steps\n- Style: Professional and engaging\n- Avoid: Generic advice, overly complex strategies\n- Focus: Practicality, cost-effectiveness, platform-specific tactics\n\nOutput guidance: Provide a detailed content strategy outline, including content types, posting frequency, engagement tactics, and measurement methods.\n\nSuccess conditions: The user has a clear, actionable content strategy that effectively utilizes {{businessChannel}} to reach and engage B2B buyers, fitting within the specified budget and aligning with brand identity.",
+  "questions": [
+    {
+      "id": "businessChannel",
+      "question": "Which business channel are you planning to use for your B2B content strategy (e.g., LinkedIn, another platform)?",
+      "type": "select",
+      "options": [
+        "LinkedIn, Other (please specify)"
+      ],
+      "why_matters": "This helps tailor the strategy to the specific features and audience dynamics of the chosen platform.",
+      "required": true
+    },
+    {
+      "id": "brandIdentity",
+      "question": "What is the core identity or voice of your brand that should be reflected in the content?",
+      "type": "textarea",
+      "placeholder": "Describe your brand",
+      "required": true
+    },
+    {
+      "id": "targetAudience",
+      "question": "Who are the specific B2B buyers you are targeting with your content?",
+      "type": "textarea",
+      "placeholder": "Describe your ideal B2B buyer, including industry, role, and key needs.",
+      "why_matters": "Allows for the creation of tailored content that directly addresses the needs and interests of the target audience.",
+      "required": true
+    },
+    {
+      "id": "budget",
+      "question": "What is your budget for developing and distributing content on the chosen platform?",
+      "type": "text",
+      "placeholder": "Enter your budget range (e.g., $500-$1000).",
+      "why_matters": "Helps in designing a strategy that is feasible and cost-effective within the financial constraints of the business.",
+      "required": true
+    }
+  ],
+  "opening_dialog": "Hi! I'm here to help you with your build brand awareness question 2 business. Let's get started.",
+  "question_number": 2,
+  "question_text": "What content strategy should I use to build my brand on (LinkedIn/Business Channel) for B2B buyers ",
+  "generated_at": "2025-11-10T12:27:28.036511",
+  "generated_by": "generate_question_templates.py",
+  "smb_insights": {
+    "budget_ranges": [
+      "Under $500",
+      "$500-1000",
+      "$1000-2500",
+      "$2500-5000",
+      "$5000+"
+    ],
+    "pain_points": [
+      "Limited time for marketing",
+      "Don't know where to start",
+      "Wasted money on ineffective ads",
+      "Can't track ROI",
+      "Competing with bigger businesses"
+    ],
+    "effective_channels": [
+      "Google Business Profile (free)",
+      "Instagram organic",
+      "Local SEO",
+      "Email marketing",
+      "Facebook ads (if budget allows)",
+      "Word of mouth referrals"
+    ],
+    "budget_allocations": {
+      "Under $500": {
+        "focus": "Free and low-cost channels",
+        "channels": [
+          "Google Business Profile",
+          "Social media organic",
+          "Email marketing"
+        ]
+      },
+      "$500-1000": {
+        "focus": "Mix of free and paid",
+        "channels": [
+          "Google Ads (limited)",
+          "Social media ads",
+          "Email marketing"
+        ]
+      },
+      "$1000-2500": {
+        "focus": "Balanced paid and organic",
+        "channels": [
+          "Google Ads",
+          "Social media ads",
+          "Email marketing",
+          "Content marketing"
+        ]
+      },
+      "$2500+": {
+        "focus": "Multi-channel strategy",
+        "channels": [
+          "Google Ads",
+          "Social media ads",
+          "Email marketing",
+          "Content marketing",
+          "Retargeting"
+        ]
+      }
+    },
+    "source": "defaults",
+    "note": "pandas not installed, using hardcoded defaults"
+  }
+}

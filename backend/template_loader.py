@@ -15,19 +15,20 @@ from pathlib import Path
 _TEMPLATE_CACHE: Dict[str, Dict] = {}
 
 
-def load_template(category: str, version: str = "latest") -> Optional[Dict]:
+def load_template(category: str, version: str = "latest", question_number: Optional[int] = None) -> Optional[Dict]:
     """
     Load pre-generated template for a category.
     
     Args:
-        category: Business category name (e.g., "restaurant")
+        category: Business category name (e.g., "restaurant" or "increase_sales")
         version: Template version to load (default: "latest")
+        question_number: Optional question number (1-5) for question-specific templates
         
     Returns:
         Template dictionary or None if not found
     """
     # Check cache first
-    cache_key = f"{category}:{version}"
+    cache_key = f"{category}:{version}:{question_number}"
     if cache_key in _TEMPLATE_CACHE:
         return _TEMPLATE_CACHE[cache_key]
     
@@ -35,8 +36,12 @@ def load_template(category: str, version: str = "latest") -> Optional[Dict]:
     script_dir = os.path.dirname(os.path.abspath(__file__))
     templates_dir = os.path.join(script_dir, 'prompts', 'generated_templates')
     
-    # For now, just load latest version (versioning can be added later)
-    template_path = os.path.join(templates_dir, f"{category}.json")
+    # If question_number is provided, load question-specific template
+    if question_number:
+        template_path = os.path.join(templates_dir, category, f"question_{question_number}.json")
+    else:
+        # Fallback to category-level template (for backward compatibility)
+        template_path = os.path.join(templates_dir, f"{category}.json")
     
     if not os.path.exists(template_path):
         return None
@@ -58,6 +63,10 @@ def get_available_categories() -> List[str]:
     """
     Get list of all available categories with templates.
     
+    Supports both:
+    - Category-level templates: category.json
+    - Question-specific templates: category/question_X.json
+    
     Returns:
         List of category names
     """
@@ -69,17 +78,37 @@ def get_available_categories() -> List[str]:
         print(f"Warning: Templates directory not found: {templates_dir}")
         return []
     
-    categories = []
+    categories = set()  # Use set to avoid duplicates
+    
     try:
+        # Check for category-level JSON files (old format)
         for filename in os.listdir(templates_dir):
-            if filename.endswith('.json'):
+            filepath = os.path.join(templates_dir, filename)
+            if os.path.isfile(filepath) and filename.endswith('.json'):
                 category = filename.replace('.json', '')
-                categories.append(category)
+                categories.add(category)
+        
+        # Check for category subdirectories (new format: category/question_X.json)
+        for item in os.listdir(templates_dir):
+            itempath = os.path.join(templates_dir, item)
+            if os.path.isdir(itempath):
+                # Check if directory contains question JSON files
+                has_questions = False
+                try:
+                    for subfile in os.listdir(itempath):
+                        if subfile.startswith('question_') and subfile.endswith('.json'):
+                            has_questions = True
+                            break
+                except Exception:
+                    pass
+                
+                if has_questions:
+                    categories.add(item)  # Add the category name (directory name)
     except Exception as e:
         print(f"Error reading templates directory: {e}")
         return []
     
-    return sorted(categories)
+    return sorted(list(categories))
 
 
 def clear_cache():

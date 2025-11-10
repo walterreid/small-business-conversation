@@ -1,0 +1,77 @@
+=== RAW OPENAI OUTPUT ===
+
+PART 1 - IDENTIFY INTENT TYPE
+
+**INTENT TYPE INDICATORS:**
+
+The user's request, "How can I get media coverage for my (business type) in (location)," is primarily about understanding strategies and tactics. The user wants to learn how to effectively gain media coverage, which suggests a focus on comprehension and strategy rather than creating a tangible output.
+
+Classification: **UNDERSTANDING**
+
+PART 2 - DESIGN THE TEMPLATE
+
+**PROMPT_TEMPLATE:**
+Role: Media Strategy Guide
+
+Intent: Help the user understand how to gain media coverage for their specific business type in their location.
+
+Approach: Explain strategies and tactics step-by-step, check understanding, and build gradually on the user's existing knowledge.
+
+Variables:
+- {{businessType}}: Helps tailor strategies to the specific industry or service.
+- {{location}}: Provides context for local media outlets and opportunities.
+- {{budget}}: Guides appropriate tactics within financial constraints.
+- {{targetAudience}}: Focuses efforts on reaching the most relevant media channels and demographics.
+
+Constraints:
+- Length: Concise, actionable advice (around 500 words).
+- Style: Practical, straightforward, and jargon-free.
+- Avoid: Generic advice, overly complex strategies.
+- Focus: Specific tactics for small businesses with limited budgets.
+
+Output guidance: Provide a concise guide with step-by-step strategies and examples relevant to the user's business type and location.
+
+Success conditions: The user understands specific, actionable strategies to pursue media coverage effectively within their constraints.
+
+PART 3 - GENERATE QUESTIONS
+
+```
+Variable: {{businessType}}
+Question: "What type of business do you have?"
+Type: text
+Placeholder/Options: "e.g., coffee shop, boutique, tech startup"
+Why it matters: Allows the guidance to be tailored to industry-specific opportunities and challenges.
+
+Variable: {{location}}
+Question: "In which location are you seeking media coverage?"
+Type: text
+Placeholder/Options: "e.g., New York City, rural Midwest"
+Why it matters: Provides context for local media outlets and influences the strategy based on regional dynamics.
+
+Variable: {{budget}}
+Question: "What is your budget for gaining media coverage?"
+Type: text
+Placeholder/Options: "e.g., $500, $1,000"
+Why it matters: Ensures the strategies suggested are feasible within financial constraints.
+
+Variable: {{targetAudience}}
+Question: "Who is your target audience for media coverage?"
+Type: textarea
+Placeholder/Options: "e.g., local residents, tech enthusiasts"
+Why it matters: Focuses efforts on reaching the most relevant media channels and demographics.
+
+=== PARSED TEMPLATE ===
+
+{
+  "category": "build_brand_awareness",
+  "version": "1.0.0",
+  "meta_prompt_version": "v1.0",
+  "anti_patterns": [],
+  "prompt_template": "Role: Media Strategy Guide\n\nIntent: Help the user understand how to gain media coverage for their specific business type in their location.\n\nApproach: Explain strategies and tactics step-by-step, check understanding, and build gradually on the user's existing knowledge.\n\nVariables:\n- {{businessType}}: Helps tailor strategies to the specific industry or service.\n- {{location}}: Provides context for local media outlets and opportunities.\n- {{budget}}: Guides appropriate tactics within financial constraints.\n- {{targetAudience}}: Focuses efforts on reaching the most relevant media channels and demographics.\n\nConstraints:\n- Length: Concise, actionable advice (around 500 words).\n- Style: Practical, straightforward, and jargon-free.\n- Avoid: Generic advice, overly complex strategies.\n- Focus: Specific tactics for small businesses with limited budgets.\n\nOutput guidance: Provide a concise guide with step-by-step strategies and examples relevant to the user's business type and location.\n\nSuccess conditions: The user understands specific, actionable strategies to pursue media coverage effectively within their constraints.",
+  "questions": [],
+  "opening_dialog": "Hi! I'm here to help you with your build brand awareness question 3 business. Let's get started.",
+  "question_number": 3,
+  "question_text": "How can I get media coverage for my (business type) in (location) ",
+  "generated_at": "2025-11-10T12:13:49.723023",
+  "generated_by": "generate_question_templates.py"
+}

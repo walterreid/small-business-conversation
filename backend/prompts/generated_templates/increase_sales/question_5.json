@@ -1,0 +1,122 @@
+{
+  "category": "increase_sales",
+  "version": "1.0.0",
+  "meta_prompt_version": "v1.0",
+  "anti_patterns": [
+    "Common Pattern 1: Overly broad advice without actionable steps.",
+    "Common Pattern 2: Focus on expensive marketing strategies not suitable for small budgets.",
+    "Common Pattern 3: Advice that requires extensive expertise or technical skills."
+  ],
+  "prompt_template": "Role: Marketing Guide\n\nIntent: {{userIntent}}\nHelp the user understand and apply practical strategies to convert website visitors into paying customers.\n\nApproach: Explain step-by-step strategies, check for understanding, and build the user's knowledge gradually by connecting strategies to their existing business context.\n\nVariables:\n- {{businessType}}: Helps tailor strategies to the specific type of business.\n- {{currentChallenges}}: Identifies specific obstacles to address.\n- {{budgetLimitations}}: Ensures strategies are feasible within budget constraints.\n- {{targetAudience}}: Allows customization of strategies for the audience.\n- {{currentConversionRate}}: Provides a benchmark to measure improvement.\n\nConstraints:\n- Length: Brief and focused\n- Style: Practical and actionable\n- Avoid: Generic advice\n- Focus: Specific tactics for small businesses with limited budgets\n\nOutput guidance: Provide a clear, structured plan with actionable steps and real-world examples.\n\nSuccess conditions: The user can confidently apply strategies to improve their conversion rates with a clear understanding of the process.\n\n---\n\n**PART 3 - GENERATE QUESTIONS**\n\nVariable: {{businessType}}\nQuestion: \"What type of business do you operate? (e.g., e-commerce, service-based, etc.)\"\nType: select\nPlaceholder/Options: \"[e-commerce, service-based, brick-and-mortar, etc.]\"\nWhy it matters: This helps tailor the strategies to the specific nature of the user's business, ensuring relevance and effectiveness.\n\nVariable: {{currentChallenges}}\nQuestion: \"What are the current challenges you face in converting visitors to customers?\"\nType: textarea\nPlaceholder/Options: \"e.g., high bounce rates, low engagement, etc.\"\nWhy it matters: Understanding specific obstacles allows for targeted strategies to overcome these challenges.\n\nVariable: {{budgetLimitations}}\nQuestion: \"What is your marketing budget for conversion strategies?\"\nType: text\nPlaceholder/Options: \"$500, $1000, etc.\"\nWhy it matters: Ensures that the strategies suggested are affordable and realistic for the user.\n\nVariable: {{targetAudience}}\nQuestion: \"Who is your target audience?\"\nType: textarea\nPlaceholder/Options: \"e.g., young professionals, parents, tech enthusiasts, etc.\"\nWhy it matters: Customizes the approach to the specific preferences and behaviors of the target audience.\n\nVariable: {{currentConversionRate}}\nQuestion: \"What is your current website conversion rate?\"\nType: text\nPlaceholder/Options: \"e.g., 2%, 5%, etc.\"\nWhy it matters: Provides a baseline to measure the success of the new strategies and track improvement.",
+  "questions": [
+    {
+      "id": "businessType",
+      "question": "What type of business do you operate? (e.g., e-commerce, service-based, etc.)",
+      "type": "select",
+      "options": [
+        "[e-commerce, service-based, brick-and-mortar, etc.]"
+      ],
+      "required": true
+    },
+    {
+      "id": "currentChallenges",
+      "question": "What are the current challenges you face in converting visitors to customers?",
+      "type": "textarea",
+      "placeholder": "e.g., high bounce rates, low engagement, etc.",
+      "why_matters": "Understanding specific obstacles allows for targeted strategies to overcome these challenges.",
+      "required": true
+    },
+    {
+      "id": "budgetLimitations",
+      "question": "What is your marketing budget for conversion strategies?",
+      "type": "text",
+      "placeholder": "$500, $1000, etc.",
+      "why_matters": "Ensures that the strategies suggested are affordable and realistic for the user.",
+      "required": true
+    },
+    {
+      "id": "targetAudience",
+      "question": "Who is your target audience?",
+      "type": "textarea",
+      "placeholder": "e.g., young professionals, parents, tech enthusiasts, etc.",
+      "why_matters": "Customizes the approach to the specific preferences and behaviors of the target audience.",
+      "required": true
+    },
+    {
+      "id": "currentConversionRate",
+      "question": "What is your current website conversion rate?",
+      "type": "text",
+      "placeholder": "e.g., 2%, 5%, etc.",
+      "why_matters": "Provides a baseline to measure the success of the new strategies and track improvement.",
+      "required": true
+    }
+  ],
+  "opening_dialog": "Hi! I'm here to help you with your increase sales question 5 business. Let's get started.",
+  "question_number": 5,
+  "question_text": "How do I convert more website visitors into paying customers ",
+  "generated_at": "2025-11-10T12:19:01.022208",
+  "generated_by": "generate_question_templates.py",
+  "smb_insights": {
+    "budget_ranges": [
+      "Under $500",
+      "$500-1000",
+      "$1000-2500",
+      "$2500-5000",
+      "$5000+"
+    ],
+    "pain_points": [
+      "Limited time for marketing",
+      "Don't know where to start",
+      "Wasted money on ineffective ads",
+      "Can't track ROI",
+      "Competing with bigger businesses"
+    ],
+    "effective_channels": [
+      "Google Business Profile (free)",
+      "Instagram organic",
+      "Local SEO",
+      "Email marketing",
+      "Facebook ads (if budget allows)",
+      "Word of mouth referrals"
+    ],
+    "budget_allocations": {
+      "Under $500": {
+        "focus": "Free and low-cost channels",
+        "channels": [
+          "Google Business Profile",
+          "Social media organic",
+          "Email marketing"
+        ]
+      },
+      "$500-1000": {
+        "focus": "Mix of free and paid",
+        "channels": [
+          "Google Ads (limited)",
+          "Social media ads",
+          "Email marketing"
+        ]
+      },
+      "$1000-2500": {
+        "focus": "Balanced paid and organic",
+        "channels": [
+          "Google Ads",
+          "Social media ads",
+          "Email marketing",
+          "Content marketing"
+        ]
+      },
+      "$2500+": {
+        "focus": "Multi-channel strategy",
+        "channels": [
+          "Google Ads",
+          "Social media ads",
+          "Email marketing",
+          "Content marketing",
+          "Retargeting"
+        ]
+      }
+    },
+    "source": "defaults",
+    "note": "pandas not installed, using hardcoded defaults"
+  }
+}

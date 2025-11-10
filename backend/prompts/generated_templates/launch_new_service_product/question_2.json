@@ -1,0 +1,113 @@
+{
+  "category": "launch_new_service_product",
+  "version": "1.0.0",
+  "meta_prompt_version": "v1.0",
+  "anti_patterns": [
+    "Common Pattern 1: Overly broad marketing language without actionable details",
+    "Common Pattern 2: Focus on features rather than benefits to early adopters",
+    "Common Pattern 3: Generic \"social media buzz\" strategies without targeted audience engagement"
+    ],
+  "prompt_template": "Role: Marketing Guide\n\nIntent: {{userIntent}}\nHelp the user understand practical, actionable pre-launch marketing strategies to build anticipation for their specific business type.\n\nApproach: Explain concepts, check understanding, build gradually\n- Break down the strategies into steps and explain each step clearly\n- Provide examples and case studies relevant to small businesses\n- Ensure the user understands how to apply these strategies within their constraints\n\nVariables:\n- {{businessType}}: Helps tailor strategies to the specific challenges and opportunities of the user's business\n- {{budget}}: Ensures suggestions are realistic and feasible within the user's financial constraints\n- {{targetAudience}}: Helps focus strategies on the most relevant and impactful group\n- {{marketingGoals}}: Aligns the strategies with what the user ultimately wants to achieve with their pre-launch efforts\n\nConstraints:\n- Length: Concise but thorough explanations\n- Style: Practical, jargon-free, and relatable\n- Avoid: Generic advice, overly complex theories\n- Focus: Specific tactics that can be implemented with limited resources\n\nOutput guidance: Provide a step-by-step guide or checklist of strategies with explanations\n\nSuccess conditions: The user understands what specific pre-launch marketing strategies to use for their business type and can articulate how to implement them.\n\n---\n\n**PART 3 - GENERATE QUESTIONS**\n\nVariable: {{businessType}}\nQuestion: \"What type of business are you planning to launch?\"\nType: select\nPlaceholder/Options: \"e.g., retail store, online service, restaurant\"\nWhy it matters: This helps tailor marketing strategies to the specific challenges and opportunities of the user's business type.\n\nVariable: {{budget}}\nQuestion: \"What is your budget for pre-launch marketing activities?\"\nType: text\nPlaceholder/Options: \"e.g., $500, $1000, under $2000\"\nWhy it matters: Understanding the budget ensures that the suggested strategies are feasible and realistic for the user.\n\nVariable: {{targetAudience}}\nQuestion: \"Who is your target audience for this business?\"\nType: textarea\nPlaceholder/Options: \"e.g., young professionals, stay-at-home parents, tech enthusiasts\"\nWhy it matters: Identifying the target audience allows for strategies that are focused and likely to have the greatest impact.\n\nVariable: {{marketingGoals}}\nQuestion: \"What are your primary goals for the pre-launch marketing?\"\nType: textarea\nPlaceholder/Options: \"e.g., brand awareness, lead generation, community engagement\"\nWhy it matters: Aligning strategies with the user's goals ensures that the marketing efforts are purposeful and aligned with what the user wants to achieve.",
+  "questions": [
+    {
+      "id": "businessType",
+      "question": "What type of business are you planning to launch?",
+      "type": "select",
+      "options": [
+        "e.g., retail store, online service, restaurant"
+      ],
+      "required": true
+    },
+    {
+      "id": "budget",
+      "question": "What is your budget for pre-launch marketing activities?",
+      "type": "text",
+      "placeholder": "e.g., $500, $1000, under $2000",
+      "why_matters": "Understanding the budget ensures that the suggested strategies are feasible and realistic for the user.",
+      "required": true
+    },
+    {
+      "id": "targetAudience",
+      "question": "Who is your target audience for this business?",
+      "type": "textarea",
+      "placeholder": "e.g., young professionals, stay-at-home parents, tech enthusiasts",
+      "why_matters": "Identifying the target audience allows for strategies that are focused and likely to have the greatest impact.",
+      "required": true
+    },
+    {
+      "id": "marketingGoals",
+      "question": "What are your primary goals for the pre-launch marketing?",
+      "type": "textarea",
+      "placeholder": "e.g., brand awareness, lead generation, community engagement",
+      "required": true
+    }
+  ],
+  "opening_dialog": "Hi! I'm here to help you with your launch new service product question 2 business. Let's get started.",
+  "question_number": 2,
+  "question_text": "What pre-launch marketing should I use to build anticipation for my (business type)) ",
+  "generated_at": "2025-11-10T12:30:30.170642",
+  "generated_by": "generate_question_templates.py",
+  "smb_insights": {
+    "budget_ranges": [
+      "Under $500",
+      "$500-1000",
+      "$1000-2500",
+      "$2500-5000",
+      "$5000+"
+    ],
+    "pain_points": [
+      "Limited time for marketing",
+      "Don't know where to start",
+      "Wasted money on ineffective ads",
+      "Can't track ROI",
+      "Competing with bigger businesses"
+    ],
+    "effective_channels": [
+      "Google Business Profile (free)",
+      "Instagram organic",
+      "Local SEO",
+      "Email marketing",
+      "Facebook ads (if budget allows)",
+      "Word of mouth referrals"
+    ],
+    "budget_allocations": {
+      "Under $500": {
+        "focus": "Free and low-cost channels",
+        "channels": [
+          "Google Business Profile",
+          "Social media organic",
+          "Email marketing"
+        ]
+      },
+      "$500-1000": {
+        "focus": "Mix of free and paid",
+        "channels": [
+          "Google Ads (limited)",
+          "Social media ads",
+          "Email marketing"
+        ]
+      },
+      "$1000-2500": {
+        "focus": "Balanced paid and organic",
+        "channels": [
+          "Google Ads",
+          "Social media ads",
+          "Email marketing",
+          "Content marketing"
+        ]
+      },
+      "$2500+": {
+        "focus": "Multi-channel strategy",
+        "channels": [
+          "Google Ads",
+          "Social media ads",
+          "Email marketing",
+          "Content marketing",
+          "Retargeting"
+        ]
+      }
+    },
+    "source": "defaults",
+    "note": "pandas not installed, using hardcoded defaults"
+  }
+}

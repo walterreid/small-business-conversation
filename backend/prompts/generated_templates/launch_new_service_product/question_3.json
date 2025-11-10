@@ -1,0 +1,97 @@
+{
+  "category": "launch_new_service_product",
+  "version": "1.0.0",
+  "meta_prompt_version": "v1.0",
+  "anti_patterns": [
+    "Common Pattern 1: Overly broad marketing language without actionable details",
+    "Common Pattern 2: Focus on features rather than benefits to early adopters",
+    "Common Pattern 3: Generic \"social media buzz\" strategies without targeted audience engagement"
+    ],
+  "prompt_template": "Role: Business Pricing Guide\n\nIntent: Understanding how to price {{product/service}} for {{demographic}} when launching {{timeframe}}\nThe user wants to learn effective pricing strategies tailored to their business needs and target audience.\n\nApproach: Explain concepts of pricing strategy, check understanding, build gradually\n- Provide a step-by-step breakdown of key pricing considerations\n- Relate to existing knowledge of small business operations\n- Offer examples of successful pricing strategies for similar demographics\n\nVariables:\n- {{product/service}}: Defines the nature of the offering, which influences production costs and perceived value\n- {{demographic}}: Identifies the target audience, crucial for understanding market demand and price sensitivity\n- {{timeframe}}: Sets the launch window, impacting urgency and seasonal pricing strategies\n\nConstraints:\n- Length: Concise yet comprehensive enough to cover key concepts\n- Style: Practical and jargon-free, tailored for small business owners\n- Avoid: Overly academic theories without actionable steps\n- Focus: Practical strategies, budget-friendly tactics\n\nOutput guidance: Provide a detailed yet accessible explanation of pricing strategies with examples.\n\nSuccess conditions: The user develops a clear understanding of how to price their product/service effectively for launch.",
+  "questions": [
+    {
+      "id": "demographic",
+      "question": "Who is your target demographic for this launch?",
+      "type": "text",
+      "placeholder": "e.g., young professionals, retirees, college students",
+      "why_matters": "Identifying the demographic is crucial for understanding their purchasing power and price sensitivity, which affects pricing decisions.",
+      "required": true
+    },
+    {
+      "id": "timeframe",
+      "question": "What is your planned launch timeframe?",
+      "type": "text",
+      "placeholder": "e.g., Q1 2024, summer season, holiday season",
+      "why_matters": "The timeframe influences market conditions and competitive landscape, which are important for pricing strategy adjustments.",
+      "required": true
+    }
+  ],
+  "opening_dialog": "Hi! I'm here to help you with your launch new service product question 3 business. Let's get started.",
+  "question_number": 3,
+  "question_text": "How do I price my (product/service) for (demographic) when launching (timeframe) ",
+  "generated_at": "2025-11-10T12:30:41.727769",
+  "generated_by": "generate_question_templates.py",
+  "smb_insights": {
+    "budget_ranges": [
+      "Under $500",
+      "$500-1000",
+      "$1000-2500",
+      "$2500-5000",
+      "$5000+"
+    ],
+    "pain_points": [
+      "Limited time for marketing",
+      "Don't know where to start",
+      "Wasted money on ineffective ads",
+      "Can't track ROI",
+      "Competing with bigger businesses"
+    ],
+    "effective_channels": [
+      "Google Business Profile (free)",
+      "Instagram organic",
+      "Local SEO",
+      "Email marketing",
+      "Facebook ads (if budget allows)",
+      "Word of mouth referrals"
+    ],
+    "budget_allocations": {
+      "Under $500": {
+        "focus": "Free and low-cost channels",
+        "channels": [
+          "Google Business Profile",
+          "Social media organic",
+          "Email marketing"
+        ]
+      },
+      "$500-1000": {
+        "focus": "Mix of free and paid",
+        "channels": [
+          "Google Ads (limited)",
+          "Social media ads",
+          "Email marketing"
+        ]
+      },
+      "$1000-2500": {
+        "focus": "Balanced paid and organic",
+        "channels": [
+          "Google Ads",
+          "Social media ads",
+          "Email marketing",
+          "Content marketing"
+        ]
+      },
+      "$2500+": {
+        "focus": "Multi-channel strategy",
+        "channels": [
+          "Google Ads",
+          "Social media ads",
+          "Email marketing",
+          "Content marketing",
+          "Retargeting"
+        ]
+      }
+    },
+    "source": "defaults",
+    "note": "pandas not installed, using hardcoded defaults"
+  }
+}

@@ -1,0 +1,116 @@
+{
+  "category": "generate_more_leads",
+  "version": "1.0.0",
+  "meta_prompt_version": "v1.0",
+  "anti_patterns": [
+    "Common Pattern 1: Generic lead magnets (like 'Free Guide') without targeting specific pain points or industry needs",
+    "Common Pattern 2: Spray-and-pray email outreach with no personalization or relevance to the recipient",
+    "Common Pattern 3: Over-reliance on paid ads without building organic lead generation channels or nurturing existing contacts",
+    "Common Pattern 4: Collecting leads without a clear follow-up sequence or qualification process",
+    "Common Pattern 5: Focusing solely on lead quantity without considering lead quality or conversion potential"
+  ],
+  "prompt_template": "Role: Industry Outreach Guide\n\nIntent: {{userIntent}}  \nTo determine an effective outreach strategy for generating B2B leads in the {{industryType}} sector.\n\nApproach:  \nExplain concepts, check understanding, build gradually by providing specific actionable insights and strategies that work for small businesses with limited budgets.\n\nVariables:  \n- {{industryType}}: Helps to tailor the outreach strategy to the specific needs and characteristics of the industry.\n- {{budgetConstraints}}: Ensures the strategies are feasible within the financial limits of a small business.\n- {{currentStrategies}}: Provides context on what the user is already implementing, allowing for refinement or new suggestions.\n- {{desiredOutcome}}: Focuses the guidance on achieving specific lead generation goals.\n\nConstraints:  \n- Length: Concise and focused on practicality\n- Style: Direct, actionable, and industry-specific\n- Avoid: Generic advice that lacks specificity or practical application\n- Focus: Nuanced understanding of the industry and effective strategies\n\nOutput guidance:  \nProvide a clear and concise explanation of recommended outreach strategies, including practical steps for implementation.\n\nSuccess conditions:  \nThe user understands and can implement a tailored outreach strategy that is feasible within their budget and achieves their lead generation goals.",
+  "questions": [
+    {
+      "id": "industryType",
+      "question": "What industry are you targeting for your B2B lead generation?",
+      "type": "select",
+      "options": [
+        "Technology, Healthcare, Manufacturing, etc."
+      ],
+      "why_matters": "Understanding the industry helps tailor the outreach strategy to its specific characteristics and challenges.",
+      "required": true
+    },
+    {
+      "id": "budgetConstraints",
+      "question": "What is your budget for implementing outreach strategies?",
+      "type": "text",
+      "placeholder": "Enter your budget range",
+      "why_matters": "Knowing the budget ensures that the strategies suggested are financially viable for your business.",
+      "required": true
+    },
+    {
+      "id": "currentStrategies",
+      "question": "What outreach strategies are you currently using?",
+      "type": "textarea",
+      "placeholder": "Describe any current strategies or methods",
+      "required": true
+    },
+    {
+      "id": "desiredOutcome",
+      "question": "What specific outcomes are you aiming to achieve with your outreach strategy?",
+      "type": "text",
+      "placeholder": "Increase leads by 20%, establish 5 new partnerships, etc.",
+      "why_matters": "Clarifying the desired outcomes allows for recommendations that are aligned with your specific business goals.",
+      "required": true
+    }
+  ],
+  "opening_dialog": "Hi! I'm here to help you with your generate more leads question 4 business. Let's get started.",
+  "question_number": 4,
+  "question_text": "What outreach strategy should I use to generate B2B leads in the (industry type) sector ",
+  "generated_at": "2025-11-10T12:29:56.969954",
+  "generated_by": "generate_question_templates.py",
+  "smb_insights": {
+    "budget_ranges": [
+      "Under $500",
+      "$500-1000",
+      "$1000-2500",
+      "$2500-5000",
+      "$5000+"
+    ],
+    "pain_points": [
+      "Limited time for marketing",
+      "Don't know where to start",
+      "Wasted money on ineffective ads",
+      "Can't track ROI",
+      "Competing with bigger businesses"
+    ],
+    "effective_channels": [
+      "Google Business Profile (free)",
+      "Instagram organic",
+      "Local SEO",
+      "Email marketing",
+      "Facebook ads (if budget allows)",
+      "Word of mouth referrals"
+    ],
+    "budget_allocations": {
+      "Under $500": {
+        "focus": "Free and low-cost channels",
+        "channels": [
+          "Google Business Profile",
+          "Social media organic",
+          "Email marketing"
+        ]
+      },
+      "$500-1000": {
+        "focus": "Mix of free and paid",
+        "channels": [
+          "Google Ads (limited)",
+          "Social media ads",
+          "Email marketing"
+        ]
+      },
+      "$1000-2500": {
+        "focus": "Balanced paid and organic",
+        "channels": [
+          "Google Ads",
+          "Social media ads",
+          "Email marketing",
+          "Content marketing"
+        ]
+      },
+      "$2500+": {
+        "focus": "Multi-channel strategy",
+        "channels": [
+          "Google Ads",
+          "Social media ads",
+          "Email marketing",
+          "Content marketing",
+          "Retargeting"
+        ]
+      }
+    },
+    "source": "defaults",
+    "note": "pandas not installed, using hardcoded defaults"
+  }
+}

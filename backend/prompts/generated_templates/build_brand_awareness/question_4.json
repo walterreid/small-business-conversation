@@ -1,0 +1,104 @@
+{
+  "category": "build_brand_awareness",
+  "version": "1.0.0",
+  "meta_prompt_version": "v1.0",
+  "anti_patterns": [
+    "Common Pattern 1: Overemphasis on social media presence without unique content",
+    "Common Pattern 2: Relying solely on discounts and promotions to attract attention",
+    "Common Pattern 3: Generic messaging that lacks a clear brand voice or story"
+  ],
+  "prompt_template": "Role: Guide\n\nIntent: {{userIntent}}  \nHelp the user understand what partnerships would boost brand visibility for their specific service in a given location.\n\nApproach: Explain concepts, check understanding, build gradually. Use practical and actionable strategies that are tailored to small businesses with limited budgets.\n\nVariables: \n- {{location}}: Helps tailor the strategy to the user's specific geographic area, considering local market dynamics.\n- {{businessType}}: Provides context on the industry, allowing for suggestions of relevant partnerships that align with the business's target market and goals.\n- {{budget}}: Ensures that strategies are practical and feasible within the user's financial constraints.\n\nConstraints: \n- Length: Concise and focused on actionable insights.\n- Style: Practical, relatable, and easy to understand.\n- Avoid: Generic advice and overly theoretical concepts.\n- Focus: Specific tactics for small businesses, leveraging local and industry-specific partnerships.\n\nOutput guidance: Provide a structured explanation with examples of potential partnerships and the rationale behind each suggestion.\n\nSuccess conditions: The user gains a clear understanding of potential partnerships and feels confident in pursuing strategies that are aligned with their business type and location.\n\n---\n\n**PART 3 - GENERATE QUESTIONS**\n\nFor each {{variable}} in the template, here are the questions:\n\nVariable: {{location}}\nQuestion: \"What is the specific location or area where your business operates?\"\nType: text\nPlaceholder/Options: \"e.g., San Francisco, CA\"\nWhy it matters: Understanding the geographic location helps tailor partnership recommendations to local opportunities and challenges.\n\nVariable: {{businessType}}\nQuestion: \"What type of business or service do you offer?\"\nType: text\nPlaceholder/Options: \"e.g., landscaping, personal training\"\nWhy it matters: Knowing the business type allows for the identification of partnerships that are relevant and beneficial to the industry.\n\nVariable: {{budget}}\nQuestion: \"What is your budget for potential partnership initiatives?\"\nType: text\nPlaceholder/Options: \"e.g., $500/month, $2000 one-time\"\nWhy it matters: Understanding the budget constraints ensures that the suggested strategies are feasible and within the user's financial means.\n\nThis structured approach ensures that the user's needs are met with specificity and practical guidance.",
+  "questions": [
+    {
+      "id": "location",
+      "question": "What is the specific location or area where your business operates?",
+      "type": "text",
+      "placeholder": "e.g., San Francisco, CA",
+      "why_matters": "Understanding the geographic location helps tailor partnership recommendations to local opportunities and challenges.",
+      "required": true
+    },
+    {
+      "id": "businessType",
+      "question": "What type of business or service do you offer?",
+      "type": "text",
+      "placeholder": "e.g., landscaping, personal training",
+      "why_matters": "Knowing the business type allows for the identification of partnerships that are relevant and beneficial to the industry.",
+      "required": true
+    },
+    {
+      "id": "budget",
+      "question": "What is your budget for potential partnership initiatives?",
+      "type": "text",
+      "placeholder": "e.g., $500/month, $2000 one-time",
+      "required": true
+    }
+  ],
+  "opening_dialog": "Hi! I'm here to help you with your build brand awareness question 4 business. Let's get started.",
+  "question_number": 4,
+  "question_text": "What partnerships would boost brand visibility for my (location) (business type) service ",
+  "generated_at": "2025-11-10T12:27:49.094004",
+  "generated_by": "generate_question_templates.py",
+  "smb_insights": {
+    "budget_ranges": [
+      "Under $500",
+      "$500-1000",
+      "$1000-2500",
+      "$2500-5000",
+      "$5000+"
+    ],
+    "pain_points": [
+      "Limited time for marketing",
+      "Don't know where to start",
+      "Wasted money on ineffective ads",
+      "Can't track ROI",
+      "Competing with bigger businesses"
+    ],
+    "effective_channels": [
+      "Google Business Profile (free)",
+      "Instagram organic",
+      "Local SEO",
+      "Email marketing",
+      "Facebook ads (if budget allows)",
+      "Word of mouth referrals"
+    ],
+    "budget_allocations": {
+      "Under $500": {
+        "focus": "Free and low-cost channels",
+        "channels": [
+          "Google Business Profile",
+          "Social media organic",
+          "Email marketing"
+        ]
+      },
+      "$500-1000": {
+        "focus": "Mix of free and paid",
+        "channels": [
+          "Google Ads (limited)",
+          "Social media ads",
+          "Email marketing"
+        ]
+      },
+      "$1000-2500": {
+        "focus": "Balanced paid and organic",
+        "channels": [
+          "Google Ads",
+          "Social media ads",
+          "Email marketing",
+          "Content marketing"
+        ]
+      },
+      "$2500+": {
+        "focus": "Multi-channel strategy",
+        "channels": [
+          "Google Ads",
+          "Social media ads",
+          "Email marketing",
+          "Content marketing",
+          "Retargeting"
+        ]
+      }
+    },
+    "source": "defaults",
+    "note": "pandas not installed, using hardcoded defaults"
+  }
+}
