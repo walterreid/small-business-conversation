@@ -1139,12 +1139,12 @@ def get_chat_session(session_id):
             "error": "An unexpected error occurred"
         }), 500
 
+# Initialize OpenAI client when module is imported (works for both direct run and gunicorn)
+if not initialize_openai():
+    logger.warning("OpenAI client not initialized. Set OPENAI_API_KEY environment variable.")
+    logger.warning("The app will start but API endpoints requiring OpenAI will fail.")
+
 if __name__ == '__main__':
-    # Initialize OpenAI client on startup
-    if not initialize_openai():
-        logger.error("Failed to initialize OpenAI client. Check your API key.")
-        exit(1)
-    
     # Get port from environment or default to 5001 (5000 often used by AirPlay on macOS)
     port = int(os.getenv('PORT', 5001))
     
