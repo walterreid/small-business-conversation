@@ -493,7 +493,7 @@ At 100 plans/day: ~$5-10/day in API costs
 
 ## Credits
 
-Built by [Your Name]
+Built by Walter Reid
 
 Inspired by:
 - Bridesmaid for Hire's conversational flow
@@ -504,8 +504,6 @@ Inspired by:
 
 ## Questions?
 
-- **Issues**: [GitHub Issues](https://github.com/yourusername/small-business-marketing-tool/issues)
-- **Email**: your-email@example.com
 - **Docs**: See `CLAUDE.md` for AI assistant guidance
 
 ---
