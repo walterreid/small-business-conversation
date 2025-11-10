@@ -99,22 +99,89 @@ function SidebarForm({ questions = [], answers = {}, onAnswersChange, disabled =
           </div>
         )}
 
-        {question.type === 'select' && question.options && (
-          <select
-            id={questionId}
-            value={currentValue}
-            onChange={(e) => handleAnswerChange(questionId, e.target.value)}
-            disabled={disabled}
-            className="question-select"
-          >
-            <option value="">Select an option...</option>
-            {question.options.map((option, idx) => (
-              <option key={idx} value={option}>
-                {option}
-              </option>
-            ))}
-          </select>
-        )}
+        {question.type === 'select' && question.options && (() => {
+          // Normalize options - handle both array and string formats
+          let normalizedOptions = [];
+          if (Array.isArray(question.options)) {
+            // If options is an array of strings, use as-is
+            normalizedOptions = question.options;
+          } else if (typeof question.options === 'string') {
+            // If options is a string, split by comma or pipe
+            normalizedOptions = question.options.split(/[,|]/).map(opt => opt.trim()).filter(opt => opt);
+          }
+          
+          // Ensure "Other" is always present (case-insensitive check)
+          const hasOther = normalizedOptions.some(opt => 
+            opt.toLowerCase().includes('other') || opt.toLowerCase() === 'other'
+          );
+          if (!hasOther) {
+            normalizedOptions.push('Other');
+          }
+          
+          // Check if "Other" is selected (case-insensitive)
+          const isOtherSelected = currentValue && (
+            currentValue.toLowerCase() === 'other' || 
+            currentValue.toLowerCase().includes('other')
+          );
+          
+          // Get the "Other" text value (stored separately)
+          const otherValueKey = `${questionId}_other`;
+          const otherTextValue = localAnswers[otherValueKey] || '';
+          
+          return (
+            <div className="select-with-other-wrapper">
+              <select
+                id={questionId}
+                value={isOtherSelected ? 'Other' : currentValue}
+                onChange={(e) => {
+                  const selectedValue = e.target.value;
+                  if (selectedValue.toLowerCase() === 'other' || selectedValue.toLowerCase().includes('other')) {
+                    // Store "Other" as the value, and clear any previous other text
+                    handleAnswerChange(questionId, 'Other');
+                    // Clear the other text field if switching away from other
+                    if (otherTextValue) {
+                      handleAnswerChange(otherValueKey, '');
+                    }
+                  } else {
+                    // Store the selected option and clear other text
+                    handleAnswerChange(questionId, selectedValue);
+                    handleAnswerChange(otherValueKey, '');
+                  }
+                }}
+                disabled={disabled}
+                className="question-select"
+              >
+                <option value="">Select an option...</option>
+                {normalizedOptions.map((option, idx) => (
+                  <option key={idx} value={option}>
+                    {option}
+                  </option>
+                ))}
+              </select>
+              
+              {/* Show text input when "Other" is selected */}
+              {isOtherSelected && (
+                <div className="other-input-wrapper" style={{ marginTop: '0.5rem' }}>
+                  <input
+                    type="text"
+                    id={otherValueKey}
+                    value={otherTextValue}
+                    onChange={(e) => {
+                      const otherText = e.target.value;
+                      handleAnswerChange(otherValueKey, otherText);
+                      // Update the main answer to include the other text
+                      handleAnswerChange(questionId, otherText ? `Other: ${otherText}` : 'Other');
+                    }}
+                    placeholder="Please specify..."
+                    disabled={disabled}
+                    className="question-input other-text-input"
+                    autoFocus
+                  />
+                </div>
+              )}
+            </div>
+          );
+        })()}
 
         {hasValue && (
           <div className="answer-indicator">

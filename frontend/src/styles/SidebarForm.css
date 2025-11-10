@@ -169,6 +169,34 @@
   transform: none;
 }
 
+.select-with-other-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.other-input-wrapper {
+  margin-top: 0.5rem;
+}
+
+.other-text-input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  font-family: inherit;
+  transition: border-color 0.2s ease;
+  background: #f9f9f9;
+}
+
+.other-text-input:focus {
+  outline: none;
+  border-color: #2196f3;
+  box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
+  background: #ffffff;
+}
+
 .answer-indicator {
   display: inline-flex;
   align-items: center;

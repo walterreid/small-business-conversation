@@ -11,7 +11,7 @@ This project is configured for deployment on Render with separate backend and fr
 - **Environment**: Python 3.9+
 - **Plan**: Free (upgrade as needed)
 - **Build Command**: `cd backend && pip install -r requirements.txt`
-- **Start Command**: `cd backend && python3 app.py`
+- **Start Command**: `cd backend && gunicorn app:app --bind 0.0.0.0:$PORT --workers 2 --timeout 120`
 - **Health Check**: `/health`
 
 ### Frontend Service
