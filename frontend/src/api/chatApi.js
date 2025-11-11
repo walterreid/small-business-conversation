@@ -227,3 +227,45 @@ export async function getQuestionTemplate(category, questionNumber) {
   }
 }
 
+/**
+ * Run diagnostic to match user to best questions
+ * @param {string} painPoint - User's main pain point (not_enough_customers, no_visibility, etc.)
+ * @param {string} revenueRange - Monthly revenue range (under_10k, 10k_to_50k, etc.)
+ * @param {Array<string>} triedBefore - List of what they've already tried
+ * @returns {Promise<Object>} API response with matched_questions and overall_reasoning
+ */
+export async function runDiagnostic(painPoint, revenueRange, triedBefore = []) {
+  try {
+    const url = API_BASE_URL ? `${API_BASE_URL}/api/diagnostic` : '/api/diagnostic';
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        pain_point: painPoint,
+        revenue_range: revenueRange,
+        tried_before: triedBefore
+      })
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error(errorData.error || `HTTP ${response.status}`);
+    }
+
+    const data = await response.json();
+    
+    if (!data.success) {
+      throw new Error(data.error || 'Failed to run diagnostic');
+    }
+
+    return data;
+  } catch (error) {
+    if (error.name === 'TypeError' && error.message.includes('fetch')) {
+      throw new Error('Unable to connect to the server.');
+    }
+    throw error;
+  }
+}
+

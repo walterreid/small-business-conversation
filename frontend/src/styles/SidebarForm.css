@@ -82,11 +82,18 @@
 }
 
 .question-label {
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
   font-weight: 600;
   color: #333;
   margin-bottom: 0.5rem;
   font-size: 0.95rem;
+  position: relative;
+}
+
+.question-text {
+  flex: 1;
 }
 
 .required-indicator {
@@ -94,11 +101,110 @@
   margin-left: 0.25rem;
 }
 
-.question-why {
-  font-size: 0.8rem;
+/* Why Matters Tooltip */
+.why-matters-tooltip-wrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.why-matters-icon {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+  padding: 0;
+  line-height: 1;
+}
+
+.why-matters-icon:hover {
+  transform: scale(1.1);
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.4);
+}
+
+.why-matters-icon:active {
+  transform: scale(0.95);
+}
+
+.why-matters-tooltip {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  z-index: 1000;
+  min-width: 280px;
+  max-width: 320px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  border: 1px solid #e0e0e0;
+  animation: tooltipFadeIn 0.2s ease-out;
+  pointer-events: auto;
+}
+
+@keyframes tooltipFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.tooltip-arrow {
+  position: absolute;
+  top: -6px;
+  right: 20px;
+  width: 12px;
+  height: 12px;
+  background: white;
+  border-left: 1px solid #e0e0e0;
+  border-top: 1px solid #e0e0e0;
+  transform: rotate(45deg);
+}
+
+.tooltip-content {
+  padding: 1rem;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: #333;
+}
+
+.tooltip-content strong {
+  display: block;
+  color: #667eea;
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.tooltip-content p {
+  margin: 0;
   color: #666;
-  margin: 0.25rem 0 0.75rem 0;
-  font-style: italic;
+}
+
+/* Hide tooltip on mobile when not hovering/clicking */
+@media (max-width: 768px) {
+  .why-matters-tooltip {
+    min-width: 250px;
+    max-width: calc(100vw - 2rem);
+  }
+  
+  .why-matters-icon:active + .why-matters-tooltip,
+  .why-matters-icon:focus + .why-matters-tooltip {
+    pointer-events: auto;
+  }
 }
 
 .question-input-wrapper {

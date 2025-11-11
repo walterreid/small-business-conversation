@@ -6,10 +6,11 @@
   align-items: center;
   justify-content: center;
   padding: 2rem 1rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 
 .category-container {
-  max-width: 1000px;
+  max-width: 1400px;
   width: 100%;
 }
 

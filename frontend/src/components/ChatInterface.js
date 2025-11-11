@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   MainContainer,
   ChatContainer,
@@ -12,8 +12,10 @@ import '@chatscope/chat-ui-kit-styles/dist/default/styles.min.css';
 import '../styles/ChatApp.css';
 import { startChatSession, sendChatMessage, generateMarketingPlan } from '../api/chatApi';
 import SidebarForm from './SidebarForm';
+import ExpertSidebar from './ExpertSidebar';
+import TypewriterMessage from './TypewriterMessage';
 
-function ChatInterface({ category, questionNumber = null, initialQuestionText = null, onComplete, onGeneratePlan, onAskDifferentQuestion }) {
+function ChatInterface({ category, questionNumber = null, initialQuestionText = null, diagnosticContext = null, onComplete, onGeneratePlan, onAskDifferentQuestion }) {
   const [messages, setMessages] = useState([]);
   const [isTyping, setIsTyping] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
@@ -26,6 +28,11 @@ function ChatInterface({ category, questionNumber = null, initialQuestionText = 
   const [usesTemplate, setUsesTemplate] = useState(false);
   const [antiPatterns, setAntiPatterns] = useState([]);
   const [showHelpModal, setShowHelpModal] = useState(false);
+  const [frameworkInsights, setFrameworkInsights] = useState(null);
+  const [showExpertSidebar, setShowExpertSidebar] = useState(false);
+  const [typingMessageIndex, setTypingMessageIndex] = useState(null); // Track which message is currently typing
+  const [typingText, setTypingText] = useState(''); // Current text being typed
+  const typingIntervalRef = useRef(null);
 
   // Initialize chat session on mount
   useEffect(() => {
@@ -49,6 +56,9 @@ function ChatInterface({ category, questionNumber = null, initialQuestionText = 
             setOpeningDialog(response.opening_dialog || '');
             setAntiPatterns(response.anti_patterns || []);
             
+            // Show expert sidebar for template-based questions
+            setShowExpertSidebar(true);
+            
             // Add opening dialog as first message
             if (response.opening_dialog) {
               const openingMessage = {
@@ -59,11 +69,54 @@ function ChatInterface({ category, questionNumber = null, initialQuestionText = 
                 position: 'single'
               };
               setMessages([openingMessage]);
+              // Start typing animation for opening message (new message, so type it out)
+              setTypingMessageIndex(0);
+              setTypingText(''); // Reset typing text
+              
+              // Start typewriter effect
+              const fullText = response.opening_dialog;
+              let currentIndex = 0;
+              const prefix = '<strong>Zansei:</strong> ';
+              
+              // Clear any existing interval
+              if (typingIntervalRef.current) {
+                clearInterval(typingIntervalRef.current);
+              }
+              
+              // Set prefix immediately
+              setTypingText(prefix);
+              currentIndex = prefix.length;
+              
+              typingIntervalRef.current = setInterval(() => {
+                if (currentIndex < fullText.length) {
+                  const remainingText = fullText.substring(currentIndex);
+                  
+                  // If we're about to enter an HTML tag, skip to the end of the tag
+                  if (remainingText.startsWith('<')) {
+                    const tagEnd = remainingText.indexOf('>');
+                    if (tagEnd !== -1) {
+                      currentIndex = currentIndex + tagEnd + 1;
+                      setTypingText(prefix + fullText.substring(0, currentIndex));
+                    } else {
+                      currentIndex++;
+                      setTypingText(prefix + fullText.substring(0, currentIndex));
+                    }
+                  } else {
+                    currentIndex++;
+                    setTypingText(prefix + fullText.substring(0, currentIndex));
+                  }
+                } else {
+                  // Typing complete
+                  clearInterval(typingIntervalRef.current);
+                  setTypingMessageIndex(null);
+                  setTypingText('');
+                }
+              }, 15); // 15ms per character
             }
           } else {
             // Handle chat_flows-based flow
             // Convert conversation history to Chatscope message format
-            const initialMessages = response.conversation.map(msg => ({
+            const initialMessages = response.conversation.map((msg, idx) => ({
               message: msg.role === 'assistant' ? `<strong>Zansei:</strong> ${msg.content}` : msg.content,
               sentTime: msg.timestamp,
               sender: msg.role === 'user' ? 'user' : 'assistant',
@@ -72,6 +125,7 @@ function ChatInterface({ category, questionNumber = null, initialQuestionText = 
             }));
             
             setMessages(initialMessages);
+            // Don't type out initial messages from history - they're already part of the conversation
           }
         }
       } catch (err) {
@@ -130,7 +184,60 @@ function ChatInterface({ category, questionNumber = null, initialQuestionText = 
           position: 'single'
         };
         
-        setMessages(prev => [...prev, aiMessage]);
+        setMessages(prev => {
+          const newMessages = [...prev, aiMessage];
+          const newIndex = newMessages.length - 1;
+          // Start typing animation for the new message
+          setTypingMessageIndex(newIndex);
+          setTypingText(''); // Reset typing text
+          
+          // Start typewriter effect
+          const fullText = response.ai_response;
+          let currentIndex = 0;
+          const prefix = '<strong>Zansei:</strong> ';
+          
+          // Clear any existing interval
+          if (typingIntervalRef.current) {
+            clearInterval(typingIntervalRef.current);
+          }
+          
+          // Set prefix immediately
+          setTypingText(prefix);
+          currentIndex = prefix.length;
+          
+          typingIntervalRef.current = setInterval(() => {
+            if (currentIndex < fullText.length) {
+              const remainingText = fullText.substring(currentIndex);
+              
+              // If we're about to enter an HTML tag, skip to the end of the tag
+              if (remainingText.startsWith('<')) {
+                const tagEnd = remainingText.indexOf('>');
+                if (tagEnd !== -1) {
+                  currentIndex = currentIndex + tagEnd + 1;
+                  setTypingText(prefix + fullText.substring(0, currentIndex));
+                } else {
+                  currentIndex++;
+                  setTypingText(prefix + fullText.substring(0, currentIndex));
+                }
+              } else {
+                currentIndex++;
+                setTypingText(prefix + fullText.substring(0, currentIndex));
+              }
+            } else {
+              // Typing complete
+              clearInterval(typingIntervalRef.current);
+              setTypingMessageIndex(null);
+              setTypingText('');
+            }
+          }, 15); // 15ms per character
+          
+          return newMessages;
+        });
+        
+        // Update framework insights if available
+        if (response.framework_insights) {
+          setFrameworkInsights(response.framework_insights);
+        }
         
         // Check if flow is complete
         if (response.is_complete) {
@@ -200,7 +307,7 @@ function ChatInterface({ category, questionNumber = null, initialQuestionText = 
         )}
 
         {/* Chat Interface */}
-        <div className={`chat-main ${usesTemplate && questions.length > 0 ? 'with-sidebar' : ''}`}>
+        <div className={`chat-main ${(usesTemplate && questions.length > 0) || showExpertSidebar ? 'with-sidebar' : ''} ${showExpertSidebar ? 'with-expert-sidebar' : ''}`}>
           <MainContainer className="chatscope-main-container">
             <ChatContainer className="chatscope-chat-container">
               <ConversationHeader>
@@ -210,25 +317,24 @@ function ChatInterface({ category, questionNumber = null, initialQuestionText = 
               <MessageList
                 typingIndicator={isTyping ? <TypingIndicator content="Zansei is typing" /> : null}
               >
-                {messages.map((msg, index) => (
-                  <Message
-                    key={index}
-                    model={{
-                      message: msg.message,
-                      sentTime: msg.sentTime,
-                      sender: msg.sender,
-                      direction: msg.direction,
-                      position: msg.position
-                    }}
-                    render={(message) => {
-                      // Render HTML if message contains HTML tags
-                      if (message.message && message.message.includes('<strong>')) {
-                        return <div dangerouslySetInnerHTML={{ __html: message.message }} />;
-                      }
-                      return message.message;
-                    }}
-                  />
-                ))}
+                {messages.map((msg, index) => {
+                  const isTypingThisMessage = typingMessageIndex === index && msg.sender === 'assistant';
+                  // Use typing text if currently typing, otherwise use full message
+                  const displayMessage = isTypingThisMessage ? typingText : msg.message;
+                  
+                  return (
+                    <Message
+                      key={`${index}-${isTypingThisMessage ? 'typing' : 'complete'}`}
+                      model={{
+                        message: displayMessage,
+                        sentTime: msg.sentTime,
+                        sender: msg.sender,
+                        direction: msg.direction,
+                        position: msg.position
+                      }}
+                    />
+                  );
+                })}
               </MessageList>
 
               {!isComplete && (
@@ -281,6 +387,11 @@ function ChatInterface({ category, questionNumber = null, initialQuestionText = 
             )}
           </div>
         </div>
+
+        {/* Expert Sidebar (right side) */}
+        {showExpertSidebar && (
+          <ExpertSidebar frameworkInsights={frameworkInsights} />
+        )}
       </div>
 
       {/* Help Button - Bottom Right */}

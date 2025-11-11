@@ -37,6 +37,11 @@ from template_loader import (
     get_template_questions,
     fill_template_with_answers
 )
+from diagnostic_engine import (
+    load_all_template_questions,
+    match_questions,
+    explain_why_match
+)
 
 # Load environment variables
 load_dotenv()
@@ -390,6 +395,208 @@ def try_prompt():
             "error": "Failed to generate example output"
         }), 500
 
+# ===== FRAMEWORK INSIGHTS FUNCTIONS =====
+
+def load_question_template(category, question_number):
+    """Load a specific question template."""
+    template_path = os.path.join(
+        os.path.dirname(__file__),
+        'prompts',
+        'generated_templates',
+        category,
+        f'question_{question_number}.json'
+    )
+    
+    if os.path.exists(template_path):
+        try:
+            with open(template_path, 'r', encoding='utf-8') as f:
+                return json.load(f)
+        except Exception as e:
+            logger.error(f"Error loading template {template_path}: {e}")
+            return None
+    
+    return None
+
+
+def extract_unique_value_from_question(question):
+    """
+    Extract unique value proposition from question template.
+    Pulls from prompt_template, smb_insights, or other unique aspects.
+    """
+    unique_parts = []
+    
+    # Extract from prompt_template if available
+    prompt_template = question.get('prompt_template', '')
+    if prompt_template:
+        # Look for "Approach:" section
+        if 'Approach:' in prompt_template:
+            try:
+                parts = prompt_template.split('Approach:')
+                if len(parts) > 1:
+                    approach_text = parts[1].split('\n\n')[0].strip()
+                    if approach_text:
+                        # Take first sentence or first 100 chars
+                        sentences = [s.strip() for s in approach_text.split('.') if s.strip() and len(s.strip()) > 20]
+                        if sentences:
+                            unique_parts.append(sentences[0])
+            except:
+                pass
+        
+        # Look for "Focus:" in constraints
+        if 'Focus:' in prompt_template:
+            try:
+                parts = prompt_template.split('Focus:')
+                if len(parts) > 1:
+                    focus_text = parts[1].split('\n')[0].strip()
+                    if focus_text and len(focus_text) > 10:
+                        unique_parts.append(focus_text)
+            except:
+                pass
+    
+    # Extract from smb_insights if available
+    smb_insights = question.get('smb_insights', {})
+    if smb_insights:
+        effective_channels = smb_insights.get('effective_channels', [])
+        if effective_channels:
+            # Take first 2-3 channels as unique value
+            channel_str = ', '.join(effective_channels[:3])
+            if channel_str:
+                unique_parts.append(f"Focuses on proven channels: {channel_str}")
+    
+    # If we have unique parts, combine them
+    if unique_parts:
+        return ' • '.join(unique_parts[:2])  # Max 2 parts
+    
+    # Fallback: use category description
+    category = question.get('category', '').replace('_', ' ').title()
+    return f"Tailored strategies for {category}"
+
+
+def determine_budget_tier(budget_string):
+    """Determine budget tier from user input."""
+    if not budget_string:
+        return None
+    
+    budget_lower = str(budget_string).lower()
+    
+    # Check for specific budget ranges
+    if 'under' in budget_lower or '<' in budget_lower:
+        if '500' in budget_lower:
+            return "Under $500"
+    
+    if '500' in budget_lower and ('1000' in budget_lower or '1k' in budget_lower or '1,000' in budget_lower):
+        return "$500-1000"
+    
+    if '1000' in budget_lower or '1k' in budget_lower or '1,000' in budget_lower:
+        if '2500' in budget_lower or '2.5k' in budget_lower or '2,500' in budget_lower:
+            return "$1000-2500"
+        elif '5000' not in budget_lower and '5k' not in budget_lower:
+            return "$1000-2500"
+    
+    if '2500' in budget_lower or '2.5k' in budget_lower or '2,500' in budget_lower:
+        if '5000' in budget_lower or '5k' in budget_lower or '5,000' in budget_lower:
+            return "$2500-5000"
+    
+    if '5000' in budget_lower or '5k' in budget_lower or '5,000' in budget_lower:
+        if '+' in budget_lower or 'over' in budget_lower or 'more' in budget_lower:
+            return "$5000+"
+        return "$2500-5000"
+    
+    # Default
+    return None
+
+
+def extract_framework_insights(category, question_number, current_answers, new_answers):
+    """
+    Extract what the framework is doing based on current answers.
+    Returns insights to show in the sidebar.
+    """
+    try:
+        # Load the question template
+        template = load_question_template(category, question_number)
+        if not template:
+            return None
+        
+        # Merge answers
+        all_answers = {**current_answers, **new_answers}
+        
+        insights = {
+            'framework_name': f"{category.replace('_', ' ').title()} Framework",
+            'anti_patterns': template.get('anti_patterns', []),
+            'active_strategies': [],
+            'budget_allocation': None,
+            'focusing_on': [],
+            'avoiding': []
+        }
+        
+        # Extract budget info if available
+        budget_answer = None
+        for key, value in all_answers.items():
+            if 'budget' in key.lower() and value:
+                budget_answer = value
+                break
+        
+        if budget_answer:
+            # Parse budget and get allocation
+            smb_insights = template.get('smb_insights', {})
+            budget_allocations = smb_insights.get('budget_allocations', {})
+            
+            # Determine budget tier
+            budget_tier = determine_budget_tier(budget_answer)
+            
+            if budget_tier and budget_tier in budget_allocations:
+                allocation = budget_allocations[budget_tier]
+                
+                insights['budget_allocation'] = {
+                    'tier': budget_tier,
+                    'focus': allocation.get('focus', ''),
+                    'channels': allocation.get('channels', [])
+                }
+                
+                # Add to focusing_on
+                insights['focusing_on'].extend(allocation.get('channels', []))
+        
+        # Extract industry-specific insights
+        industry_answer = all_answers.get('industry') or all_answers.get('businessType')
+        if industry_answer:
+            insights['active_strategies'].append(
+                f"Industry-specific tactics for {industry_answer}"
+            )
+            insights['focusing_on'].append(f"Industry-specific strategies for {industry_answer}")
+        
+        # Extract location insights
+        location_answer = all_answers.get('location') or all_answers.get('urbanAreas') or all_answers.get('service_area')
+        if location_answer:
+            insights['active_strategies'].append(
+                f"Location-optimized for {location_answer}"
+            )
+            insights['focusing_on'].append(f"Location-based tactics for {location_answer}")
+        
+        # Add avoiding strategies based on anti-patterns and budget
+        if budget_answer:
+            budget_tier = determine_budget_tier(budget_answer)
+            if budget_tier:
+                if budget_tier == "Under $500":
+                    insights['avoiding'].extend([
+                        "Expensive paid advertising campaigns",
+                        "High-cost influencer partnerships",
+                        "Premium marketing tools"
+                    ])
+                elif budget_tier in ["$500-1000", "$1000-2500"]:
+                    insights['avoiding'].extend([
+                        "Enterprise-level marketing platforms",
+                        "High-cost influencer partnerships"
+                    ])
+        
+        insights['avoiding'].append("Generic one-size-fits-all tactics")
+        
+        return insights
+        
+    except Exception as e:
+        logger.error(f"Error extracting framework insights: {e}", exc_info=True)
+        return None
+
+
 # ===== CHAT ENDPOINTS =====
 
 @app.route('/api/chat/start', methods=['POST'])
@@ -488,6 +695,7 @@ def chat_start():
             # Store template in session
             session['template'] = template
             session['current_question_index'] = 0
+            session['question_number'] = question_number  # Store for framework insights
             
             # Get opening dialog
             opening_dialog = template.get('opening_dialog', get_template_opening_dialog(category))
@@ -829,18 +1037,37 @@ def chat_message():
                 "question_id": session.get("current_question_id")
             })
         
+        # Extract framework insights for template-based sessions
+        framework_insights = None
+        if uses_template:
+            category = session.get("category")
+            question_number = session.get("question_number") or session.get("template", {}).get("question_number")
+            if category and question_number:
+                framework_insights = extract_framework_insights(
+                    category,
+                    question_number,
+                    session.get("answers", {}),
+                    form_answers if form_answers else {}
+                )
+        
         # Update session via SessionManager
         session_manager.update_session(session_id, session)
         
         logger.info(f"Chat message processed for session: {session_id}. Questions answered: {len(session['answers'])}. Complete: {is_complete}")
         
-        return jsonify({
+        response_data = {
             "success": True,
             "ai_response": ai_response,
             "is_complete": is_complete,
             "conversation": session["conversation"],
             "questions_answered": len(session["answers"])
-        })
+        }
+        
+        # Add framework insights if available
+        if framework_insights:
+            response_data["framework_insights"] = framework_insights
+        
+        return jsonify(response_data)
         
     except Exception as e:
         logger.error(f"Error processing chat message: {str(e)}", exc_info=True)
@@ -975,16 +1202,38 @@ def chat_generate_plan():
             marketing_plan = response.choices[0].message.content
             tokens_used = response.usage.total_tokens if response.usage else 0
             
+            # Build metadata with framework information
+            metadata = {
+                "model": "gpt-4o",
+                "tokens_used": tokens_used,
+                "category": session["category"]
+            }
+            
+            # Add template-specific metadata
+            if uses_template:
+                question_number = session.get("question_number") or session.get("template", {}).get("question_number")
+                if question_number:
+                    metadata["question_number"] = question_number
+                
+                # Extract budget tier from answers
+                answers = session.get("answers", {})
+                budget_answer = None
+                for key, value in answers.items():
+                    if 'budget' in key.lower() and value:
+                        budget_answer = value
+                        break
+                
+                if budget_answer:
+                    budget_tier = determine_budget_tier(budget_answer)
+                    if budget_tier:
+                        metadata["budget_tier"] = budget_tier
+            
             logger.info(f"Marketing plan generated for session: {session_id}. Tokens used: {tokens_used}")
             
             return jsonify({
                 "success": True,
                 "marketing_plan": marketing_plan,
-                "metadata": {
-                    "model": "gpt-4o",
-                    "tokens_used": tokens_used,
-                    "category": session["category"]
-                }
+                "metadata": metadata
             })
             
         except Exception as e:
@@ -1076,6 +1325,148 @@ def get_question_template(category, question_number):
         return jsonify({
             "success": False,
             "error": "An unexpected error occurred"
+        }), 500
+
+@app.route('/api/diagnostic', methods=['POST'])
+def run_diagnostic():
+    """
+    Run diagnostic to match user to best questions.
+    
+    Request body:
+    {
+        "pain_point": "not_enough_customers",
+        "revenue_range": "under_10k",
+        "tried_before": ["social_media", "ads"]
+    }
+    """
+    try:
+        if not request.is_json:
+            return jsonify({
+                "success": False,
+                "error": "Request must be JSON"
+            }), 400
+        
+        data = request.get_json()
+        pain_point = data.get('pain_point')
+        revenue_range = data.get('revenue_range')
+        tried_before = data.get('tried_before', [])
+        
+        # Validate input
+        if not pain_point or not revenue_range:
+            return jsonify({
+                "success": False,
+                "error": "Missing required fields: pain_point and revenue_range"
+            }), 400
+        
+        # Validate pain_point
+        valid_pain_points = ["not_enough_customers", "no_visibility", "cant_keep_customers", "launching_something", "competing_with_big_brands", "sleeping_on_money"]
+        if pain_point not in valid_pain_points:
+            return jsonify({
+                "success": False,
+                "error": f"Invalid pain_point. Must be one of: {', '.join(valid_pain_points)}"
+            }), 400
+        
+        # Validate revenue_range
+        valid_revenue_ranges = ["under_10k", "10k_to_50k", "1k_to_2k", "2k_to_5k"]
+        if revenue_range not in valid_revenue_ranges:
+            return jsonify({
+                "success": False,
+                "error": f"Invalid revenue_range. Must be one of: {', '.join(valid_revenue_ranges)}"
+            }), 400
+        
+        # Validate tried_before is a list
+        if not isinstance(tried_before, list):
+            return jsonify({
+                "success": False,
+                "error": "tried_before must be a list"
+            }), 400
+        
+        # Load all questions once (can be cached in production)
+        all_questions = load_all_template_questions()
+        
+        if not all_questions:
+            logger.warning("No template questions found for diagnostic")
+            return jsonify({
+                "success": False,
+                "error": "No questions available for matching"
+            }), 500
+        
+        # Match questions
+        matched = match_questions(pain_point, revenue_range, tried_before, all_questions)
+        
+        # Generate explanation
+        reasoning = explain_why_match(pain_point, revenue_range, tried_before)
+        
+        # Format response with unique value extraction
+        matched_questions = []
+        for m in matched:
+            question = m['question']
+            
+            # Extract unique value from question template
+            unique_value = extract_unique_value_from_question(question)
+            
+            matched_questions.append({
+                'category': question.get('category'),
+                'question_number': question.get('question_number'),
+                'question_text': question.get('question_text'),
+                'match_score': m['score'],
+                'why_this_fits': m['reasoning'],
+                'unique_value': unique_value
+            })
+        
+        logger.info(f"Diagnostic completed: {pain_point}, {revenue_range}, matched {len(matched_questions)} questions")
+        
+        return jsonify({
+            'success': True,
+            'matched_questions': matched_questions,
+            'overall_reasoning': reasoning
+        })
+        
+    except Exception as e:
+        logger.error(f"Diagnostic error: {str(e)}", exc_info=True)
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        }), 500
+
+
+@app.route('/api/questions/all', methods=['GET'])
+def get_all_questions():
+    """Get all available template questions organized by category."""
+    try:
+        all_questions = load_all_template_questions()
+        
+        # Organize by category
+        by_category = {}
+        for q in all_questions:
+            category = q.get('category')
+            if not category:
+                continue
+            
+            if category not in by_category:
+                by_category[category] = []
+            
+            by_category[category].append({
+                'question_number': q.get('question_number'),
+                'question_text': q.get('question_text'),
+                'anti_patterns': q.get('anti_patterns', [])
+            })
+        
+        # Sort questions by question_number within each category
+        for category in by_category:
+            by_category[category].sort(key=lambda x: x.get('question_number', 0))
+        
+        return jsonify({
+            'success': True,
+            'categories': by_category,
+            'total_questions': len(all_questions)
+        })
+        
+    except Exception as e:
+        logger.error(f"Error loading all questions: {str(e)}", exc_info=True)
+        return jsonify({
+            'success': False,
+            'error': str(e)
         }), 500
 
 @app.route('/api/sessions/clear', methods=['POST'])

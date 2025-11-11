@@ -1,5 +1,52 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import '../styles/SidebarForm.css';
+
+/**
+ * QuestionLabel Component with Tooltip
+ * 
+ * Displays question label with optional (?) tooltip for "why it matters" text
+ */
+function QuestionLabel({ questionId, questionText, whyMatters }) {
+  const [showTooltip, setShowTooltip] = useState(false);
+
+  if (!whyMatters) {
+    return <span className="question-text">{questionText}</span>;
+  }
+
+  return (
+    <>
+      <span className="question-text">{questionText}</span>
+      <div 
+        className="why-matters-tooltip-wrapper"
+        onMouseEnter={() => setShowTooltip(true)}
+        onMouseLeave={() => setShowTooltip(false)}
+      >
+        <button
+          type="button"
+          className="why-matters-icon"
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            setShowTooltip(!showTooltip);
+          }}
+          aria-label="Why this matters"
+          title="Why this matters"
+        >
+          ?
+        </button>
+        {showTooltip && (
+          <div className="why-matters-tooltip">
+            <div className="tooltip-arrow"></div>
+            <div className="tooltip-content">
+              <strong>Why it matters:</strong>
+              <p>{whyMatters}</p>
+            </div>
+          </div>
+        )}
+      </div>
+    </>
+  );
+}
 
 /**
  * SidebarForm Component
@@ -10,16 +57,25 @@ import '../styles/SidebarForm.css';
 function SidebarForm({ questions = [], answers = {}, onAnswersChange, disabled = false }) {
   const [localAnswers, setLocalAnswers] = useState(answers);
 
-  // Sync with parent answers
+  // Sync with parent answers, but be careful not to overwrite local changes
+  // Use a ref to track if we're in the middle of a local update
+  const isUpdatingRef = useRef(false);
+  
   useEffect(() => {
-    setLocalAnswers(answers);
+    // Don't overwrite if we just made a local change
+    if (!isUpdatingRef.current) {
+      setLocalAnswers(answers);
+    }
+    isUpdatingRef.current = false;
   }, [answers]);
 
   const handleAnswerChange = (questionId, value) => {
+    isUpdatingRef.current = true;
     const newAnswers = {
       ...localAnswers,
       [questionId]: value
     };
+    console.log('handleAnswerChange called:', { questionId, value, newAnswers });
     setLocalAnswers(newAnswers);
     if (onAnswersChange) {
       onAnswersChange(newAnswers);
@@ -34,7 +90,11 @@ function SidebarForm({ questions = [], answers = {}, onAnswersChange, disabled =
     const questionId = question.id;
     const currentValue = localAnswers[questionId] || '';
     const isRequired = question.required || false;
-    const hasValue = currentValue.trim().length > 0;
+    // For select dropdowns, check if value is not empty and not the placeholder
+    // For other types, check if trimmed length > 0
+    const hasValue = question.type === 'select' 
+      ? (currentValue && currentValue !== '' && currentValue !== 'Select an option...')
+      : (currentValue && typeof currentValue === 'string' && currentValue.trim().length > 0);
 
     return (
       <div 
@@ -42,12 +102,12 @@ function SidebarForm({ questions = [], answers = {}, onAnswersChange, disabled =
         className={`sidebar-question ${isRequired && !hasValue ? 'required' : ''} ${hasValue ? 'answered' : ''}`}
       >
         <label htmlFor={questionId} className="question-label">
-          {question.question}
+          <QuestionLabel
+            questionId={questionId}
+            questionText={question.question}
+            whyMatters={question.why_matters}
+          />
         </label>
-
-        {question.why_matters && (
-          <p className="question-why">{question.why_matters}</p>
-        )}
 
         {question.type === 'text' && (
           <div className="question-input-wrapper">
@@ -60,7 +120,7 @@ function SidebarForm({ questions = [], answers = {}, onAnswersChange, disabled =
               disabled={disabled}
               className="question-input"
             />
-            {question.placeholder && !hasValue && (
+            {/*question.placeholder && !hasValue && (
               <button
                 type="button"
                 className="use-placeholder-btn"
@@ -70,7 +130,7 @@ function SidebarForm({ questions = [], answers = {}, onAnswersChange, disabled =
               >
                 ✓ Use this
               </button>
-            )}
+            )*/}
           </div>
         )}
 
@@ -85,7 +145,7 @@ function SidebarForm({ questions = [], answers = {}, onAnswersChange, disabled =
               rows={4}
               className="question-textarea"
             />
-            {question.placeholder && !hasValue && (
+            {/*question.placeholder && !hasValue && (
               <button
                 type="button"
                 className="use-placeholder-btn"
@@ -95,7 +155,7 @@ function SidebarForm({ questions = [], answers = {}, onAnswersChange, disabled =
               >
                 ✓ Use this
               </button>
-            )}
+            )*/}
           </div>
         )}
 
@@ -128,14 +188,72 @@ function SidebarForm({ questions = [], answers = {}, onAnswersChange, disabled =
           const otherValueKey = `${questionId}_other`;
           const otherTextValue = localAnswers[otherValueKey] || '';
           
+          // Determine the select value - must match one of the options exactly
+          let selectValue = '';
+          
+          // Check if currentValue matches any option (case-insensitive for comparison)
+          const matchingOption = normalizedOptions.find(opt => 
+            opt === currentValue || opt.toLowerCase() === currentValue.toLowerCase()
+          );
+          
+          if (isOtherSelected || (currentValue && currentValue.startsWith('Other'))) {
+            selectValue = 'Other';
+          } else if (matchingOption) {
+            // Use the exact option value (preserves casing from options array)
+            selectValue = matchingOption;
+          } else if (currentValue && currentValue.trim() !== '') {
+            // Value exists but doesn't match - might be a partial match or formatted differently
+            // Try to find a case-insensitive match
+            const caseInsensitiveMatch = normalizedOptions.find(opt => 
+              opt.toLowerCase() === currentValue.toLowerCase()
+            );
+            if (caseInsensitiveMatch) {
+              selectValue = caseInsensitiveMatch;
+            } else {
+              // Value doesn't match any option - show placeholder
+              selectValue = '';
+            }
+          } else {
+            // No value, show placeholder
+            selectValue = '';
+          }
+          
           return (
             <div className="select-with-other-wrapper">
               <select
                 id={questionId}
-                value={isOtherSelected ? 'Other' : currentValue}
+                value={selectValue}
                 onChange={(e) => {
                   const selectedValue = e.target.value;
-                  if (selectedValue.toLowerCase() === 'other' || selectedValue.toLowerCase().includes('other')) {
+                  console.log('Select onChange triggered:', { 
+                    questionId, 
+                    selectedValue, 
+                    currentValue,
+                    normalizedOptions,
+                    localAnswers: { ...localAnswers }
+                  });
+                  
+                  if (!selectedValue || selectedValue === '') {
+                    // User selected placeholder - clear the answer
+                    console.log('Clearing answer for:', questionId);
+                    handleAnswerChange(questionId, '');
+                    handleAnswerChange(otherValueKey, '');
+                    return;
+                  }
+                  
+                  // Find the exact option value (preserves casing)
+                  const exactOption = normalizedOptions.find(opt => 
+                    opt === selectedValue || opt.toLowerCase() === selectedValue.toLowerCase()
+                  );
+                  
+                  if (!exactOption) {
+                    console.warn('Selected value does not match any option:', selectedValue, 'Available options:', normalizedOptions);
+                    return;
+                  }
+                  
+                  console.log('Setting answer:', { questionId, exactOption });
+                  
+                  if (exactOption.toLowerCase() === 'other') {
                     // Store "Other" as the value, and clear any previous other text
                     handleAnswerChange(questionId, 'Other');
                     // Clear the other text field if switching away from other
@@ -143,10 +261,19 @@ function SidebarForm({ questions = [], answers = {}, onAnswersChange, disabled =
                       handleAnswerChange(otherValueKey, '');
                     }
                   } else {
-                    // Store the selected option and clear other text
-                    handleAnswerChange(questionId, selectedValue);
+                    // Store the exact selected option (preserves casing from options array)
+                    handleAnswerChange(questionId, exactOption);
                     handleAnswerChange(otherValueKey, '');
                   }
+                  
+                  // Log after state update
+                  setTimeout(() => {
+                    console.log('State after update:', { 
+                      questionId, 
+                      localAnswers: { ...localAnswers },
+                      newValue: localAnswers[questionId]
+                    });
+                  }, 0);
                 }}
                 disabled={disabled}
                 className="question-select"

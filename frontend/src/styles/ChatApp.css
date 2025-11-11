@@ -22,6 +22,11 @@
   margin-top: 1rem;
 }
 
+/* When expert sidebar is present, adjust layout */
+.chat-layout-container:has(.expert-sidebar) {
+  /* Three-column layout: Form Sidebar | Chat | Expert Sidebar */
+}
+
 .chat-sidebar {
   width: 350px;
   min-width: 300px;
@@ -43,6 +48,11 @@
 
 .chat-main.with-sidebar {
   /* Adjust when sidebar is present */
+}
+
+.chat-main.with-expert-sidebar {
+  /* Adjust when expert sidebar is present - chat takes 60% width */
+  flex: 0 0 60%;
 }
 
 /* Help Button - Bottom Right */
